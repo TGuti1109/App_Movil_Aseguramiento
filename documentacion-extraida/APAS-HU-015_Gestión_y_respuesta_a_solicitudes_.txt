@@ -1,0 +1,153 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc191448279 \h 2
+		2.	Descripción HU	 PAGEREF _Toc191448280 \h 3
+		3.	Roles Como	 PAGEREF _Toc191448281 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc191448282 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc191448283 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc191448284 \h 3
+		7.	Anexos	 PAGEREF _Toc191448285 \h 4
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+
+
+Épica: 
+
+
+Id HU:
+
+
+Nombre HU:
+Gestión y respuesta a solicitudes de aseguramiento salud
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio Cesar Suarez Alvarez 
+
+Responsable área técnica:
+Andrés Quintero Zabaleta 
+
+Fecha documento:
+06/03/2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+
+
+
+
+Descripción HU
+
+La funcionalidad debe permitir al encargado del módulo del SIISMED aseguramiento gestionar y responder las solicitudes registradas por medio de la APP, incluyendo la actualización del estado de la solicitud y el envío de respuestas con archivos adjuntos.
+Roles Como 
+usuario Administrador del sistema
+Característica / Funcionalidad. 
+La funcionalidad debe permitir consultar, gestionar y responder las solicitudes registradas desde el módulo APP aseguramiento, permitiendo actualizar el estado de la solicitud, registrar observaciones y adjuntar archivos de respuesta.
+Las respuestas generadas deben quedar disponibles para consulta por medio de la APP.
+Razón /Resultado. 
+Permitir gestionar y dar respuesta centralizada a las solicitudes realizadas por APP de temas de aseguramiento en salud
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+el encargado de aseguramiento accede al módulo de solicitudes desde aseguramiento WEB
+
+
+Cuando
+(el comportamiento o acción),
+
+
+ingrese a la bandeja de solicitudes
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema debe mostrar el listado de solicitudes registradas por los ciudadanos, incluyendo número de radicado, fecha de registro, categoría y estado.
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+existe una solicitud registrada
+
+
+Cuando
+(el comportamiento o acción),
+
+
+el encargado acceda al detalle de la solicitud
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema debe permitir actualizar el estado de la solicitud (Pendiente, En gestión, Respondida, Cerrada) y registrar observaciones de seguimiento, 
+Se debe ingresar el detalle de la respuesta y adjuntar archivos de soporte relacionados con la solución entregada. 
+Cuando guarde un seguimiento o una respuesta notificar por medio de la APP al y  mediante correo electrónico y dejar disponible la respuesta para consulta desde el APP SIISMED aseguramiento. almacenan la trazabilidad de las acciones realizadas, incluyendo usuario, fecha, operación ejecutada y cambios realizados sobre la solicitud.
+
+Anexos 
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+
+
+
+Diccionario de datos
+X
+
+DD_Gestión y respuesta a solicitudes.
+
+Listados, formatos tablas, reportes
+
+
+
+
+Otros: cual
+
+
+
+
+
+
+

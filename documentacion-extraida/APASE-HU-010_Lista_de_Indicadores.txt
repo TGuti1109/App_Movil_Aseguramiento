@@ -1,0 +1,186 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc223684503 \h 2
+		2.	Descripción HU	 PAGEREF _Toc223684504 \h 3
+		3.	Roles Como	 PAGEREF _Toc223684505 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc223684506 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc223684507 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc223684508 \h 4
+		7.	Anexos:	 PAGEREF _Toc223684509 \h 5
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Visualización de datos
+
+Id HU:
+APASE-HU-010
+
+Nombre HU:
+Lista de Indicadores
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+16-03-2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+Descripción HU
+Esta funcionalidad permitirá consultar y visualizar la lista de indicadores configurados desde el módulo de indicadores para este módulo APASE, ofreciendo filtros y criterios de búsqueda.
+
+El objetivo es permitir a los usuarios acceder fácilmente a los indicadores existentes, conocer su definición, históricos de valores calculado, fecha de actualización, periodicidad y módulo de origen.
+
+Además, el sistema debe garantizar que solo se muestren los indicadores configurados para el módulo y que el acceso a la información se controle de acuerdo con los roles y permisos definidos para cada tipo de usuario. 
+Roles Como
+Usuario con rol de administrador.
+Usuario con rol de visualización
+Usuario operativo
+Característica / Funcionalidad. 
+El sistema debe permitir al usuario:
+
+Visualizar la lista de indicadores existentes para el módulo
+Permitir utilizar filtros mediante criterios como: Nombre o código del indicador, Fecha de última actualización, Estado (activo/inactivo), Periodicidad (mensual, trimestral, anual), Responsable o área.
+Buscar indicadores específicos mediante un campo de búsqueda por texto libre.
+Visualizar información detallada de la Ficha del indicador seleccionado, 
+Visualizar la tendencia histórica de un indicador, si existen versiones o periodos calculados.
+Razón /Resultado. 
+Facilitar la consulta centralizada y organizada de los indicadores del módulo, optimizando la experiencia de uso y reduciendo tiempos de búsqueda.
+Tomar decisiones informadas basadas en los indicadores disponibles.
+Criterios de Aceptación
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Existen indicadores configurados para el módulo parametrizados desde el módulo de indicadores
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario accede a la opción de “Listado de Indicadores”
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema deberá mostrar un listado con los indicadores disponibles para el módulo, además de poder realizar algunas acciones para consultar datos generados en periodos anteriores con este indicador, ver ficha del indicador
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere calcular un indicador para un periodo determinado y consultar los resultados generados
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se accede y selecciona un indicador activo en el modulo 
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema solicitará los filtros para la generación del indicador, generando el resultado por pantalla y guardándolo en el histórico de indicadores generados con su respectivo resultado, indicando datos de los filtros utilizados, fecha de generación, usuario que genera, entre otros. El sistema deberá contar con una funcionalidad para consultar los resultados de indicadores generados, la cual permitirá que el usuario pueda inactivarlos para que no sigan visualizándose en los resultados como activos, además que a partir de estos el usuario pueda generar nuevamente un nuevo resultado con otras condiciones o filtros.
+
+N. Criterio 
+
+3
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+El usuario desea exportar los indicadores filtrados.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Selecciona el formato de exportación (Excel, PDF o CSV).
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema genera el archivo con los indicadores visibles y sus metadatos para exportarlos según los roles y permisos asignados para el usuario. 
+
+
+Anexos: 
+Relacionar listados, plantillas u otros formatos de captura de datos a los cuales hace referencia la HU
+
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+x
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+x
+
+
+Diccionario de datos
+
+x
+
+
+Listados, formatos tablas, reportes
+
+x
+
+
+Otros: cual
+
+x
+
+
+
+

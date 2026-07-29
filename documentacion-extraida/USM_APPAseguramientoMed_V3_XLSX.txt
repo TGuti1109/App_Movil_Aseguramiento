@@ -1,0 +1,11 @@
+﻿=== SHEET: xl/worksheets/sheet1.xml ===
+USER STORY MAPPING
+ÉPICA | Administracion del sistema | Registro de información | Procesamiento de datos del modulo | Formularios Dinámicos | Calendarización, Agendamiento de visitas | Gestion de Visitas | Planes de mejoramiento | Notificaciones | Autogestión del ciudadano | Visualizacion de Datos | Reportes
+POR- Creación de usuarios  y logueo | TRV- Creación y visualización de Formularios dinámicos | APASE-HU-005 Generación de alertas y notificaciones | APASE-HU-001 Consulta Aseguramiento Actual | TRV- Visualización de Datos | TRV- parametrización de reportes dinámicos
+t | APPASE-HU-015 Solicitudes app aseguramiento | APASE-HU-008 Visualización de Formulario Dinamicos | APASE-HU-002 APP Tramites y orientacion | APASE-HU-011 Listado de Tableros de Control | APASE-HU-007 Generación de reportes estaticos
+APASE-HU-003 Auditoria del sistema | APASE-HU-012 Consulta HIstorico de aseguramiento | APASE-HU-014 Usabilidad de la APP | APASE-HU-009 Generaciòn de reportes dinamicos
+APASE-HU-004 Parametrización alertas y notificaciones
+APASE-HU-006 Parametrización de Registros de información y orientación
+APASE-HU-013 Parametrizacion de consulta Historico
+Corresponde a los módulos transversales
+Corresponde a las HU estandarizadas

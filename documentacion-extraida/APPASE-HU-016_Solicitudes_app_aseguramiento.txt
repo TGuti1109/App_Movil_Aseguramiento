@@ -1,0 +1,230 @@
+﻿
+Contenido
+	 TOC \o "1-3" \h \z \u Contenido	 PAGEREF _Toc213136346 \h 1
+	1. Ficha de Historia de Usuario	 PAGEREF _Toc213136347 \h 2
+	2. Descripción HU	 PAGEREF _Toc213136348 \h 3
+	3. Roles (Como)	 PAGEREF _Toc213136354 \h 3
+	4. Característica / Funcionalidad	 PAGEREF _Toc213136355 \h 3
+	5. Razón / Resultado	 PAGEREF _Toc213136356 \h 5
+	6. Criterios de Aceptación	 PAGEREF _Toc213136357 \h 5
+	7. Anexos	 PAGEREF _Toc213136358 \h 7
+
+
+
+1. Ficha de Historia de Usuario
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica:
+Registro de Información 
+
+Id HU:
+APPASE-HU-015
+
+Nombre HU:
+Solicitudes app aseguramiento
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+10-03-2026
+
+Prioridad;
+Alta
+
+Observaciones;
+
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+2. Descripción HU
+
+El sistema deberá permitir a los ciudadanos registrar solicitudes relacionadas con el Aseguramiento en Salud a través de la APP APPSIISMED. Las solicitudes registradas deberán almacenarse y gestionarse directamente en el módulo de Aseguramiento en Salud del SIISMED, por lo que será necesario evolucionar dicho módulo para incorporar las funcionalidades de radicación, gestión, generación de solicitudes de subsanación, recepción y gestión de las subsanaciones presentadas por el ciudadano, y emisión de la respuesta final.
+Asimismo, el SIISMED deberá garantizar la sincronización de la información entre la APP y la interfaz web, de tal manera que tanto el ciudadano como los usuarios internos puedan consultar en tiempo real el estado de las solicitudes, las solicitudes de subsanación, las respuestas a las subsanaciones y la respuesta definitiva, independientemente del canal de acceso utilizado.
+El ciudadano podrá acceder a estas funcionalidades mediante autenticación en la APP APPSIISMED Aseguramiento o, en caso de no contar con un usuario registrado, a través de la funcionalidad de Autogestión del Ciudadano disponible en el módulo Portal.
+Los tipos de solicitudes disponibles para el registro serán:
+Afiliación al sistema general de salud (Régimen subsidiado y contributivo).
+Movilidad régimen contributivo a subsidiado
+Traslado entre EPS
+Otras solicitudes.
+
+La solicitud se diligenciará mediante un formulario con variables homologadas comunes para todos los tipos de solicitudes. Adicionalmente, cuando el solicitante seleccione el el tipo de solicitud 1 Afiliación al sistema general de salud el sistema aperturara el formulario del dDD_Solicitudes_Aseguramiento donde el sistema debera garantizar que se indentifique que esta solicitud es del tipo 1, esto mismo aplicaría para el 2,3 y 4 que utilizan el mismo DD, pero debe identificar para cada solicitud a que tipo corresponde.
+Dentro de la funcionalidad de Solicitudes, el sistema deberá disponer de un conjunto de acciones sobre cada registro. Estas acciones estarán habilitadas de acuerdo con el rol del usuario, el estado actual de la solicitud y los permisos definidos según roles y permisos del módulo portal.
+Ver ficha de la solicitud (Visualización vertical): permite consultar el detalle completo de la solicitud en formato vertical, mostrando toda la información registrada en el formulario, incluyendo datos generales, variables homologadas, variables específicas del componente seleccionado, historial de estados, observaciones y datos de auditoría.
+Ver anexos: permite visualizar y descargar todos los documentos adjuntos asociados a la solicitud, tanto los cargados por el solicitante como los incorporados durante el proceso de revisión, subsanación y aprobación.
+Subsanar: permite al solicitante realizar ajustes a la solicitud cuando esta haya sido devuelta por el administrador del sistema para corrección o complementación de información.
+
+Esta acción habilita los campos editables definidos en el formulario y permite adjuntar nuevos soportes antes de reenviar la solicitud para continuar con el flujo de aprobación.  
+Editar: permite modificar la información de la solicitud siempre que su estado actual y las reglas del negocio lo permitan. Las modificaciones realizadas deberán quedar registradas en la auditoría del sistema, solo permitirá editar una solicitud mientras el administrador del sistema no cambie el estado de abierta.
+Inactivar: permite inactivar el registro para que no siga siendo usado en el flujo de trabajo. impidiendo que continúe siendo gestionado dentro del flujo normal del proceso. Esta acción no elimina físicamente la información y deberá conservar toda la trazabilidad histórica, el inactivar un registro bloquea que este registro pueda ser visualizado por los diferentes usuarios que consultan el sistema, solo será visible a través de la funcionalidad de reportes o al administrador.
+Gestionar: permite al administrador iniciar la ejecución operativa de una solicitud previamente verificada por el administrador de sistema. Al seleccionar esta acción, el sistema deberá actualizar automáticamente el estado de la solicitud a En gestión, ejecutar la transición correspondiente definida en la APAS-HU-015 Gestión y respuesta a solicitudes generar las alertas y notificaciones configuradas y registrar la trazabilidad completa en la auditoría del sistema.
+Estados del flujo del proceso 
+Abierto: corresponde al estado automático asignado por el sistema cuando el usuario guarda una solicitud.
+En proceso: corresponde al estado automático asignado por el sistema cuando el administrador ingresa a visualizar la solicitud
+Aceptación Admi: corresponde al estado manual asignado por el administrador, que autoriza formalmente la solicitud, indicando que cumple con los requisitos para su ejecución. Esta acción genera el cambio de estado correspondiente y activa las notificaciones dirigidas al líder.
+Rechazo_admi: permite al administrador   del proceso negar la solicitud cuando no cumpla con los criterios establecidos. Esta acción requiere el registro de una observación obligatoria y genera la notificación al solicitante con el motivo del rechazo.
+Solicitar subsanación Admi: permite al administrados del proceso devolver la solicitud al solicitante para que complemente o corrija la información. El sistema deberá registrar las observaciones correspondientes, cambiar el estado de la solicitud y notificar al solicitante para que realice los ajustes requeridos y proceda con la respuesta. 
+Exportar: permite generar y descargar el resultado de la consulta en formatos como Excel o PDF, incluyendo la información visible en la parrilla y los filtros aplicados por el usuario, según los roles y permisos que tenga el usuario que se encuentra logueado. 
+3. Roles 
+Administrador del módulo, líder, funcionarios de la Secretaría de Salud Distrital de Medellín y ciudadano.
+4. Característica / Funcionalidad
+
+El sistema deberá permitir la creación de solicitudes para la APP SIISMED Aseguramiento, adjuntando la información y soportes necesarios, para que sean revisadas, aprobadas y gestionadas.
+Al guardar la solicitud, el sistema deberá asignar automáticamente el estado inicial Abierto y ejecutar el flujo de transición correspondiente, con el fin de activar las alertas y notificaciones correspondientes configuradas en la HU-004 Parametrización de alertas y notificaciones.
+El flujo operativo de la solicitud será el siguiente:
+El sistema deberá validar que el ciudadano se encuentre registrado en el módulo Persona Salud. En caso de no encontrar información asociada al tipo y número de documento ingresados, deberá informar que el ciudadano no se encuentra afiliado al Aseguramiento en Salud del Distrito de Medellín, solicitar la verificación de los datos de identificación e indicar si desea realizar una nueva consulta, permitiéndole ingresar nuevamente el tipo y número de documento para efectuar una nueva validación en el módulo Persona Salud. Si el ciudadano se encuentra autenticado y existe en Persona Salud, el sistema deberá visualizar sus datos de identificación de forma semi enmascarada. En caso de que el ciudadano no sea localizado en Persona Salud y manifieste su intención de continuar con la radicación de la solicitud, el sistema deberá habilitar el formulario de creación de usuario de la funcionalidad de Autogestión del Ciudadano del módulo Portal, mediante el cual se capturarán las variables de identificación requeridas. La información registrada en este formulario será utilizada como fuente oficial de identificación durante todo el ciclo de vida de la solicitud, incluyendo su radicación, consulta, gestión de respuestas, atención de subsanaciones y demás actuaciones asociadas al trámite.
+El ciudadano registra y envía la solicitud.
+El administrador revisa la viabilidad de la solicitud.
+El administrador podrá rechazar o solicitar subsanación a la solicitud o remitirla al líder del proceso.
+El administrador procede a hacer las acciones respectivas a la gestión de la solicitud permitiendo que quede disponible en la APP para consulta de solicitudes por parte del ciudadano, que permita visualizar el estado de las solicitudes registradas y realizar seguimiento para esto el sistema notificara 
+al solicitante que la solicitud fue aprobada y que ya se encuentra disponible para su consulta en la APP y lo podrá consultar a través del radicado. 
+Todas las acciones deberán quedar registradas en la auditoría del sistema para garantizar trazabilidad y seguimiento, menos la acción de crear. 
+Adicionalmente, el sistema deberá contar con una funcionalidad de consulta de solicitudes, que permita visualizar el estado de las solicitudes registradas y realizar seguimiento.
+5. Razón / Resultado
+Garantizar un mecanismo formal y trazable para que los ciudadanos realices solicitudes de aseguramiento en salud, garantizando la gestión de estas solicitudes, la automatización de notificaciones y el seguimiento de cada solicitud.
+6. Criterios de Aceptación
+
+N. Criterio 
+1
+Dado que.
+
+
+(estado previo o contexto en el sistema),
+
+
+Un ciudadano requiere realizar una solicitud 
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Ingrese a la funcionalidad de solicitudes APP SIISMED Aseguramiento
+
+
+Entonces
+El sistema le permitirá registrar un formulario de solicitud con las variables y validaciones definidas en el DD_Solicitudes_aseguramiento, permitiendo seleccionar los tipos de solicitudes de aseguramiento correspondientes a la maestra genérica DD_Tipos_Solicitud_Aseguramiento del módulo transversal: 
+Además, permitirá adjuntar uno o varios archivos de soporte en caso de ser necesario y, al guardar la solicitud, el sistema deberá:
+Asignar automáticamente un número único de solicitud. 
+Registrar el estado inicial Abierta. 
+Ejecutar el flujo de cambios de estado definido 
+Generar las alertas y notificaciones correspondientes. 
+Registrar la trazabilidad en la auditoría del sistema.
+
+N. Criterio 
+2
+Dado que.
+
+
+(estado previo o contexto en el sistema),
+
+
+El ciudadano selecciona el tipo de solicitud
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Diligencie el formulario de solicitud aseguramiento.
+
+
+Entonces
+
+
+
+El sistema deberá habilitar automáticamente las variables específicas definidas en el DD_Solicitudes_Aseguramiento, garantizando que cuando el solicitante seleccione el tipo de solicitud 1 Afiliación al sistema general de salud el sistema aperturare el formulario garantizando que se identifique que esta solicitud es del tipo 1, esto mismo aplicaría para el 2,3 y 4 que utilizan el mismo Diccionario de Datos, pero debe identificar para cada solicitud a que tipo corresponde.
+
+Cuando la solicitud sea guardada, el sistema le alertara al administrador que tiene solicitudes pendientes de revisión, El sistema deberá permitir consultar la información registrada, los documentos adjuntos y realizar las siguientes acciones: ver la ficha (vertical de la solicitud) aprobar la viabilidad de la solicitud, rechazar la solicitud o solicitar ajustes o subsanaciones cuando aplique y hacer la gestión correspondiente.
+
+Cada acción deberá actualizar el estado de la solicitud y generar las notificaciones correspondientes.
+
+N. Criterio 
+3
+Dado que
+(estado previo o contexto en el sistema)
+
+
+Se requiere consultar y gestionar las solicitudes registradas en el sistema.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario ingresa a la funcionalidad de consulta y visualización de solicitudes.
+
+
+Entonces
+
+
+El sistema deberá mostrar una parrilla de consulta con las variables definidas en la columna visualización por pantalla del DD_Solicitud_Aseguramiento, permitiendo el uso de diferentes filtros, entre ellos:
+
+Fecha inicial.
+Fecha final.
+Estado de la solicitud.
+
+Para cada registro consultado, el sistema deberá permitir ejecutar las siguientes acciones, de acuerdo con los roles y permisos y el estado actual de la solicitud:
+Ver ficha de la solicitud en formato vertical. 
+Ver anexos asociados a la solicitud. 
+Subsanar la solicitud. 
+Editar la solicitud. 
+Inactivar la solicitud. 
+Gestionar la solicitud. 
+Cuando el administrador seleccione la acción Gestionar, el sistema deberá actualizar automáticamente el estado de la solicitud a En gestión, generar las alertas y notificaciones asociadas y registrar la trazabilidad completa en la auditoría del sistema.
+Nota: La funcionalidad de parrilla deberá permitir que el usuario ordene de manera ascendente y descendente las variables marcadas que se dejan en el diccionario en la columna de visualización por pantalla.
+El sistema deberá contar con una funcionalidad de parametrización para la parrilla, donde permita seleccionar las variables que se requiere visualizar y el orden respectivo por el rol administrador.
+
+
+7. Anexos
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+x
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+x
+
+
+Diccionario de datos
+x
+
+DD_SOLICITUDES_ASEGURAMIENTO
+DD_Subsanación
+DD_Respuesta
+
+
+Listados, formatos tablas, reportes
+
+x
+
+
+Otros: cual
+
+x
+
+
+
+

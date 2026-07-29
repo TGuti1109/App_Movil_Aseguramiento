@@ -1,0 +1,162 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc223682027 \h 2
+		2.	Descripción HU	 PAGEREF _Toc223682028 \h 3
+		3.	Roles Como	 PAGEREF _Toc223682029 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc223682030 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc223682031 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc223682032 \h 3
+		7.	Anexos:	 PAGEREF _Toc223682033 \h 4
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Generador de Reportes
+
+Id HU:
+APASE-HU-007
+
+Nombre HU:
+Generación de reportes estáticos
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+06/03/2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+Descripción HU
+
+Esta funcionalidad debe permitir la generación de informes mediante la aplicación de múltiples filtros de búsqueda, como rangos de fechas, estados y otras variables relevantes.
+Roles Como
+Administrador del sistema y operador del sistema
+Característica / Funcionalidad. 
+El módulo debe permitir a los usuarios autorizados 
+Consultar un listado de reportes predefinidos para el módulo.
+Aplicar múltiples filtros de búsqueda (rangos de fechas, estado, tipo y 		demás atributos configurados).
+Visualizar la información consolidada en pantalla.
+Exportar los resultados en formatos estándar definidos en el Anexo de 		Reportes Estáticos.
+Garantizar que la información generada sea estructurada, consistente y 		trazable
+El sistema deberá contar con una funcionalidad que permita consultar y listar el histórico de los reportes estáticos generados, mostrando para cada uno de ellos los filtros o criterios utilizados en su generación, como son Fechas inicio, fecha final, entre otros, con el fin de facilitar su trazabilidad y posterior consulta y descarga de la data para evitar reprocesos en el procesamiento de datos. Adicionalmente, y de acuerdo con la configuración establecida, el sistema podrá habilitar la opción de descarga de dichos reportes en los formatos que fueron parametrizados en la HU-007, listado anexo reporte de estáticos.
+La visualización del listado de reportes deberá estar controlada mediante roles y permisos. En este sentido, cada usuario únicamente podrá consultar los informes generados por sí mismo. Los usuarios pertenecientes a otras áreas o dependencias no tendrán acceso a la información de reportes que no les corresponda. Como excepción, el super administrador tendrá acceso a la totalidad de los reportes generados en el sistema, independientemente del módulo o del usuario que los haya creado.
+Para los perfiles de Líder de Programa o Líder de Proyecto, el sistema deberá permitir la consulta tanto de los reportes generados por el propio líder como de aquellos creados por los usuarios pertenecientes a su unidad o equipo de trabajo. Por ejemplo, si un líder del programa de Promoción y Prevención (PyP) tiene bajo su responsabilidad a los usuarios X y Y, podrá visualizar sus propios reportes y también los generados por los usuarios X y Y, sin que esta información sea visible para líderes o usuarios de otras unidades.
+NOTA: En cuanto a la conservación de la información de los reportes estáticos el sistema realizara una depuración de estos listados y archivos almacenados según una funcionalidad de parametrización que el sistema deberá garantizar, donde permita definir el tiempo de conservación de los listados antes de su eliminación de los históricos generados. 
+Esta funcionalidad deberá implementarse para todos los módulos del SIISMED que, a la fecha, aún no hayan sido entregados o desarrollados, garantizando su adopción bajo la arquitectura de microservicios del sistema y manteniendo un comportamiento uniforme en todos los componentes que la incorporen.
+Razón /Resultado. 
+
+Generar y exportar reportes para el análisis e informes requeridos en el módulo. Estos reportes estáticos deberán servir como fuente de información para indicadores, tableros o mapas. 
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+el usuario necesita acceder a un reporte con información específica
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se ingresa a la funcionalidad de reportes estáticos
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+debe visualizar una lista de reportes predefinidos con su respectiva descripción, tal como lo indica el anexo.
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+el usuario requiere un reporte específico
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Seleccione un reporte de la lista
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema debe permitirle seleccionar los filtros disponibles en la configuración de cada reporte, generar el reporte por pantalla y luego permitir su exportación en los formatos definidos en el anexo, siempre validando el rol y permisos del usuario, dejando la trazabilidad en el módulo de auditoría del sistema.
+
+Anexos: 
+Relacionar listados, plantillas u otros formatos de captura de datos a los cuales hace referencia la HU
+
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+x
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+X
+
+anexo reportes estáticos
+
+Diccionario de datos
+
+X
+
+
+Listados, formatos tablas, reportes
+
+x
+
+
+Otros: cual
+
+x
+
+
+
+

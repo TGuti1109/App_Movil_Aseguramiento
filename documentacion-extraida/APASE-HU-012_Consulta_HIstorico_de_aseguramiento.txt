@@ -1,0 +1,188 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc191448279 \h 2
+		2.	Descripción HU	 PAGEREF _Toc191448280 \h 3
+		3.	Roles Como	 PAGEREF _Toc191448281 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc191448282 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc191448283 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc191448284 \h 3
+		7.	Anexos	 PAGEREF _Toc191448285 \h 4
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Autogestión del ciudadano
+
+Id HU:
+APASE-HU-012
+
+Nombre HU:
+Consulta Histórico de aseguramiento
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+16-03-2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+
+
+Descripción HU
+La funcionalidad debe permitir a los ciudadanos consultar el histórico de su información de aseguramiento en salud hasta un máximo parametrizable, mostrando la información organizada por bloques y en orden cronológico.
+La consulta debe incluir el histórico de afiliaciones por EPS y régimen, el histórico del SISBÉN, el histórico de listados censales y los periodos en los cuales el ciudadano no ha tenido afiliación en ningún régimen.
+Roles Como 
+Rol ciudadano y usuario Administrador del sistema
+Característica / Funcionalidad. 
+La funcionalidad debe permitir consultar el histórico de la información de aseguramiento del ciudadano en un rango de tiempo de consulta hasta un máximo según su parametrización, esta funcionalidad también se debe permitir consultar tanto:
+Usuario con credenciales APP Aseguramiento.
+Usuario sin credenciales por autogestión del ciudadano solicitando Tipo de documento y numero de documento, el sistema ira a buscar en personas salud si el sistema lo encuentra en personas salud traerá las demás variables requeridas (nombre 1, nombre 2, apellido 1, apellido 2, correo y fecha de nacimiento), con su semi encriptación definida, si no lo encuentra no lo deberá crear en persona salud si no en la data correspondiente a autogestión de ciudadano.
+El sistema debe organizar y mostrar la información en bloques independientes, permitiendo visualizar de forma cronológica:
+• Histórico de afiliaciones por EPS y régimen
+• Histórico de clasificación SISBÉN
+• Histórico de registros en listados censales
+• Periodos sin afiliación en ningún régimen
+La funcionalidad debe estar integrada con la parametrización de consulta de histórico para definir las condiciones de visualización y consulta.
+Razón /Resultado. 
+Permitir a los ciudadanos consultar de manera clara y organizada la trazabilidad de su información de aseguramiento en salud en un periodo determinado.
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+el ciudadano accede a la funcionalidad de histórico y realiza la consulta del histórico con credenciales
+
+
+Cuando
+(el comportamiento o acción),
+
+
+el sistema procesa la información de afiliaciones
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+debe mostrar la información organizada por bloques y en orden cronológico, incluyendo:
+• Histórico de afiliaciones, indicando EPS, régimen (Subsidiado o Contributivo), estado de afiliación, fecha de inicio y fecha de fin (si aplica)
+• Histórico SISBÉN, indicando puntaje, grupo (A, B, C o D), subgrupo y fecha de actualización o encuesta
+• Histórico de listados censales, indicando tipo de población, estado (Activo o Retirado), fecha de inicio, fecha de retiro (si aplica) y causal de retiro (si aplica)
+• Periodos sin afiliación, identificando los intervalos de tiempo en los cuales el ciudadano no tuvo afiliación activa en ningún régimen
+La información debe presentarse de forma clara, segmentada por cada bloque.
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere consultar la afiliación por un rango de fechas
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario ingrese fecha inicio y fecha fin a consultar
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema debe realizar la misma consulta del criterio 1 pero solo debe mostrar la información dentro del rango de fecha definido por el usuario.
+
+N. Criterio 
+
+3
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+La consulta realice sin credenciales por el módulo de autogestión del SIISMED
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Ingresen las variables solicitadas: Tipo de documento, numero de documento y fecha de nacimiento
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El módulo debe realizar la consulta mencionada en el criterio 1, adicionando en la consulta nombre 1, nombre 2, apellido 1, apellido 2, fecha de nacimiento, pero semi encriptados ejemplo:
+And****, Fel***, Qui*** Zab***, Tipo de documento CC, Numero de documento:1035****, fecha de nacimiento 04/01** , para que la persona pueda validar que los resultados devuelto correspondan a la persona consultada.
+
+Anexos 
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+
+
+
+Diccionario de datos
+
+
+
+
+Listados, formatos tablas, reportes
+
+
+
+
+Otros: cual
+
+
+
+
+
+
+

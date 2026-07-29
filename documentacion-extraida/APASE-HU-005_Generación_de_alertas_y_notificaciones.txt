@@ -1,0 +1,241 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc223681534 \h 2
+		2.	Descripción HU	 PAGEREF _Toc223681535 \h 3
+		3.	Roles Como	 PAGEREF _Toc223681536 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc223681537 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc223681538 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc223681539 \h 3
+		7.	Anexos:	 PAGEREF _Toc223681540 \h 5
+
+
+
+
+
+Ficha de Historia de Usuario
+
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica: 
+Notificaciones
+
+Id HU:
+APASE-HU-005
+
+Nombre HU:
+Generación de alertas y notificaciones
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez 
+
+Responsable área técnica:
+Andrés Felipe Quintero Z
+
+Fecha documento:
+16-03-2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+
+
+
+
+	Descripción HU
+
+Se requiere una funcionalidad que permita consultar la generación automática de las notificaciones y alertas previamente parametrizadas en el módulo, según los eventos activadores o condiciones de activación (fórmula o regla de negocio), por criterios de fecha de inicio y fecha final, periodicidad y repeticiones, o por llamado del ID de la notificación desde otra funcionalidad parametrizable, que se genera en respuesta a los eventos y transacciones definidas en la parametrización, y en la entrada o procesamiento de datos, o por diferentes acciones de los usuarios del sistema.
+
+Cuando se cumpla una condición o evento definido en la parametrización, el sistema deberá crear la notificación correspondiente, enviar el mensaje a los destinatarios definidos mediante los canales configurados y registrar el evento en un historial de trazabilidad.
+
+Adicionalmente, el sistema debe permitir consultar el historial de notificaciones generadas, realizar seguimiento a aquellas que requieran gestión y registrar respuestas o soportes por parte de los actores involucrados.
+	Roles Como
+
+Administrador del Sistema, Operador u usuarios de la SSDM
+	Característica / Funcionalidad. 
+
+Generar la notificación o alerta de acuerdo con el evento configurado previamente con el contenido personalizado del mensaje y enviar la notificación por los canales configurados (correo electrónico, notificación dentro del sistema o ambos). Así mismo, registrar cada notificación en un historial con trazabilidad (fecha, hora, evento, usuario, canal, estado de entrega), permitiendo que los usuarios puedan consultar el registro de dichas notificaciones, cargar soportes, además de poder ingresar alguna gestión o trámite de algunas notificaciones que lo requieran.
+	Razón /Resultado. 
+
+Garantizar que las alertas y notificaciones definidas en la parametrización se realicen efectivamente, brindando información en tiempo real a los usuarios responsables para la toma de decisiones y poder registrar las acciones de seguimiento.
+
+	Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+existe una parametrización activa de notificaciones que define el tipo de evento, destinatarios, canales de envío, frecuencia y demás reglas de negocio
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se produce una acción o evento que cumpla con las condiciones definidas en la parametrización,
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema deberá generar automáticamente la notificación o alerta correspondiente, utilizando la configuración previamente establecida para el tipo de evento
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Cada notificación generada por el sistema debe ser trazable.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se genere y envíe una notificación.
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+Se guarda automáticamente un registro con fecha, hora, tipo de evento, usuario, canal, estado de entrega y, si aplica, motivo de falla.
+
+Para las notificaciones enviadas dentro del sistema (campanita), se deberá registrar adicionalmente el estado de lectura de la notificación (leída / no leída).
+
+N. Criterio 
+
+3
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere revisar las notificaciones enviadas y realizar el seguimiento a algunas de estas
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario consulte el registro de notificaciones y alertas
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema debe permitir realizar seguimiento a las notificaciones asociadas a nuevas solicitudes de ampliación de IPS, con la siguiente gestión de estados:
+Estado
+Descripción / Acción
+
+Abierta
+Estado inicial de la notificación cuando se genera la solicitud.
+
+Gestionada IPS
+Cambia automáticamente cuando la IPS realiza la gestión correspondiente.
+
+Seguimiento
+Cambia cuando el funcionario de la SSDM ingresa a revisar la gestión de la IPS.
+
+Solicitud en proceso
+Cambia cuando se reenvía la notificación a la IPS para solicitar mayor información.
+
+Respuesta IPS
+Cambia cuando la IPS responde la solicitud de información adicional.
+
+Seguimiento
+Cambia nuevamente cuando el funcionario de la SSDM ingresa a evaluar la respuesta de la IPS.
+
+Cerrado
+Cambia de manera manual cuando el funcionario acepta o rechaza la solicitud, finalizando la gestión de la notificación.
+
+Reglas del flujo:
+Los cambios de estado deben reflejar la trazabilidad completa de la interacción entre la IPS y la SSDM.
+El estado final, “Cerrado” solo puede ser asignado manualmente por el funcionario competente, una vez tomada la decisión de aceptación o rechazo.
+
+
+N. Criterio 
+4
+
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+La IPS recibió una solicitud de gestión de seguimiento
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario ingrese a la funcionalidad de solicitudes de seguimiento de notificaciones
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema debe permitir responder la solicitud relacionada con la gestión realizada por la IPS, respondiendo la nueva solicitud y cargando los soportes en caso de requerirse.
+
+
+	Anexos: 
+Relacionar listados, plantillas u otros formatos de captura de datos a los cuales hace referencia la HU
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+X
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+X
+
+
+
+Diccionario de datos
+X
+
+DD_Gene_alertas notificaciones
+DD_Segumiento
+DD_solicitudes
+DD_respuesta solicitudes
+
+Listados, formatos tablas, reportes
+
+X
+
+
+Otros: cual
+
+X
+
+
+
+
+

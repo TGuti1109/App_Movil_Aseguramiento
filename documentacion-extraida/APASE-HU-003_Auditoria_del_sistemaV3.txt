@@ -1,0 +1,178 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc191448279 \h 2
+		2.	Descripción HU	 PAGEREF _Toc191448280 \h 3
+		3.	Roles Como	 PAGEREF _Toc191448281 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc191448282 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc191448283 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc191448284 \h 3
+		7.	Anexos	 PAGEREF _Toc191448285 \h 4
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Administración del sistema
+
+Id HU:
+APASE-HU-003
+
+Nombre HU:
+Auditoría del Sistema
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+06/03/2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+El módulo app de aseguramiento debe contar con una funcionalidad de auditoría que registre de manera automática y detallada todas las transacciones realizadas en el sistema, como modificación, inactivación, consulta de datos o visualizaciones, imprimir, exportación de datos e Intentos fallidos de acceso de usuarios que no cuentan con permisos y otros temas de la trazabilidad de la operación del sistema, diferente a las acciones de creación, las cuales dejara la fecha de creación y usuario de creación en cada transacción del módulo. Este registro debe incluir información clave como fecha y hora, usuario responsable, acción realizada, datos afectados, garantizando la trazabilidad y seguridad de la información.
+Roles Como
+Administrador
+Característica / Funcionalidad. 
+
+La funcionalidad deberá registrar automáticamente las acciones realizadas por los usuarios en el sistema, generando un historial de auditoría de sistemas que contenga información como:
+
+Usuario que ejecutó la acción
+Fecha y hora del evento
+Tipo de operación realizada
+Módulo o funcionalidad afectada
+Tabla afectada
+Dirección IP del equipo
+Descripción de los cambios, identificando la variable que tuvo el cambio, el valor anterior y el nuevo valor.
+
+La funcionalidad debe permitir consultar esta información mediante filtros de búsqueda y generar reportes de auditoría para su análisis y seguimiento.
+
+Razón /Resultado. 
+
+Contar con un registro de auditoría del sistema que permita dejar trazabilidad de las transacciones realizadas en el módulo, de manera que esta información pueda ser consultada por el usuario administrador del sistema.
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+
+
+Se realizó alguna transacción en el módulo
+
+
+Cuando
+
+
+Se realice una acción de modificar o anular un registro, Imprimir, exportar, consultar datos por pantalla o en herramientas de visualización de datos, adicional al registro de acciones no permitidas que el usuario intente realizar 
+
+
+Entonces
+
+
+El módulo debe generar un registro en la funcionalidad de auditoría de sistemas con la información de la operación realizada, incluyendo el usuario, tipo de acción, fecha del evento, tabla afectada, identificador del registro afectado, con el fin de contar con la trazabilidad y seguimiento de las acciones transaccionales
+
+N. Criterio 
+
+2
+Dado que. 
+
+
+Se requiere consultar la información registrada en la auditoría del sistema.
+
+
+Cuando
+
+
+El administrador del sistema ingrese a la funcionalidad a través de la interfaz de usuario en el menú de Auditoría del Sistema, el cual estará parametrizado según el rol y perfil del usuario.
+
+
+Entonces
+
+
+el sistema deberá permitir la consulta de los registros de auditoría mediante filtros de búsqueda, tales como: rango de fechas (fecha inicial y fecha final), usuario, tipo de acción, entre otras, así como permitir la exportación de los resultados en formatos definidos por el sistema, indicando el usuario que ejecutó la acción, la fecha y hora, y el tipo de información que exporto o imprimió.
+
+N. Criterio 
+
+3
+Dado que
+
+
+Se requiere llevar un control del estado de apertura de las notificaciones y alertas
+
+
+Cuando
+
+
+El usuario acceda y visualice dicha notificación o alerta (Funcionalidad de campanita) dentro del sistema
+
+
+Entonces
+
+
+El sistema deberá registrar el evento, indicando que La “Notificación fue abierta”, junto con la información del usuario que realizó la acción y la fecha y hora de la apertura.
+
+
+Anexos: 
+Relacionar listados, plantillas u otros formatos de captura de datos a los cuales hace referencia la HU
+
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+X
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+X
+
+
+Diccionario de datos
+X
+
+DD Auditoria del sistema_V4
+
+Listados, formatos tablas, reportes
+
+X
+
+
+Otros: cual
+
+X
+
+
+
+
+

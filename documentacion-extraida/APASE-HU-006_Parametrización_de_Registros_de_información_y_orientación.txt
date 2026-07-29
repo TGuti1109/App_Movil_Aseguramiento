@@ -1,0 +1,167 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc191448279 \h 2
+		2.	Descripción HU	 PAGEREF _Toc191448280 \h 3
+		3.	Roles Como	 PAGEREF _Toc191448281 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc191448282 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc191448283 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc191448284 \h 3
+		7.	Anexos	 PAGEREF _Toc191448285 \h 4
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Administracion del sistema
+
+Id HU:
+APASE-HU-006
+
+Nombre HU:
+Parametrización de Registros de información y orientación
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+16-03-2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+
+Descripción HU
+La funcionalidad debe permitir al Administrador del Sistema parametrizar la información que será publicada y consumida por la HU-002 Registro de Información y Orientaciones de la APP. La parametrización permitirá administrar los contenidos de orientación al ciudadano, configurar documentos adjuntos, habilitar enlaces externos y definir el direccionamiento de las solicitudes de información hacia los diferentes módulos del SIISMED, estableciendo además el tipo de acceso requerido para cada solicitud de información (con autenticación o sin autenticación desde la funcionalidad de autogestión del portal).
+Roles Como 
+usuario Administrador del sistema
+Característica / Funcionalidad. 
+La funcionalidad deberá permitir al Administrador del Sistema realizar las siguientes parametrizaciones:
+Parametrización de Orientaciones de Información
+Crear, consultar, modificar, activar, inactivar registros de orientación. 
+Definir el nombre, descripción y contenido de la orientación. 
+Asociar uno o varios documentos como material de apoyo (PDF, Word, imágenes, videos u otros formatos permitidos). 
+Configurar uno o varios enlaces (URL) que redireccionen al ciudadano a páginas web o aplicaciones externas. 
+Definir el orden de visualización y la vigencia de publicación de cada orientación, solo permanecerá activa hasta el rango de fecha dado y solo podrá volverse activar por el administrador.
+Publicar únicamente las orientaciones activas para su consulta desde la APP.
+Parametrización de Solicitudes de Información
+El sistema deberá permitir:
+Crear, consultar, modificar, activar e inactivar tipos de solicitudes de información. 
+Configurar el módulo del SIISMED al cual será direccionada automáticamente cada solicitud con sus respectivos formularios, configurando inicialmente los definidos en la maestra genérica DD_CLASIFICACION_GESTION, MAESTRA_SUBTIPIFICACION_GESTION del módulo transversal definidos en la HU gestión de solicitudes del módulo MAC: TRAMITE EN EL ACCESO A LOS SERVICIOS, TRAMITE DEBIDO PROCESO
+Parametrizar el tipo de acceso requerido para realizar la solicitud: 
+Usuario autenticado. 
+Usuario sin autenticación (Autogestión del Ciudadano).
+El sistema deberá garantizar que las parametrizaciones definidas se puedan hacer desde la APP aseguramiento y desde el módulo de Aseguramiento en Salud del SIISMED.
+En este sentido, ambas herramientas deberán contar con la misma funcionalidad, permitiendo que el usuario administrador realice la parametrización de manera consistente, asegurando además que la presentación y formato de visualización en el módulo de SIISMED sea adaptable (responsive), independientemente del dispositivo desde el cual se acceda a la funcionalidad.
+Todas las acciones realizadas deberán generar trazabilidad en la auditoria, no incluye en la creación de registró, donde esta se deja en la creación de la data principal.
+Razón /Resultado. 
+Mantener actualizada y centralizada la información de registros de información y orientación relacionada con el aseguramiento en salud para su consulta o tramites por parte de los ciudadanos.
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+un usuario administrador requiere parametrizar tramites y/o orientación, a través de la APP o a través del portal de SIISMED módulo de aseguramiento Salud.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+registra o actualiza un registro de información o contenido de orientación 
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema debe permitir registrar o actualizar la siguiente información, según las variables y validación definidas en el DD_registros de información y orientaciones.
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere visualizar y consultar
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario ingresa a la funcionalidad de consulta de registros parametrizados
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema deberá mostrar una funcionalidad tipo parrilla con las variables definidas en el diccionario de datos DD_ registros de información y orientaciones, respetando el orden establecido en la columna “Visualización por Pantalla”. La funcionalidad deberá contar con filtros que permitan segmentar la visualización de los registros, tales como: búsqueda por palabra clave, estado (activo/inactivo), rangos de fecha, tipo de registro, usuario creador y demás filtros definidos según la necesidad funcional del módulo. Adicionalmente, cada registro deberá contar con las acciones habilitadas de acuerdo con los roles y permisos asignados al usuario autenticado, tales como: ver la ficha completa del registro en visualización vertical, editar, inactivar, imprimir, exportar y demás acciones disponibles para la funcionalidad. 
+NOTA: La funcionalidad de la parrilla deberá permitir al usuario ordenar la información de manera ascendente o descendente sobre los campos definidos en el diccionario de datos, específicamente aquellos habilitados en la columna de visualización.
+Adicionalmente, el sistema deberá contar con una funcionalidad de parametrización de la parrilla, que permita seleccionar las variables a visualizar y definir su respectivo orden de presentación, garantizando así la flexibilidad en la consulta y análisis de la información según las necesidades del usuario.
+
+Anexos 
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+
+
+
+Diccionario de datos
+X
+
+DD_registros de información y orientaciones.
+
+Listados, formatos tablas, reportes
+
+
+
+
+Otros: cual
+
+
+
+
+
+

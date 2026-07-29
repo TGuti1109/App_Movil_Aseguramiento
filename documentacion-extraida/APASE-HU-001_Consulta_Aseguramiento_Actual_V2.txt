@@ -1,0 +1,290 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc191448279 \h 2
+		2.	Descripción HU	 PAGEREF _Toc191448280 \h 3
+		3.	Roles Como	 PAGEREF _Toc191448281 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc191448282 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc191448283 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc191448284 \h 3
+		7.	Anexos	 PAGEREF _Toc191448285 \h 4
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Autogestión del ciudadano
+
+Id HU:
+ASE-HU-001
+
+Nombre HU:
+APASE-HU-001 Consulta Aseguramiento Actual
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+06/03/2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+Descripción HU
+
+La funcionalidad debe permitir a los ciudadanos consultar de manera integrada su información de aseguramiento en salud, incluyendo estado de afiliación, régimen, SISBÉN, listados censales y datos de contacto de su EPS e IPS, así como consultar y actualizar su información personal de contacto.
+Roles Como 
+Rol ciudadano y usuario Administrador del sistema
+Característica / Funcionalidad. 
+La funcionalidad debe permitir a los ciudadanos, una vez autenticados, realizar una consulta unificada de su información de aseguramiento en salud, integrando datos de las siguientes funcionalidades de maestras de datos aseguramiento (maestra de contributivo o subsidiado), SISBÉN, PNA, PPNA y listados censales.
+Datos a mostrar por cada Funcionalidad de aseguramiento:
+Afiliacion al SGSSS (Contributivo o subsidiado)
+El sistema debe consultar el módulo de SIISMED Aseguramiento en salud en las maestras de subsidiados o contributivo consultado con tipo y numero de documento y mostrar la siguiente información:
+Régimen de afiliación (Contributivo o Subsidiado)
+EPS actual, consultando la información desde la tabla maestra de EPS del módulo transversal
+Municipio
+Fecha de afiliación 
+IPS primaria asignada (nombre, dirección, teléfono y correo electrónico), incluyendo una opción para visualizar su ubicación en mapa según la información registrada en la tabla maestra de sedes IPS.
+Estado de afiliación (Activo, Retirado, Fallecido)
+Grupo poblacional
+Tipo afiliado
+Grupo familiar (aplica para régimen contributivo)
+Modalidad
+Metodología
+Información SISBÉN
+El sistema debe consultar el módulo de SIISMED Aseguramiento en salud en la maestra del Sisben consultado por tipo y numero de documento.
+Puntaje vigente
+Grupo de clasificación (A, B, C o D)
+Subgrupo
+Fecha de la encuesta
+Número de ficha SISBÉN
+Integrantes de la ficha (primer nombre, primer apellido y parentesco)
+En caso de no existir información, el sistema debe mostrar el mensaje:
+“El ciudadano no cuenta con encuesta vigente en el SISBÉN en el municipio de Medellín”
+Información de listados censales
+El sistema debe consultar la información en la funcionalidad de Listado Censal del módulo de Aseguramiento.
+	Tipo de población (variable observación)
+	Fecha de reporte
+Si no existe información, debe mostrar el mensaje:
+“El ciudadano no pertenece a ningún grupo de listado censal.”
+Adicionalmente, debe permitir consultar la información de contacto de la EPS e IPS, así como consultar y actualizar los datos personales de contacto del ciudadano, garantizando la integridad y seguridad de la información.
+esta funcionalidad también se debe permitir consultar tanto:
+Usuario con credenciales APP Aseguramiento.
+Usuario sin credenciales por autogestión del SIISMED modulo portal ciudadano solicitando Tipo de documento, numero de documento y fecha de nacimiento.
+El sistema debe mostrar las variables seleccionadas en la visualización por pantalla según en Dic_Datos_Consulta De aseguramiento, adicional al momento de abrir el registro debe permitir ver ficha completa de manera vertical. 
+Razón /Resultado. 
+
+Facilitar a la ciudadanía del Distrito de Medellín el acceso oportuno, seguro y transparente a la información relacionada con su aseguramiento en el Sistema General de Seguridad Social en Salud.
+
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+el ciudadano ha iniciado sesión correctamente en la aplicación
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Ingresa en a la funcionalidad Consultar mi aseguramiento en salud
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema deberá realizar la consulta consolidada del ciudadano conforme a la funcionalidad definida en la presente Historia de Usuario, integrando la información proveniente de las diferentes fuentes de información del módulo aseguramiento en salud.
+Como resultado de la consulta, el sistema deberá validar si el ciudadano registra una afiliación activa en el Distrito de Medellín. En caso de no encontrar información de afiliación vigente, deberá mostrar una notificación en pantalla e igualmente generar el envío de una notificación al correo electrónico registrado por el ciudadano, informando su condición de no afiliado.
+Adicionalmente, la notificación deberá orientar al ciudadano sobre las alternativas disponibles para realizar el proceso de afiliación al Sistema General de Seguridad Social en Salud, tales como la afiliación a través de una EPS autorizada o mediante el Sistema de Afiliación Transaccional (SAT).
+Asimismo, el sistema deberá permitir la descarga de un instructivo o guía de apoyo que contenga el paso a paso del proceso de afiliación, los requisitos necesarios y los canales de atención disponibles para facilitar la gestión por parte del ciudadano.
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+ciudadano requiere actualizar los datos de contacto en el SIISMED
+
+
+Cuando
+(el comportamiento o acción),
+
+
+ingresa a la función de actualización de datos de contacto.
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema deberá contar con una funcionalidad que le permita ingresar en un formulario los datos de contacto a actualizar, trayendo los últimos datos que tenga el ciudadano de las variables indicadas en DD_ACTUALIZACION DE DATOS DE CONTACTO
+además, debe solicitara adjuntar de manera opción la imagen del documento de identidad por ambos lados.
+Además de almacenar los datos del usuario logueado la fecha y hora de creación, la ip de donde se generó la actualización.
+El sistema no permitirá la edición de la información de contacto ya existente en el módulo de Personas Salud. En su lugar, deberá adicionar los nuevos registros de contacto ingresados por el ciudadano, teniendo en cuenta que dicho módulo cuenta con la funcionalidad de almacenar múltiples registros de teléfonos, direcciones y correos electrónicos por persona.
+Asimismo, el sistema deberá permitir identificar la fuente de origen de cada dato de contacto registrado. Para este caso, los nuevos registros deberán quedar asociados e identificados con la fuente correspondiente “APP de Aseguramiento”, garantizando la trazabilidad y el control de la información ingresada.
+
+
+N. Criterio 
+
+3
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+La consulta realice sin credenciales por el módulo de autogestión del SIISMED
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Ingresen las variables solicitadas: Tipo de documento, numero de documento y fecha de nacimiento
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El módulo debe realizar la consulta mencionada en el criterio 1, adicionando en la consulta nombre 1, apellido 1, fecha de nacimiento, pero semiencriptados ejemplo:
+And****, Qui***, Tipo de documento CC, Numero de documento:****7186, fecha de nacimiento 04/01/****, para que la persona pueda validar que los resultados devueltos correspondan a la persona consultada.
+
+N. Criterio 
+
+4
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Un usuario con rol Administrador del sistema ingresa a la funcionalidad de consulta de aseguramiento buscando por tipo y número de documento de un ciudadano
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Ejecuta la búsqueda
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema debe mostrarle la misma consulta consolidada que ve el ciudadano (sin encriptación de datos), y debe registrar en auditoría qué administrador consultó a qué ciudadano, con fecha y hora
+
+N. Criterio 
+
+5
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+El ciudadano actualiza un dato de contacto
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El sistema guarda el nuevo registro
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+Debe almacenar automáticamente la fuente de origen ("APP de Aseguramiento") y la dirección IP desde la que se generó la actualización, además del usuario, fecha y hora ya contemplados en el criterio 2.
+
+N. Criterio 
+
+6
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+El ciudadano tiene más de un registro de afiliación (histórico en distintos regímenes)
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El sistema realiza la consulta consolidada,
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+Debe identificar y mostrar como "afiliación actual" únicamente el registro vigente según fecha de corte, sin mezclar datos de registros ya finalizados.
+
+Anexos 
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+
+
+
+Diccionario de datos
+X
+
+Actualizacion de datos de contacto.
+Dic_Datos_Consulta De aseguramiento
+
+Listados, formatos tablas, reportes
+
+
+
+
+Otros: cual
+
+
+
+
+
+
+
+

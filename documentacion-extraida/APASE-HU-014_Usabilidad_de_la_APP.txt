@@ -1,0 +1,163 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc191448279 \h 2
+		2.	Descripción HU	 PAGEREF _Toc191448280 \h 3
+		3.	Roles Como	 PAGEREF _Toc191448281 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc191448282 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc191448283 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc191448284 \h 3
+		7.	Anexos	 PAGEREF _Toc191448285 \h 4
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Reportes
+
+Id HU:
+APASE-HU-014 Usabilidad de la APP
+
+Nombre HU:
+APP aseguramiento
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+06/03/2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+
+
+
+
+Descripción HU
+
+La funcionalidad debe permitir visualizar información de uso y comportamiento de la APP de Aseguramiento mediante un dashboard, permitiendo consultar métricas de acceso, consultas realizadas, trámites ejecutados y uso general de la aplicación
+Roles Como 
+
+funcionario de la secretaria y usuario Administrador del sistema
+Característica / Funcionalidad. 
+
+La funcionalidad debe permitir consultar un dashboard de usabilidad de la APP de Aseguramiento, mostrando estadísticos, gráficos y métricas relacionadas con el uso de la aplicación por parte de los ciudadanos.
+El sistema debe permitir visualizar información consolidada sobre accesos, autenticaciones, consultas realizadas, trámites ejecutados, radicación de solicitudes y comportamiento de utilización de la APP.
+Razón /Resultado. 
+
+Permitir realizar seguimiento al uso, comportamiento y adopción de la APP de Aseguramiento mediante indicadores estadísticos y métricas de usabilidad.
+
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+un usuario administrador accede al dashboard de usabilidad
+
+
+Cuando
+(el comportamiento o acción),
+
+
+ingrese al módulo de análisis de la APP
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema debe mostrar indicadores gráficos y estadísticos relacionados con el uso de la aplicación, incluyendo como, por ejemplo:
+• Número de usuarios registrados
+• Usuarios activos
+• Cantidad de inicios de sesión
+• Consultas de aseguramiento realizadas
+• Consultas de histórico realizadas
+• Solicitudes registradas
+• Trámites consultados
+debe mostrar gráficos estadísticos, tablas dinámicas e indicadores visuales que permitan analizar el comportamiento y usabilidad de la APP, adicional permitir descargar los resultados en formatos PDF o Excel
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+el administrador consulta la información estadística
+
+
+Cuando
+(el comportamiento o acción),
+
+
+aplique filtros de búsqueda por fecha
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el sistema debe permitir filtrar la información según el rango de fecha indicado en el criterio de filtro.
+
+Anexos 
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+
+
+
+Diccionario de datos
+
+X
+
+
+Listados, formatos tablas, reportes
+
+
+
+
+Otros: cual
+
+
+
+
+
+
+

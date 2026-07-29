@@ -1,0 +1,140 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc223683660 \h 2
+		2.	Descripción HU	 PAGEREF _Toc223683661 \h 3
+		3.	Roles Como	 PAGEREF _Toc223683662 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc223683663 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc223683664 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc223683665 \h 3
+		7.	Anexos:	 PAGEREF _Toc223683666 \h 3
+
+
+
+
+
+Ficha de Historia de Usuario
+
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Generación de reportes
+
+Id HU:
+APASE-HU-009
+
+Nombre HU:
+Generación de reportes dinámicos
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez 
+
+Responsable área técnica:
+Andrés Felipe Quintero Z
+
+Fecha documento:
+16-03-2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+Descripción HU
+
+El módulo debe permitir la generación de informes dinámicos previamente creados y parametrizados en el módulo transversal. 
+Roles Como
+Administrador del sistema y operador del sistema.
+Característica / Funcionalidad. 
+El módulo debe permitir a los usuarios autorizados seleccionar y generar reportes dinámicos previamente configurados en la Historia de Usuario TRV-HU008 Creación y Parametrización de Reportes Dinámicos, permitiéndole exportar los datos en los formatos estándares definidos para el SIISMED como son, XML, XLSX, PDF, CSV, TXT, JSON.
+
+El sistema deberá contar con una funcionalidad que permita consultar y listar el histórico de los reportes dinámicos generados, mostrando para cada uno de ellos los filtros o criterios utilizados en su generación, como son fechas inicio, fecha final, entre otros, con el fin de facilitar su trazabilidad y posterior consulta y descarga de la data para evitar reprocesos en el procesamiento de datos. Adicionalmente, y de acuerdo con la configuración establecida, el sistema podrá habilitar la opción de descarga de dichos reportes en los formatos que fueron parametrizados en la HU-009. 
+
+La visualización del listado de reportes deberá estar controlada mediante roles y permisos. En este sentido, cada usuario únicamente podrá consultar los informes generados por sí mismo. Los usuarios pertenecientes a otras áreas o dependencias no tendrán acceso a la información de reportes que no les corresponda. Como excepción, el super administrador tendrá acceso a la totalidad de los reportes generados en el sistema, independientemente del módulo o del usuario que los haya creado.
+
+Para los perfiles de Líder de Programa o Líder de Proyecto, el sistema deberá permitir la consulta tanto de los reportes generados por el propio líder como de aquellos creados por los usuarios pertenecientes a su unidad o equipo de trabajo. Por ejemplo, si un líder del programa de Promoción y Prevención (PyP) tiene bajo su responsabilidad a los usuarios X y Y, podrá visualizar sus propios reportes y también los generados por los usuarios X y Y, sin que esta información sea visible para líderes o usuarios de otras unidades.
+
+NOTA: En cuanto a la conservación de la información, los reportes dinámicos, el sistema realizara una depuración de estos listados y archivos almacenado según una funcionalidad de parametrización que se debe anexar en la TRV Creación y Parametrización de Reportes Dinámicos, una variable de tiempo de conservación de listados y archivos generados en el sistema donde se crean los reportes dinámicos para este módulo y se define por el administrador cuanto es el tiempo que debe permanecer un reporte ya generado, como por ejemplo un reportes de auditoría de PAMEC a IPS con calificación negativa, se deber conservar , según la parametrización de la variable en el reporte dinámico ” tiempo de conservación de listados y archivos generados = 30, esto indica que los reportes generados con más de 30 días , el sistema los deberá eliminar de la lista en pantalla y los archivo físico en el repositorio, en caso de requerirse nuevamente el usuario los deberá volver a generar o solicitar que la conservación de este informe sea mayo a 30.  
+
+Esta funcionalidad deberá implementarse para todos los módulos del SIISMED que, a la fecha, aún no hayan sido entregados o desarrollados, garantizando su adopción bajo la arquitectura de microservicios del sistema y manteniendo un comportamiento uniforme en todos los componentes que la incorporen.
+Razón /Resultado. 
+
+Generar y exportar los reportes dinámicos para los análisis e informes requeridos, facilitando la toma de decisiones basadas en datos actualizados en todos los módulos del SIISMED.  Estos reportes dinámicos deberán servir como fuente de información para indicadores, tableros o mapas. 
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Existe un reporte dinámico creado y parametrizado (TRV-HU-008 creación y parametrización de reportes).
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario solicita la generación en línea.
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema ejecuta la consulta, permitiéndole seleccionar los filtros dispuestos que tiene el reporte, mostrando el resultado por pantalla para luego darle la opción de ejecutar la acción de exportar en los formatos preestablecidos en el diseño, según los roles y permisos que tenga el usuario.
+
+
+Anexos: 
+
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+x
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+X
+
+
+Diccionario de datos
+
+x
+
+
+Listados, formatos tablas, reportes
+
+x
+
+
+Otros: cual
+
+x
+
+
+
+

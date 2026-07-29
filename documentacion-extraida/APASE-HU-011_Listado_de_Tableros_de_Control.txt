@@ -1,0 +1,188 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc223692568 \h 2
+		2.	Descripción HU	 PAGEREF _Toc223692569 \h 3
+		3.	Roles Como	 PAGEREF _Toc223692570 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc223692571 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc223692572 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc223692573 \h 3
+		7.	Anexos:	 PAGEREF _Toc223692574 \h 4
+
+
+
+
+
+Ficha de Historia de Usuario
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica 
+Visualización de datos
+
+Id HU:
+APASE-HU-011
+
+
+Nombre HU:
+Ejecución de Tableros de Control
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+16-03-2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+Descripción HU
+Esta funcionalidad permitirá generar, consultar y visualizar la lista de tableros de control configurados previamente en el módulo Transversal. El sistema mostrará una interfaz centralizada con filtros dinámicos, que facilite a los usuarios la identificación, selección y acceso a los tableros creados, con su información descriptiva, fecha de última actualización y vínculo directo al tablero activo en Power BI u otra herramienta integrada. El propósito es mejorar la gobernanza de la información analítica, garantizando la disponibilidad, trazabilidad y control de los recursos visuales institucionales.
+Roles Como
+Usuario con rol de administrador.
+Usuario con rol de visualización
+Usuario operativo
+Característica / Funcionalidad. 
+El sistema debe permitir al usuario:
+
+Visualizar la lista de tableros de control configurados en el módulo.
+Aplicar filtros mediante criterios como: Nombre del tablero, Tipo de tablero, Fecha de última actualización, Estado (Activo/Inactivo), dependencia responsable.
+Buscar un tablero específico mediante texto libre.
+Ver información detallada del tablero seleccionado, incluyendo: Nombre y descripción, fuente del dato, Fecha de la última publicación.
+Acceder directamente al tablero mediante un enlace o visor embebido.
+Exportar la lista de tableros en formato Excel, PDF o CSV.
+Actualizar la lista automáticamente cuando se agreguen o modifiquen tableros en el sistema.
+Control de los permisos de acceso por rol y perfil, mostrando solo los tableros que cada usuario puede consultar.
+Razón /Resultado. 
+Permitir la consulta centralizada y organizada de los tableros configurados para cada uno de los módulos del SIISMED, optimizando la gestión visual, garantizar la trazabilidad de la información analítica, toma de decisiones basadas en datos. 
+Criterios de Aceptación
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Existen tableros de control configurados para el módulo desde el módulo transversal
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario accede a la opción “Listado de Tableros” y utiliza los mecanismos de búsqueda o filtros disponibles
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema:
+Muestra únicamente los tableros asignados al módulo y con estado activos.
+Permite filtrar por texto o criterios seleccionados.
+Actualiza dinámicamente los resultados según los filtros aplicados.
+Permite abrir el tablero dentro del aplicativo
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Un tablero seleccionado tiene información detallada
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario hace clic en “Ver detalle”.
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema muestra los metadatos del tablero, que debe incluir las fuentes de datos que utiliza, los módulos con los que se relaciona, tamaño de la data cargada en el tablero, fecha de creación, fecha actualización, nombres de: diseñador, gestor de datos, revisión y aprobación, entre otras.
+
+N. Criterio 
+
+3
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+El usuario desea exportar la información.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Selecciona el formato de exportación (Excel, PDF o CSV).
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema según los roles y permisos del usuario podrá genera el archivo con los tableros visibles y sus metadatos.
+
+
+Anexos: 
+Relacionar listados, plantillas u otros formatos de captura de datos a los cuales hace referencia la HU
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+x
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+x
+
+
+Diccionario de datos
+
+x
+
+
+Listados, formatos tablas, reportes
+
+x
+
+
+Otros: cual
+
+x
+
+
+
+

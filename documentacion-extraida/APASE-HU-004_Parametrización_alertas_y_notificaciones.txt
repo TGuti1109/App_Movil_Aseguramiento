@@ -1,0 +1,320 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc180755677 \h 2
+		2.	Descripción HU	 PAGEREF _Toc180755678 \h 3
+		3.	Roles Como	 PAGEREF _Toc180755679 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc180755680 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc180755681 \h 3
+		7.	Anexos	 PAGEREF _Toc180755682 \h 3
+		8.	Flujograma	 PAGEREF _Toc180755683 \h 6
+
+
+
+
+
+
+
+Ficha de Historia de Usuario
+
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica: 
+Administracion del sistema
+
+Id HU:
+APASE-HU-004
+
+Nombre HU:
+Parametrización alertas y notificaciones
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez 
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta.
+
+Fecha documento:
+16-03-2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Descripción HU
+Se requiere una funcionalidad que permita al usuario configurar las notificaciones que se enviarán dentro del módulo. Esto incluirá la posibilidad de definir los eventos o acciones que generarán una notificación o alerta, los destinatarios, los canales de comunicación (correo electrónico, notificación dentro del sistema o ambas), selección de eventos disparador del sistema, condición o fórmula parametrizada por el administrador donde perita el uso de objetos del modelo de datos, uso de operadores matemáticos y lógicos y la periodicidad de envío.
+
+	Roles Como 
+Usuario con rol de administrador
+	Característica / Funcionalidad. 
+Quiero que se parametricen las acciones transaccionales que sean objeto de alertas y notificaciones en el módulo aplicación de aseguramiento, ya sean automáticas o de acciones realizadas por usuarios, o por activaciones de la condición o formula parametrizada o por la selección del ID de la Notificación desde alguna funcionalidad o procesamiento de datos, permitiendo el envío a través de correo electrónico y en el sistema. 
+
+Las transacciones para parametrizar:
+Configuración de Tipos de Notificaciones: El sistema debe permitir la configuración de diferentes tipos de notificaciones, como recordatorios, alertas de cambios, confirmaciones de visitas, etc. 
+Destinatarios de las Notificaciones: El sistema debe permitir configurar a quién se enviarán las notificaciones. Los destinatarios pueden ser usuarios específicos, grupos de usuarios, o incluso actores externos relacionados con las visitas.
+Selección de medio de Notificación:  debe permitir seleccionar el medio a través de los cuales se enviarán las notificaciones (correo electrónico, notificación dentro del módulo). 
+Frecuencia y Repetición de Notificaciones: El administrador debe poder configurar la frecuencia y repetición de ciertas notificaciones (por ejemplo, recordatorios diarios, semanales o mensuales).
+Personalización de Contenido: El sistema debe permitir la personalización del contenido de las notificaciones para que puedan incluir información relevante y específica (como detalles de la visita, fecha, hora, ubicación, cambios de última hora, etc.).
+Uso de disparadores automáticos para notificaciones y alertas:
+Corresponde a los eventos activadores que el fabricante deberá crear para que, cuando se realicen las diferentes acciones dentro del sistema, estas puedan ser identificadas y utilizadas en la parametrización de alertas y notificaciones.
+Funcionalidades requeridas:
+El fabricante dispondrá una lista desplegable con todos los disparadores creados, organizados por módulo, para que el usuario pueda seleccionarlos fácilmente al configurar una notificación.
+El fabricante deberá entregar un documento técnico denominado "Catálogo de disparadores", el cual debe incluir por cada módulo:
+Nombre técnico del disparador
+Descripción de su función
+Módulo y funcionalidad a la que pertenece
+Otras características técnicas que faciliten su manejo y comprensión por parte de los usuarios del sistema, para su correcto uso en la parametrización de notificaciones.
+
+Razón /Resultado. 
+
+Parametrizar las acciones transaccionales objeto de alertas y notificaciones para informar de situaciones puntuales que requieren toma de decisiones inmediatas o simplemente informativas de la acción realizada.
+
+	Criterios de Aceptación
+
+N. Criterio 
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere configurar las notificaciones 
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se configura un tipo de notificación 
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El módulo debe disponer de un formulario para el ingreso de datos según las variables y validaciones del diccionario de datos 
+
+N. Criterio 
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere configurar los destinatarios de las notificaciones
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se ingrese a la opción 
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el módulo debe permitir seleccionar entre usuarios específicos, roles, o grupos de usuarios, o registros de maestras relacionadas que cuenten con los datos de correo electrónico a notificar como pueden ser: maestras de entidades, maestras de IPS, directorio de actores permitiendo seleccionar el correo respectivo a ser noticiones según el referente del tema o modulo en la institución, que tengan relación con la persona o notificación que se pretenda realizar. Debe permitirse seleccionar varios usuarios, cuando sea el caso, igualmente el medio a través del cual se realizará él envió: correo electrónico, notificación dentro del sistema o ambas.
+
+N. Criterio 
+3
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+	Se requiere configurar la frecuencia de las notificaciones
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se ingrese a la opción 
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+el módulo debe permitir definir si la notificación se enviará una sola vez, repetidamente (diaria, semanal, mensual), o bajo una condición específica.
+También podrá definir cuando finaliza el ciclo de notificaciones con parámetros como:
+Sin fecha fin
+Hasta una fecha concreta
+Después de N repeticiones
+
+N. Criterio 
+4
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+	Se desea personalizar el contenido de una notificación 
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario ingrese a la configuración del contenido
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema debe permitir que se personalicen los campos y la información de la notificación, adicional deberá permitir crear plantillas que contendrán las variables del módulo de datos, inserción de imágenes, formatos y los demás datos requeridos para ser notificadas 
+
+N. Criterio
+5
+
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere enviar archivos anexos en la notificación  
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se parametrice 
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema permitirá adjuntar diferentes tipos de formato de ofimática, archivos soportes de dicha notificación: Excel, Word, PDF, entre otros. Que oriente a la persona notificada.  
+
+N. Criterio
+6
+
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere visualización y gestión de registros parametrizados
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se ingrese a la funcionalidad de visualización y gestión de registros parametrizados
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema debe permitir visualizar en pantalla los registros parametrizados conforme a las variables definidas en el diccionario de datos (columna "visualización por pantalla"), respetando el orden establecido.
+Funcionalidades de filtrado:
+El usuario podrá aplicar filtros por:
+Estado
+Fechas de creación
+Requieren gestión
+Destinatarios
+Otros campos relevantes
+Acciones disponibles sobre los registros:
+El sistema habilitará al usuario para seleccionar un registro y ejecutar las siguientes acciones, según el rol y permisos asignados:
+Acción
+Descripción
+
+Ver ficha
+Visualizar el detalle completo de la parametrización
+
+Editar
+Modificar la parametrización (sujeto a permisos)
+
+Inactivar
+Cambiar estado a inactivo. Debe solicitar la causa de la inactivación y almacenar automáticamente: fecha de inactivación y usuario que inactiva
+
+Imprimir
+Generar versión imprimible del registro
+
+Exportar
+Exportar el o los registros seleccionados
+
+Otras acciones
+Las definidas en el sistema según el perfil de usuario
+
+Trazabilidad:
+Todas las transacciones realizadas sobre los registros (excepto la creación) deben quedar registradas en la funcionalidad de auditoría de sistemas, garantizando la trazabilidad de las modificaciones, inactivaciones y consultas relevantes.
+
+
+
+	Anexos: 
+Relacionar listados, plantillas u otros formatos de captura de datos a los cuales hace referencia la HU
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+X
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+x
+
+
+Diccionario de datos
+X
+
+DD_Parametrización alertas y notificacionesV4
+
+Listados, formatos tablas, reportes
+
+X
+
+
+Otros: cual
+
+X
+
+
+
+
+

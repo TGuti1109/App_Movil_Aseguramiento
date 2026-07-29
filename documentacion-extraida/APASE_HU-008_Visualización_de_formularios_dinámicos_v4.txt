@@ -1,0 +1,501 @@
+﻿
+Contenido
+		 TOC \o "1-3" \h \z \u 1.	Ficha de Historia de Usuario	 PAGEREF _Toc223682689 \h 2
+		2.	Descripción HU	 PAGEREF _Toc223682690 \h 3
+		3.	Roles Como	 PAGEREF _Toc223682691 \h 3
+		4.	Característica / Funcionalidad.	 PAGEREF _Toc223682692 \h 3
+		5.	Razón /Resultado.	 PAGEREF _Toc223682693 \h 3
+		6.	Criterios de Aceptación	 PAGEREF _Toc223682694 \h 3
+		7.	Anexos:	 PAGEREF _Toc223682695 \h 6
+
+
+
+
+
+Ficha de Historia de Usuario
+
+
+Proyecto:
+240238
+
+Sistema:
+SIISMED
+
+Módulo:
+APPAseguramientoMED
+
+Épica: 
+Formularios Dinámicos
+
+Id HU:
+APASE-HU-008
+
+Nombre HU:
+Visualización de Formularios Dinámicos
+
+Tipo (Funcional / Técnica):
+Funcional
+
+Responsable área usuaria:
+Julio César Suárez Álvarez
+
+Responsable área técnica:
+Andrés Felipe Quintero Zabaleta
+
+Fecha documento:
+06/03/2026
+
+Prioridad u orden:
+Alta
+
+Observaciones:
+Esta funcionalidad debe que los formularios parametrizados en el módulo transversal puedan ser visualizados, diligenciados, validados y gestionados en el módulo.
+
+
+NOTA: Se concertó con el fabricante del software el desarrollo de una aplicación denominada APPSIISMED, la cual integrará todas las aplicaciones móviles del SIISMED en un único punto de acceso. En la fase 1, la aplicación incluirá la APP de PAIMED y, en la fase 2, incorporará la APP de Aseguramiento. Esta estrategia permitirá consolidar progresivamente las nuevas aplicaciones que se desarrollen dentro del ecosistema SIISMED, facilitando su administración, acceso y mantenimiento desde una única plataforma.
+
+
+
+
+
+Descripción HU
+
+El sistema debe permitir a los usuarios visualizar, diligenciar, validar y gestionar la información capturada en los formularios dinámicos previamente creados y parametrizados Creación y visualización de formularios dinámicos del módulo transversal.
+
+La funcionalidad debe asegurar una experiencia ágil y segura de llenado, almacenamiento y consulta, preservando la estructura, reglas de negocio, validaciones y permisos definidos en cada formulario.
+
+Roles Como
+
+Administrador
+operador y funcionario de la SSDM
+
+Característica / Funcionalidad. 
+
+La funcionalidad debe: 
+
+Permitir la visualización de los formularios en los módulos a los que fueron asignados en la funcionalidad Creación y visualización de formularios dinámicos del módulo transversal, manteniendo el diseño, estilos y lógica de campos dependientes, para el caso deberá mostrar dentro del módulo, los configurados para este.
+Ingresar y validar en tiempo real los datos ingresados, según las reglas de negocio definidas en la creación de los formularios, según tipo de variables, maestras genéricas, maestras dinámicas, maestras de respuestas rápidas utilizadas durante el diseño del formulario dinámico. 
+Garantizar la trazabilidad de todos los cambios o actualizaciones de los datos registrados en el formulario.
+Habilitar la consulta y exportación de la información capturada, con filtros y formatos seguros (Excel, PDF, CSV), controlados por roles y perfiles.
+Deberá contener sus propios mensajes de notificaciones y alertas para determinar si se está rompiendo alguna de las validaciones requeridas, si falta diligenciar variables obligatorias e incluso preguntar si se realiza notificación por correo electrónico en caso de que capture datos de correos dentro de este (esta parametrización de opción de notificación de correo debe dejarse en la configuración del formulario desde la funcionalidad Creación y visualización de formularios dinámicos del módulo transversal.
+Permitirá exportar la sabana de datos del formulario dinámico y los relacionados recordando que un formulario dinámico puede tener N formularios relacionados que se adjuntaron en el principal para capturar otra información relacionada con el tema, como listas de chequeo, encuestas de satisfacción, lista de asistencia. Además de traer los datos de relacionados con personas salud, nombres y descripciones de maestras genéricas, dinámicas o repuesta rápidas que sean utilizadas en los formularios.
+
+
+Evolución y claridades de formularios dinámicos del módulo transversal:
+
+Se requiere ajustar o evolucionar algunas de las funcionalidades ya establecidas en la fase 1 que permitan mejorar dichas funcionalidades para que presten los servicios a los diferentes módulos del SIISMED, entre estas:
+
+El sistema deberá permitir crear en el formulario de datos, bloques con secciones y subsecciones para organizar la información que se requiere e ingresar el grupo de variables correspondientes a cada una de las secciones.
+
+Los formularios dinámicos deberán contar con tipo de dato que identifique si es: hallazgo, observación, conclusiones; donde los tipos de datos = hallazgo deberán tener una dependencia con la funcionalidad de actas dinámicas cuando exista relacionamiento del formulario con una de estas, para que de manera automática traslade los hallazgos formulados al acta de visita relacionada, y esta a su vez tomará los hallazgos propios del acta y los trasladados desde el formulario dinámico para generar un plan de mejoramiento según lo definido en la funcionalidad planes de mejoramiento del módulo transversal: cuando exista un formulario que no esté relacionado con un acta visita, el sistema deberá generar desde el formulario desde el cual se identificó uno o varios hallazgos para que genere un plan de mejoramiento desde el módulo transversal (el deber ser es que los planes de mejoramiento se deben generar desde hallazgos de visita ya sean dinámicas o funcionalidades propias de actas de visitas de los módulos); el sistema deberá garantizar que las variables identificadas como hallazgo, observación, conclusión, debe permitir agregar varios hallazgos, observaciones y conclusiones, generando un ID y descripción para cada uno de estos, donde el ID generado será el número del hallazgo que se genera dentro de este formulario, garantizando la integridad de los datos del ID del formulario y los IDs de cada una de estas variables.
+
+El sistema deberá permitir dependencia de datos que pueden estar asociados a una maestra genérica, maestra dinámica, maestra de respuestas rápidas y variable, mostrando únicamente el valor o valores asociados al dato, el cual deberá ser seleccionado desde el modelo de datos, funcionalidad de asistencia que el sistema debe garantizar. Por ejemplo, el sistema deberá permitir seleccionar el esquema de base de datos, la tabla de las maestras genéricas, dinámicas o de respuestas rápidas la variable. Para los casos que el tipo de dato sea dependencia de maestra, el formulario no solicitará la longitud del campo, los cuales deberá respetar según la definición de la maestra.
+
+Además, el sistema deberá contar con una estructura adicional por cada campo creado, permitiéndole seleccionar al campo el tipo de dato, longitud que es el estándar para crear una tabla y adicional permitirá adicionar un campo a la variable cuando se requiera cálculo, condición o criterio de validación de dependencia de maestras, el cual deberá permitir el uso de caracteres lógicos, matemáticos y de comparación, los cuales deberán interactuar de manera asistida con el modelo de datos dispuesto por el SIISMED permitiéndole al usuario administrador seleccionar el esquema de base de datos, la tabla, las variables que requiere utilizar en dicha condición. Por ejemplo: Cuando se realicen las validaciones, el sistema podrá exigir validación, variable: “Municipio de residencia” = ‘05001’; además el sistema deberá permitir configurar a cada una de las variables la dependencia con otras variables como por ejemplo, si se seleccionó la residencia con el criterio ‘05001’ esta variable tiene dependencia con la variable “Comuna” para que solo se habilite cuando se cumpla dicho criterio o condición lo que determina que en SIISMED en un formulario dinámico no preguntaríamos por comuna o barrio cuando el municipio de residencia sea diferente a Medellín, otro ejemplo sería crear la variable comuna que sería dependiente de barrio, el cual el sistema deberá clasificar que los barrios que se dispongan correspondan a la comuna seleccionada.
+
+
+Validación o condición calculada general, este campo deberá permitir por cada una de las variables poder ingresar una condición lógica que restringa el ingreso de datos al formulario, por ejemplo: el formulario creado será utilizado para el registro de adulto mayor para entrega de prótesis, donde se debe restringir que el sistema controle el ingreso de personas solo a mayores o iguales de 60 años.
+
+Por ejemplo: “Validación o condición calculada general” = (modulo_personas_salud.fecha_nac – fecha_actual) >= 60  
+
+Nota: Se entendería que con esta fórmula en el sistema no debe dejar ingresar registro de personas con una edad calculada < 60. Tener en cuenta que la variable fecha de nacimiento es arrastrada desde el modelo de datos SIISMED – modulo Personas salud y deberá contar con funcionalidades genéricas donde pueda seleccionar funciones matemáticas, lógicas como es la fecha actual, operadores matemáticos o condicionales y estadistcias (>,<,=,<>), buscando que el usuario reduzca el ingreso de datos manual y que sea por selección.
+
+Nota: Tener en cuenta que los campos tipo de dato texto, deberá garantizar el control de caracteres permitidos como son: 
+Permite letras del alfabeto español (A-Z, a-z, no incluir ñ y Ñ), no incluir vocales acentuadas (á, é, í, ó, ú y sus equivalentes en mayúscula), números cuando aplique y espacios en blanco entre palabras, no permitir espacios en blanco al inicio y final de la cadena de texto, solo se restringen caracteres especiales y símbolos no permitidos según la naturaleza del campo.
+
+El sistema deberá permitir agregar otra validación por variables para indicar que la variable requiere ciertas condiciones:
+
+Mostrar: Permite especificar las variables de visualización en el 		formulario dinámico
+
+Selección única: Si se selecciona esta opción, en la variable solo 		debe permitir al usuario seleccionar un único valor de la lista, que 		corresponde a la maestra seleccionada. 
+
+Selección múltiple: Si se selecciona esta opción, el sistema debe 		permitir al usuario seleccionar múltiples valores en dicha variable, 		que corresponde a la maestra seleccionada.
+
+La funcionalidad deberá permitir crear un encabezado en el diseño del formulario donde contenga el nombre y título del formulario y que se puedan insertar dos imágenes al lado derecho e izquierdo, esto se realiza en la parametrización y diseño de formularios. En caso de no seleccionar una o ninguna de las imágenes, el título deberá ajustarse a todo el ancho del formulario.
+
+La configuración y diseño de un formulario dinámico deberá permitir que, por cada variable creada, él pueda seleccionar unos tipos de datos específicos para los formularios, como son: 
+Tipo de dato
+Descripción 
+Validación
+
+Texto
+Para nombres o descripciones.
+Longitud máxima configurable. Información detallada del registro a parametrizar. Puede aceptar letras, números y caracteres especiales.
+
+Texto largo
+Para guardar párrafos completos.
+Longitud máxima configurable. Máximo 5.000 caracteres. Permite saltos de línea.
+
+Porcentaje
+Para representar valores porcentuales.
+Valores entre 0 y 100. Puede admitir decimales.
+
+Número
+Para cantidades o precios.
+Solo números enteros. Definir rango mínimo y máximo permitido.
+
+Latitud y longitud
+Para almacenar coordenadas geográficas.
+Formato válido de latitud y longitud. Captura automática o manual.
+
+Decimal
+Para números con decimales, ideal para trabajar con precios.
+Valores numéricos con precisión decimal configurable.
+
+Fecha
+Para registrar fechas específicas.
+Formato válido de fecha. Puede restringirse a fechas futuras o pasadas.
+
+Hora
+Para registrar hora exacta.
+Formato válido de hora. Puede capturarse automáticamente.
+
+Duración
+Permite almacenar intervalos o períodos de tiempo transcurrido entre dos eventos o actividades. Se utiliza para medir duración de procesos, tareas, visitas, auditorías o tiempos de respuesta.
+No admite valores negativos. Mayor que 0. 
+Debe registrarse en formato válido de duración (HH:MM:SS). Permite cálculos de suma, resta y comparación de tiempos. Puede definirse un rango mínimo y máximo según las reglas del proceso.
+
+Correo electrónico
+Para almacenar correos electrónicos.
+Debe cumplir formato estándar de correo electrónico y validación de dominio válido
+
+Teléfono
+Para almacenar números telefónicos.
+Solo números válidos según longitud definida. Puede incluir código de país.
+
+Precio
+Para representar valores monetarios.
+Valores numéricos positivos. Formato moneda configurado.
+
+Archivo
+Para adjuntar documentos.
+Formatos permitidos (.PDF, .DOCX, .XLSX, .ZIP según configuración). Tamaño máximo configurable: 25 MB.
+
+Dibujo
+Para crear dibujos o anotaciones directamente sobre una superficie en blanco dentro de la aplicación utilizando el dedo, lápiz digital o mouse
+Formato de imagen generado automáticamente. Tamaño máximo configurable.
+
+Imagen
+Para asociar fotografías a un registro.
+Archivos no superiores a 3 MB. Admite formatos .JPG, .PNG.
+
+URL
+Para almacenar enlaces web o links de otros formularios o actas.
+Debe permitir que las variables de este tipo, permitan agregar N formularios o N actas dinámicas o N links externos.
+
+Video
+Para almacenar o asociar videos.
+Formatos permitidos (.MP4, .MOV). Tamaño máximo configurable.
+
+XY
+Para almacenar coordenadas cartesianas X,Y.
+Debe contener dos valores numéricos válidos.
+
+Si/No
+Para respuestas binarias.
+Solo permite Verdadero/Falso o Sí/No.
+
+Firma
+Para capturar firmas digitales.
+Imagen generada por el usuario. Obligatoria cuando aplique.
+
+Dirección
+Para almacenar direcciones físicas.
+Texto válido. Puede complementarse con georreferenciación.
+
+Color
+Para seleccionar o almacenar colores.
+Formato hexadecimal (#RRGGBB) o selector de color (RGB).
+
+Hallazgo
+Tipo de variable texto que identifica un hallazgo encontrado.
+Variable que desencadena una acción en las actas de visita propias del módulo o actas de visita dinámicas para generar el consolidado de hallazgos en un plan de mejoramiento; deberá trasladar la descripción de hallazgos del formulario a las actas de visita. Si no se cuenta con acta, debe generar desde el formulario dinámico.
+
+Observación
+Tipo de variable texto que identifica una observación encontrada.
+Longitud máxima configurable, mínimo de 50 caracteres. Permite texto descriptivo, Permite letras del alfabeto español (A-Z, a-z, no incluir ñ y Ñ), no incluir vocales acentuadas (á, é, í, ó, ú y sus equivalentes en mayúscula), números cuando aplique y espacios en blanco entre palabras, no permitir espacios en blanco al inicio y final de la cadena de texto, solo se restringen caracteres especiales y símbolos no permitidos según la naturaleza del campo.
+
+Conclusiones 
+Elementos positivos evidenciados que contribuyen al cumplimiento de los objetivos y al adecuado desempeño del proceso.
+Longitud máxima configurable, mínimo de 50 caracteres. Permite texto descriptivo, Permite letras del alfabeto español (A-Z, a-z, no incluir ñ y Ñ), no incluir vocales acentuadas (á, é, í, ó, ú y sus equivalentes en mayúscula), números cuando aplique y espacios en blanco entre palabras, no permitir espacios en blanco al inicio y final de la cadena de texto, solo se restringen caracteres especiales y símbolos no permitidos según la naturaleza del campo.
+
+Maestra genérica
+Corresponde a funcionalidad del módulo transversales utilizado en todo el SIISMED.
+Cuando se seleccione este tipo de datos debe habilitar el campo selección de la variable de la maestra seleccionada que se va a utilizar en la visualización de datos del formulario, almacenando en la transacción el ID del registro seleccionado. No debe preguntar por la longitud del campo.
+
+Maestra dinámica
+Corresponde a funcionalidad del módulo transversales utilizado en todo el SIISMED.
+Cuando se seleccione este tipo de datos debe habilitar el campo selección de la variable de la maestra seleccionada que se va a utilizar en la visualización de datos del formulario, almacenando en la transacción el ID del registro seleccionado. No debe preguntar por la longitud del campo.
+
+Maestra de respuestas rápidas
+Corresponde a funcionalidad del módulo transversales utilizado en todo el SIISMED.
+Cuando se seleccione este tipo de datos debe habilitar el campo selección de la variable de la maestra seleccionada que se va a utilizar en la visualización de datos del formulario, almacenando en la transacción el ID del registro seleccionado. No debe preguntar por la longitud del campo.
+
+
+Además, el sistema deberá permitir en la configuración de cada una de las variables, las siguientes opciones: 
+Si el campo es de carácter obligatorio, en caso de que se marque 		como obligatorio, en el formulario deberá mostrar dichos campos 		con un asterisco en color rojo.
+
+Campo Dependencia, este campo habilitará la necesidad de que esta variable interactúe con otro campo dentro del mismo formulario, donde le permitirá al diseñador seleccionar el nombre del campo que requiere la dependencia, para el ejemplo anterior, cuando se cumplen los criterios de validación, este habilitara el campo de comuna si cumple municipio de residencia = 05001. Para el campo de comuna, este tendrá una dependencia con el campo Barrios, esto indica que solo mostrará los barrios que pertenezcan a dicha comuna acorde con lo definido en la condición o validación de los criterios de dependencia.
+
+Criterio o condición de dependencia, este campo permite ingresar una fórmula matemática, lógica o comparativa para determinar si aplica la dependencia, por ejemplo, para el criterio de residencia la formula sería:
+Campo dependencia = Sí
+Nombre campo dependiente = “Comuna”.
+Criterio de dependencia = “Municipio de residencia” = ‘05001’.
+
+Nota: Estos tres campos deberán indicar al sistema que cualquier registro al cual se le ingrese valor diferente a 05001 del municipio de residencia no deberá habilitar la variable “Comuna”, recordar que la generación de los criterios, condiciones o formulas, el sistema deberá contar con una funcionalidad que facilite dicha configuración mediante la selección directa en el modelo de datos de bases de datos, tablas, variables y procedimientos almacenados, el sistema deberá tener una funcionalidad de verificación de dichas condiciones o fórmulas para validar que la sintaxis es correcta en el SIISMED, no deberá permitir guardar un formulario con condiciones o fórmulas que no cumplan con los criterios seleccionados.
+
+El sistema deberá permitir clasificar cuales variables del formulario deben estar visibles en la funcionalidad de informe preliminar en word (dentro de las actas dinámicas en el módulo transversal).
+
+El sistema deberá contar con una funcionalidad de semaforización, adicionando 6 variables que determinen las condiciones o fórmulas que le aplican a la semaforización de dicho formulario y los colores del riesgo o semaforización requeridos para cada una de las variables que se utilizarían en el formulario de datos, entre los campos adicionales que se configurarían para la estructura de datos en cada una de las variables para el tema de la semaforización son: 
+
+Semaforización Riesgo Bajo = Consiste en el campo calculado de una formula o condición con el uso de operadores lógicos, matemáticos, de comparación para establecer el criterio de cuando una variable está en riesgo Bajo
+Color Semaforización Riesgo Bajo: Corresponde al código RGB o hexadecimal del sistema de colorimetría para configurar dentro de la visualización de las parrillas o tableros los registros según esta semaforización.
+Semaforización Riesgo Medio = Consiste en el campo calculado de una formula o condición con el uso de operadores lógicos, matemáticos, de comparación para establecer el criterio de cuando una variable está en riesgo Medio.
+Color Semaforización Riesgo Medio: Corresponde al código RGB o hexadecimal del sistema de colorimetría para configurar dentro de la visualización de las parrillas o tableros los registros según esta semaforización.
+Semaforización Riesgo Alto = Consiste en el campo calculado de una formula o condición con el uso de operadores lógicos, matemáticos, de comparación para establecer el criterio de cuando una variable está en riesgo Alto.
+Color Semaforización Riesgo Alto: Corresponde al código RGB o hexadecimal del sistema de colorimetría para configurar dentro de la visualización de las parrillas o tableros los registros según esta semaforización.
+
+Por ejemplo: La variable que se requiere configurar para semaforización es la Calificación – Nivel Desarrollo, donde la pregunta o criterio de evaluación su resultado es 1. El sistema se deberá configurar de la siguiente manera: 
+
+Semaforización Riesgo Alto, la formula sería: “Calificación – Nivel Desarrollo” >=1 and <3
+Color Semaforización Riesgo Alto: El código RGB requiere que ingrese los números de rojo, verde y azul, por ejemplo: Rojo=252, verde=14 y azul=8. Esto corresponde a color rojo, si se selecciona la opción de código hexadecimal, el usuario ingresaría el siguiente código para el color rojo = #FC0E08.
+
+Semaforización Riesgo Medio, la formula sería: “Calificación – Nivel Desarrollo” >=3 and <4
+Color Semaforización Riesgo Medio: El código RGB requiere que ingrese los números de rojo, verde y azul, por ejemplo: Rojo=235, verde=240 y azul=20. Esto corresponde a color rojo, si se selecciona la opción de código hexadecimal, el usuario ingresaría el siguiente código para el color rojo = #EBF014.
+
+
+Semaforización Riesgo Bajo, la formula sería: “Calificación – Nivel Desarrollo” >=4.9
+Color Semaforización Riesgo Bajo: El código RGB requiere que ingrese los números de rojo, verde y azul, por ejemplo: Rojo=54, verde=188 y azul=70. Esto corresponde a color rojo, si se selecciona la opción de código hexadecimal, el usuario ingresaría el siguiente código para el color rojo = #36BC46
+
+El sistema debe permitir seleccionar el tipo de código a ingresar RGB o código hexadecimal.
+
+
+El sistema deberá contar con una herramienta parametrizable para que cada una de las variables pueda tener texto de ayuda o información, tipo tooltip que es un pequeño cuadro emergente que proporciona información adicional sobre un elemento de la interfaz cuando el usuario interactúa con él, generalmente al pasar el cursor o mantener presionado en pantallas táctiles. 
+
+Además, permitirá incluir una ayuda en vista miniatura –Thumbnail. Permitiendo adicionar un texto de ayuda o aclaración del registro de la variable similar a un tooltip adicional.  Admite formatos .JPG, .PNG. Tamaño recomendado menor a 1 MB.
+
+El formulario dinámico deberá permitir relacionar N formularios dinámicos o N actas dinámicas según aplique, garantizando la relación de estos formularios a través de los ID de cada uno de ellos que posibilitará la extracción de datos completa de toda la transacción que se realice, la cual deberá estar disponible para la generación de reportes dinámicos, tableros dinámicos, mapas del módulo transversal, y también deberán estar disponibles para ser utilizados en las fichas de indicadores para la definición de numerador, denominador, campo de condición o formula del módulo de indicadores.
+
+En la variable Fecha_FinVigencia, el sistema debe permitir que sea opcional y en caso de que no se especifique fecha fin de vigencia del formulario, este quedará activo.
+
+Permitir inactivar campos de un formulario en producción, los campos inactivos no se deben visualizar, y deberá mantener un historial de versionamiento por cada formulario que sea modificado respecto a su estructura inicial. 
+
+El sistema deberá permitir parametrizar, para cada una de las variables definidas en el formulario, si sus valores deben ser incluidos en el cálculo de la sumatoria total. Cuando una variable sea marcada para sumatoria, el sistema deberá acumular automáticamente los valores registrados y mostrar al final del formulario el resultado total obtenido. Adicionalmente, el sistema deberá trasladar al acta la calificación correspondiente a la sumatoria total del formulario y generar estadísticas descriptivas sobre las variables parametrizadas para análisis, seguimiento y control. Como mínimo, deberá calcular y visualizar la estadística descriptiva de las variables seleccionadas, el promedio de valoración (no incluye en el conteo del promedio los valores iguales a 0), la mediana, la calificación mínima, la calificación máxima, la moda y la desviación estándar de cada variable evaluada.
+
+El sistema deberá permitir contar con una variable para especificar si cada criterio aplica o no aplica. Cuando el resultado de una variable corresponda a N/A (No Aplica), el sistema deberá realizar una imputación de datos en la variable calificable y que tenga dependencia asignándole un 0 en dicha calificación, por lo que este registro no se contaría para los datos requeridos en la estadística descriptiva, la cual deberá ser generada siempre como un anexo a cada uno de los formularios y adicional a ello deberá permitir calcular una estadística descriptiva general de todos los formularios relacionados al formulario dinámico principal.
+
+El sistema debe permitir generar un reporte en formato vertical tipo texto en .Word o .pdf donde se muestre la información segmentada por cada uno de los registros ingresados al formulario de datos y a los anexos de las variables que estén marcadas para informe preliminar, realizando salto de página por cada uno de los registros generados, esta funcionalidad quedará sujeta a roles y permisos asignados al usuario.
+
+
+Nota: Las variables utilizadas en el formulario que no requieran 		configuración de fórmulas o dependencias, se dejarán en blanco y 		el formulario no tendrá ninguna restricción en su uso.
+
+Razón /Resultado. 
+
+Facilitar el uso operativo de los formularios dinámicos como herramientas de captura y gestión de datos en tiempo real, asegurando calidad, disponibilidad y trazabilidad de la información para la toma de decisiones en el SIISMED.
+
+Criterios de Aceptación
+
+N. Criterio 
+
+1
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Existen formularios dinámicos creados y asignados a un módulo (Creación y visualización de Formularios dinámicos del módulo transversal).
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Un usuario con permisos accede al módulo.
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema muestra la lista de formularios disponibles para su módulo especifico.
+
+N. Criterio 
+
+2
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Un formulario tiene validaciones y reglas de negocio definidas.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario diligencie la información
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+Se aplican todas las validaciones y reglas, impidiendo guardar datos incompletos o con formato incorrecto.
+
+N. Criterio 
+
+3
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+El formulario contiene campos dependientes o condicionales.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se cumplen las condiciones configuradas
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+Se muestran u ocultan campos de acuerdo con las reglas establecidas.
+
+N. Criterio 
+
+4
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+El usuario guarda la información ingresada
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se confirme el guardado de la información 
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema registra un identificador único para el formulario, el usuario, la fecha, estado activo/inactivo del formulario que por defecto deberá estar activo y permitirá al administrador del sistema inactivarlo, y asocia la información ingresada al módulo correspondiente, este identificador único debe relacionarse con el identificador único de cada formulario para poder garantizar el relacionamiento de los N formularios que tenga el formulario padre y su hijo.
+
+N. Criterio 
+
+5
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere editar campos antes de cerrar definitivamente la información
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario edite el formulario
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema le permite visualizar la información almacenada en formulario dinámico, actualizar los datos que se requiere y guardar, según los roles y permisos asignados al usuario.
+
+N. Criterio 
+
+6
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Se requiere consultar o exportar la información capturada.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+El usuario ingrese al historial 
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema permite filtrar, visualizar en pantalla y exportar en formatos Excel, PDF, CSV, XML o JSON toda la información del formulario, relacionada con las diferentes maestras de las funcionalidades que se utilizan como referencia.
+
+Por lo general, los formularios deberán integrarse con el módulo de personas de salud para crear una nueva persona o utilizar datos ya existentes. El formulario en sí almacenará la llave (tipo y número de documento y otras variables que se requieran almacenar del módulo personas salud porque son críticas y se actualizan en el tiempo); sin embargo, al extraer las variables del formulario, se deberán obtener también los datos de caracterización asociados a dicha persona, así como el de las maestras del módulo transversal que sean utilizadas 
+
+De igual manera, para las maestras genéricas, dinámicas y respuestas rápidas, el formulario almacenará el ID relacionado con la maestra correspondiente, pero al generar el archivo exportable deberá incluirse el ID, el nombre y la descripción de dicha maestra. Esto será adicional a todas las variables propias del formulario.
+
+Todo lo anterior deberá garantizar que el sistema pueda articularse con los roles y permisos, de modo que desde allí se determine si un formulario dinámico creado por un usuario puede ser exportado, creado, editado o inactivarlo.
+
+N. Criterio 
+
+7
+Dado que. 
+(estado previo o contexto en el sistema),
+
+
+Cada formulario debe generar alertas y notificaciones, según las validaciones de estructura, tipos de datos y reglas de negocio definidas en el formulario diseñado.
+
+
+Cuando
+(el comportamiento o acción),
+
+
+Se ingrese al formulario y se incumplan estas condiciones durante el diligenciamiento, cuando se ingrese a una variable que tenga código de notificación
+
+
+Entonces
+(cambios o respuesta del sistema)
+
+
+El sistema debe validar que la parametrización de condición, criterio o formula de ese código de notificación, se cumpla para generar la notificación, en caso contrario no genera la notificación, esto permite que desde un mismo formulario se puedan generar varias notificaciones (por pantalla, correo o ambos).
+
+Anexos: 
+
+
+Tipo de anexo
+Si
+NO
+Nombre de anexo (En caso de escribir que si existe)
+
+Flujograma
+
+x
+
+
+Documentos específicos (instructivos, guías, manuales, procedimientos, lineamientos)
+
+x
+
+
+Diccionario de datos
+
+x
+
+
+Listados, formatos tablas, reportes
+
+x
+
+
+Otros: cual
+
+x
+
+
+
+
+
+

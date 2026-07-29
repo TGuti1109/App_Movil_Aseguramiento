@@ -1,0 +1,742 @@
+﻿
+ FORMATO DE ELICITACIÓN DE REQUISITOS DE SOFTWARE
+Información para ser diligenciada por la Subsecretaría de Tecnología y Gestión de la Información
+
+PROYECTO
+SIISMED – Módulo de Aseguramiento
+
+ÁREA USUARIA
+Subsecretaría de Gestión de Servicios de Salud 
+
+CONTACTO ÁREA USUARIA
+Nombre:
+
+Obyalin Del Carmen Morales Romero (Subsecretaria Gestión de Servicios de salud) 
+
+Fabián Ibarra Ruíz (Líder de Aseguramiento)
+
+Julio Cesar Suárez Álvarez (Líder de Programa de la UGIC)
+
+
+
+
+Teléfono:
+Extensiones: *6414 – 6436 - 9551 – 7302 – 7296 - 5090
+
+
+E-mail:
+obyalin.morales@medellin.gov.co
+fabian.ibarra@medellin.gov.co,
+julio.suarez@medellin.gov.co,
+
+
+CONTACTO SUBS. CIUDADES INTELIGENTES
+Nombre:
+
+
+
+Teléfono:
+
+
+
+E-mail:
+
+
+PRIORIDAD:
+[ X]  Alta
+[   ]  Media
+[   ]  Baja
+FECHA DE APROBACIÓN
+
+DD / MM / AAAA
+
+
+
+
+
+
+Información para ser diligenciada por el área usuaria
+
+PRESENTACIÓN
+
+La aplicación de Aseguramiento en Salud es una herramienta tecnológica desarrollada por la Secretaría de Salud que brinda a la ciudadanía un acceso ágil, seguro y confiable a la información sobre su afiliación al sistema de salud, su clasificación en el SISBÉN IV y su pertenencia a listados censales. Asimismo, la aplicación facilita la consulta del estado de aseguramiento y orienta al ciudadano en la gestión de trámites.
+
+PROBLEMA, NECESIDAD, OPORTUNIDAD A RESOLVER
+
+Se requiere contar con una herramienta tecnológica que permita a la ciudadanía consultar y disponer de la información relacionada con su aseguramiento en salud, así como facilitar el acceso a trámites asociados que puedan ser gestionados directamente por el ciudadano
+
+OBJETIVOS
+
+Desarrollar una aplicación móvil en la Secretaría de Salud del Distrito Medellín que permita a los ciudadanos consultar de manera ágil, segura y transparente su información de aseguramiento en salud como estado de afiliación, régimen, SISBEN, pertenencia a listados censales, integrando en un solo espacio datos actualizados y confiables.
+Objetivos específicos
+Garantizar un acceso seguro a la aplicación mediante registro e inicio de sesión en asegurando la autenticación y protección de datos personales.
+Permitir a los ciudadanos consultar su estado actual de afiliación al sistema de salud en los regímenes subsidiado o contributivo, el estado actual en el Sisbén IV y su estado actual en los listados censales.
+Incorporar una funcionalidad para gestionar tramites de aseguramiento en salud dentro del distrito que brindando una rata y orientación al ciudadano.
+
+
+ALCANCE
+
+El desarrollo contempla el diseño e implementación de una aplicación móvil integrada al SIISMED que pondrá a disposición a la ciudadanía residente en el distrito, con el fin de facilitar la consulta y algunos trámites asociados a la afiliación en salud.
+
+
+
+REQUISITOS FUNCIONALES (FR)
+
+
+Los requisitos funcionales que se deben desarrollar son:
+La aplicación debe permitir el acceso únicamente a ciudadanos registrados en el portal del SIISMED de la Alcaldía de Medellín, validando sus. En caso de no estar registrado, debe redirigir al portal correspondiente para completar el registro.
+La APP debe permitir al ciudadano consultar su estado actual de afiliación en el Sistema General de Seguridad Social en Salud indicando si pertenece al régimen contributivo o subsidiado, al SISBEN, incluyendo puntaje y clasificación vigentes y verificar si el ciudadano se encuentra incluido en los listados censales vigentes de la Secretaría de Salud.
+
+La aplicación debe incluir un módulo informativo con guías, pasos, requisitos y enlaces de interés sobre los diferentes trámites relacionados con el aseguramiento en salud, permitiendo su actualización por parte del administrador.
+
+La aplicación debe incluir una funcionalidad que permita al ciudadano conocer y gestionar los principales trámites relacionados con el aseguramiento en salud dentro del distrito
+
+
+
+
+DIAGRAMA DE FLUJO 
+
+
+
+GLOSARIO
+
+
+
+
+
+ANEXOS
+
+
+
+Información para ser diligenciada por un servidor (profesional o técnico) de la Subsecretaría de Tecnología y Gestión de la Información
+
+DESCRIPCIÓN DE LOS GRUPOS USUARIOS DEL SISTEMA
+
+
+
+REQUISITOS NO FUNCIONALES (NFR)
+
+1. Disponibilidad:
+
+Acceso a través del SIISMED:
+El módulo debe estar disponible a través del SIISMED del Distrito de Medellín, desde el cual se iniciará sesión (previo registro y autenticación), este deberá permitir redireccionar a la página principal del SIISMED para seleccionar el módulo correspondiente según permisos asignados al usuario o entidad.
+Alta Disponibilidad:
+El sistema debe estar disponible el 99.9% del tiempo, excluyendo los periodos programados de mantenimiento. Debe ser capaz de recuperarse rápidamente de fallos o interrupciones, minimizando el tiempo de inactividad.
+
+2. Integración:
+
+Integración con SIISMED:
+Cada módulo debe estar completamente integrado con el SIISMED, facilitando la integración y el intercambio de datos entre los diferentes módulos, API ’s y datos del SIISMED.
+Cumplimiento con Lineamientos:
+La implementación de la solución debe cumplir con los lineamientos establecidos por la Secretaría de Innovación Digital del Distrito de Medellín.
+
+Gestión documental:
+La gestión de documentos electrónicos debe permitir una preservación digital a largo plazo de todos los documentos generados o gestionados en los diferentes procesos del SIISMED para la Secretaría de Salud de Medellín, en relación con los temas de gestión documental digital, éste deberá ser integrado con los servicios y políticas de gestión documental del Distrito de Medellín.
+
+3. Seguridad: 
+
+Modelo de Seguridad:
+Utilizar cookies jwt_token_SIISMED y user_SIISMED para la autenticación centralizada y autorización de usuarios, garantizando la confidencialidad, integridad y disponibilidad de la información. Anexo API Modelo de Seguridad del SIISMED.pdf
+Gestión de Roles y Permisos:
+El módulo debe permitir la navegación de los usuarios según la asignación de roles y permisos asignados por medio de la API de seguridad del SIISMED, usando integración del módulo por medio de cookies jwt_token_SIISMED y user_SIISMED. Anexo API Modelo de Seguridad del SIISMED.pdf
+Controles de seguridad:
+Implementar restricciones por medio de permisos de los usuarios las opciones de consulta, insercción, edición, activación, modificación e impresión de información en el módulo.
+
+
+Cifrado y Protección de Datos:
+Todos los datos sensibles deben ser encriptados tanto en tránsito como en reposo, cumpliendo con el Manual interno de procedimientos para la protección de datos personales del Distrito de Medellín.
+Auditoría y Monitoreo:
+Se debe generar un log y registro de auditoría del uso de los módulos (usuario, acción realizada, dirección IP, fecha y hora) y administrar la configuración de cierre de sesión por inactividad.
+
+
+El proveedor debe suministrar los certificados digitales requeridos para la seguridad de la navegación en el aplicativo web y APP, los cuales en su debido momento pueden ser requeridos por la Secretaría de Innovación Digital.
+
+
+El proveedor debe certificar a través de un tercero, la realización de actividades de identificación de vulnerabilidades sobre el sistema de información desarrollado y la realización de las remediaciones necesarias para preservar la confidencialidad, integridad y disponibilidad de la solución requerida.
+
+Las IP no pueden quedar quemadas en el código, se deben hacer referencias a nombres de dominio o variables parametrizables
+
+4. Rendimiento:
+
+Manejo de Carga:
+El módulo debe manejar de manera eficiente y rápida la carga de trabajo esperada, sin experimentar retrasos significativos en la respuesta o en el procesamiento de datos. Debe manejar un alto volumen de usuarios y transacciones simultáneas.
+
+5. Usabilidad:
+
+Diseño Adaptable (Responsive):
+El módulo de información debe ser desarrollado con un diseño adaptable (responsive), garantizando así una experiencia óptima en diversos dispositivos y debe funcionar en los navegadores principales como Google Chrome, Mozilla Firefox y Microsoft Edge, en las últimas versiones publicadas al momento de iniciar el desarrollo.
+Interfaz de Usuario Intuitiva:
+El módulo debe ser intuitivo y fácil de usar para los usuarios finales, minimizando la curva de aprendizaje y la necesidad de capacitación extensiva. Los estilos y usabilidad del sistema de información deben seguir los lineamientos definidos por la Secretaría de Comunicaciones del Distrito de Medellín, de acuerdo al Libro de marca del Distrito de Medellín.
+
+6. Escalabilidad:
+
+Adaptabilidad y Crecimiento:
+El módulo debe ser capaz de adaptarse y crecer para manejar un aumento en la carga de trabajo y el número de usuarios sin perder rendimiento. Debe ser fácilmente escalable y permitir la incorporación de nuevos módulos o funcionalidades según sea necesario.
+
+7. Mantenibilidad:
+
+Modularidad:
+El módulo debe ser modular para facilitar el mantenimiento y la evolución futura, permitiendo cambios sin afectar el funcionamiento general del desarrollo.
+Documentación:
+Toda la funcionalidad del módulo debe estar debidamente documentada para facilitar la comprensión y el mantenimiento futuro.
+Cumplimiento de estándares y buenas prácticas: 
+El módulo debe cumplir con estándares y buenas prácticas de desarrollo de software, siguiendo principios de modularidad, mantener un código limpio y legible, comentar todo el código fuente en español y aplicar pruebas exhaustivas para garantizar la calidad del software cumpliendo con los lineamientos establecidos por la Secretaría de Innovación Digital del Distrito de Medellín.
+
+8. Cumplimiento Normativo:
+
+Regulaciones y Normativas:
+El módulo debe cumplir con las regulaciones y normativas vigentes en el ámbito de la salud y la protección de datos. Debe estar alineado con las leyes y políticas de tratamiento de datos, privacidad y seguridad de la información, así como con las normas y estándares establecidos.
+
+
+9. Eficiencia en el Consumo de Recursos:
+
+Optimización de Recursos:
+El módulo debe utilizar de manera eficiente los recursos del hardware y software de la infraestructura del Distrito de Medellín. Debe minimizar el consumo de memoria, procesamiento y ancho de banda, optimizando el rendimiento y reduciendo costos operativos.
+
+10. Ingeniería de requisitos.
+
+Se debe realizar el proceso de ingeniería de requisitos de toda la documentación, artefactos y anexos entregados del proyecto AseguramientoMed, garantizando la revisión, actualización o creación de nuevos artefactos para su aprobación por medio de mesas de trabajo con el área usuaria de la Secretaría de Salud.
+INFRAESTRUCTURA
+El proveedor debe contar con la infraestructura y recursos informáticos propios para los ambientes de desarrollo y pruebas, no obstante, se debe articular con la Secretaría de Innovación Digital para la estandarización de plantillas base para la implementación.
+
+SOPORTE
+Soporte técnico y mantenimiento de la plataforma por seis (6) meses a partir de la entrada en producción, en ambiente, estabilización del sistema, corrección de campo frente a las experiencias de usuarios y producción controlada, por niveles de servicio establecidos y de manera presencial cuando se requiera disponibilidad para la transferencia de conocimiento a diferentes usuarios de los subsistemas, a la Secretaría de Innovación Digital y Secretaría de salud. El proveedor establecerá el tipo de incidente, horario de atención, el tiempo de respuesta y el tiempo de solución según niveles de fallas. Se requiere mínimo los siguientes requerimientos:
+
+
+Tipo Incidente
+Horario
+Tiempo Respuesta
+Tiempo Solución
+
+Crítica
+5x10
+1 Hora
+2 Horas
+
+Intermedia
+5x10
+2 Horas
+6 Horas
+
+Leve
+5x10
+8 Horas
+12 Días
+
+Consulta
+5x10
+24 horas
+10 Días
+
+
+
+PRIORIDAD
+DEFINICIÓN
+
+Fallas Críticas
+Se entiende como falla crítica, la falla continua del servicio o una degradación severa en el desempeño que impida totalmente la utilización de las funcionalidades de la solución.
+
+Fallas Intermedias
+Se entiende como falla intermedia, la falla continua del servicio o de sus componentes que limite el servicio de cualquiera de sus funcionalidades así:
+ 
+Incluye defectos, problemas o anomalías serias en el sistema o solución, o en un componente de la misma, que causan o crean la posibilidad de que el sistema, o dicho componente o una característica o funcionalidad importante opere con disturbios, se experimente degradación del servicio o de su desempeño (performance), o pérdida de capacidad del mismo. Este tipo de defectos serios pueden resultar en fallas que afecten la operación, el mantenimiento o disminuyan el nivel de desempeño, de forma que pueden surgir reclamos del usuario o significante carga de trabajo para el equipo de mantenimiento u operación. Bajo esta condición es posible operar la solución, pero con afectación de su capacidad.
+
+Fallas Leves
+Se entiende como falla leve, la falla continua del servicio o de sus componentes que limite el servicio de cualquiera de sus funcionalidades así:
+ 
+Incluye defectos menores, problemas o anomalías en la solución, en un producto o componente de la misma, que no afectan el desempeño de la solución o el componente, su servicio o su operación, pero que representan una desviación con respecto a las especificaciones o errores menores con respecto a la documentación. 
+ 
+Bajo esta condición la solución es operativa totalmente.
+
+Consultas
+Se utiliza para consultas generales y problemas menores que puedan tener un bajo efecto en la funcionalidad de la herramienta y factibilidad de nuevos desarrollos.
+
+
+
+
+REQUISITOS ESPECIFICOS DE INFORMACIÓN
+
+
+
+REQUISITOS EXCLUIDOS
+
+
+
+
+REQUISITOS DE RESTRICCIÓN
+
+1. Motor de Base de Datos:
+PostgreSQL:
+El motor de base de datos debe ser PostgreSQL en las versiones vigentes que estén instaladas en el Distrito de Medellín al momento del inicio del proyecto. Para la creación de las estructuras de tablas, funciones, procedimientos y otros recursos de modelación de la base de datos, se deben ajustar a los lineamientos establecidos por la Secretaría de Innovación Digital (SID) según el numeral 2.4 Almacenamiento (Anexo LineamientosSIDV4). La solución debe permitir que, al actualizar la versión del motor de base de datos, la aplicación no requiera cambios sustanciales.
+2. Arquitectura:
+Microservicios:
+La solución debe ser implementada en una arquitectura de microservicios con accesos seguros a través de token, que permite una disposición de servicios desplegados de forma independiente. Esto asegura una mejor gestión y escalabilidad del SIISMED. Se debe cumplir con los lineamientos establecidos por la SID, numeral 2.3 Arquitectura de sistemas de información.
+Portabilidad y Estándares de Programación:
+La solución debe seguir los criterios de portabilidad y estándares de programación definidos por la SID, garantizando que la aplicación se ejecute en contenedores Docker y Kubernetes basados en OpenShift.
+Se debe usar los contenedores de aplicaciones establecidos según lineamientos de la Secretaría de Innovación Digital al momento de iniciar el desarrollo.
+
+3. Lenguajes de Programación:
+Lenguaje de programación interpretado, entorno NodeJS con el framework AdonisJS para el backend y la biblioteca React para el frontend.
+4. Buenas Prácticas de Programación:
+Programación Orientada a Objetos (POO):
+Usar POO, asegurando alta cohesión y bajo acoplamiento para mantener un código modular y fácil de mantener.
+Estructuras de Control:
+Evitar bloques de control no estructurados y mantener una lógica clara y sencilla.
+Identificación de Variables:
+Identificar correctamente las variables y su alcance, asegurando una clara comprensión y mantenimiento del código.
+Algoritmos y Estructuras de Datos:
+Crear algoritmos y estructuras de datos adecuados para el problema a resolver, optimizando el rendimiento del sistema.
+Simplicidad y Claridad:
+Mantener la lógica del código lo más sencilla posible, documentar y comentar adecuadamente el código fuente en español, siguiendo las mejores prácticas de Clean Code.
+5. Estándares de Integración:
+API REST:
+Todos los elementos de integración deben implementarse con el estándar de API REST utilizando la metodología de OpenAPI y Swagger.
+Actualización de Componentes:
+Mantener actualizados los plugins, librerías y componentes para mejorar el rendimiento y la seguridad de los sistemas.
+6. Servicios Geográficos:
+Disponibilidad:
+Los servidores geográficos disponibles en el datacenter del Distrito de Medellín son GeoServer y ArcGIS Enterprise, garantizando la compatibilidad y disponibilidad de servicios geográficos.
+Integración:
+Las funcionalidades que requieren georreferenciación en los módulos, deben estar integrados y hacer uso del servicio de MapGIS para Georreferenciación de los sistemas de información del Distrito de Medellín. Anexo Documento servicios Geocod Jsondir V2.pdf
+7. Cumplimiento Normativo y Seguridad:
+Protección de Datos:
+Cumplir con los lineamientos de seguridad y tratamiento de datos del Distrito de Medellín, siguiendo el Manual interno de procedimientos para la protección de datos personales del Distrito de Medellín.
+Anonimización de Datos:
+Aplicar la guía de anonimización de datos estructurados según la necesidad de información y finalidad del mismo.
+8. Transferencia de Conocimiento:
+Capacitación:
+Realizar la transferencia de conocimiento en la instalación, configuración, administración y puesta en producción de la aplicación al personal de la Secretaría de Innovación Digital y Secretaría de Salud, asegurando una correcta adopción y manejo del sistema, por un total de 100 horas, adicionalmente, se deberá dejar grabaciones de ayuda y guía de cada subsistema para cada uno de los actores del mismo, la distribución de las horas en relación con el tipo de capacitación técnica o funcional será definidas por la Secretaría de Salud de acuerdo a las necesidades de la entidad.
+Realizar la cesión de los derechos patrimoniales de autor del aplicativo, de cada uno de los desarrollos que aplique, donde la propiedad intelectual y todos los derechos patrimoniales sobre los estudios, documentos, códigos fuentes y software desarrollado será de propiedad de la Alcaldía de Medellín.
+
+Mesas de trabajo:
+Se deben establecer mesas de trabajo con la Secretaría de Innovación Digital y la Secretaría de salud de Medellín, para realizar en conjunto despliegue, control de cambios, instalación y configuración de bases de datos y aplicación.
+
+9. Documentación y Entregables:
+Inicio del Proyecto:
+User Story Mapping aprobado
+Backlog del producto aprobado
+Historias de usuario aprobadas y Validadas con el área usuaria de la SSDM
+Finalización del Proyecto (Pruebas en ambiente preproductivo del Distrito de Medellín):
+Documento de arquitectura del sistema de información
+Catálogo de Microservicios implementados y Microservicios Core que se usaron (Anexo Catalogo SI v2.xlsx)
+Catálogo de servicios de Interoperabilidad (Anexo Catalogo SI v2.xlsx)
+Catálogo de servicios de integración con aplicaciones internas (Anexo Catalogo SI v2.xlsx)
+Diagrama Modelo entidad relación
+Diccionario de datos de acuerdo al numeral 3.4.2 de lineamientos de la Secretaría de Innovación Digital
+Entrega de código fuente documentado en español y aprobado por el delegado de la Secretaría de Innovación Digital
+Documento de diseño de pruebas
+Evidencia de pruebas (pruebas unitarias, pruebas de integración, pruebas funcionales)
+Pruebas de rendimiento (Concurrencia, Carga, estrés, volumen, resistencia, entre otros)
+Manual de usuario final
+Manual Técnico de parametrización y configuración
+Manual de despliegue
+Información diligenciada del catálogo de sistemas de información del Distrito de Medellín Anexo Catalogo SI v2.xlsx
+Desde el primero
+NOTA: Al momento de realizar la entrega de la documentación, se debe tener en cuenta el último lineamiento de la Secretaría de Innovación Digital.
+En la documentación y en el desarrollo del subsistema se debe tener en cuenta:
+Lineamientos sobre adquisición, desarrollo y uso de las Tecnologías de la Información y las Comunicaciones en la Alcaldía de Medellín. 
+Estándar de Variables Unificadas para la Caracterización de Beneficiarios (personas naturales) 
+
+
+10. Articulación con el SIISMED:
+Integración de Microservicios:
+El módulo de información resultante debe estar articulado con el SIISMED y ajustarse a las estructuras de datos transversales del SIISMED, configurándose como un esquema dentro de la base de datos SIISMED.
+Compatibilidad de Microservicios:
+Se debe tener en cuenta los microservicios del SIISMED y los microservicios Core del Distrito de Medellín, asegurando su articulación con la solución desarrollada según sea pertinente.
+
+
+MATRIZ DE RELACIONES REQUISITOS vs OBJETIVOS ESPECÍFICOS
+
+# Requerimiento
+Objetivos
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+
+1
+x
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2
+
+x
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3
+
+
+x
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+13
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+18
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DIAGRAMA DE CONTEXTO
+
+
+
+
+
+

@@ -1,0 +1,1480 @@
+<title>APP Aseguramiento en Salud — Estructura y Prototipo</title>
+<!--
+  ÍNDICE DEL ARCHIVO
+  ==================
+  1. <style>  → CSS, organizado en 20 bloques numerados (ver índice al inicio del <style>)
+  2. <script data-theme>  → aplica tema claro/oscuro antes de pintar (evita parpadeo)
+  3. <div class="wrap">   → HTML, en 3 partes:
+       a) Encabezado de página (título + descripción)
+       b) Panel izquierdo — mapa de estructura por épica (trazabilidad a las HU)
+       c) Panel derecho — prototipo de teléfono navegable (6 pantallas + drawer + modales)
+  4. <script> final → JS, organizado en 10 bloques numerados (ver índice al inicio del <script>)
+-->
+<style>
+  /* ==========================================================================
+     ÍNDICE DE ESTE ARCHIVO CSS
+     --------------------------------------------------------------------------
+      1. Tokens de diseño (colores, radios, tipografía) — claro y oscuro
+      2. Reset y base
+      3. Encabezado de página
+      4. Layout general (grid de 2 columnas)
+      5. Panel izquierdo — mapa de estructura por épica
+      6. Barra de controles (trazabilidad HU / modo oscuro)
+      7. Maqueta del teléfono (bisel, pantalla, status bar)
+      8. Barra superior de la app + saludo de inicio
+      9. Primitivas de contenido (sección, tarjeta, chip, kv)
+     10. Botones
+     11. Acordeón (tarjetas expandibles)
+     12. Grilla de accesos rápidos
+     13. Listas (históricos, notificaciones)
+     14. Mensaje de estado vacío
+     15. Control segmentado (pestañas tipo iOS)
+     16. Chips de filtro deslizables
+     17. Filtro de fechas
+     18. Stepper (línea de tiempo de una solicitud)
+     19. Campos de formulario
+     20. Navegación inferior, FAB, drawer, modal, toast
+     ========================================================================== */
+
+  /* ===== 1. TOKENS DE DISEÑO ===== */
+  :root{
+    /* brand green del cliente, tal cual, sin oscurecer:
+       rgb(149,203,78)->--green-500 (bordes/foco) · rgb(140,198,63)->--green-600 (relleno principal)
+       rgb(115,162,52)->--green-700/800 (texto e íconos sobre fondo claro).
+       Para que no se pierda legibilidad, los rellenos verde-600 usan texto oscuro (--on-green)
+       en vez de aclarar u oscurecer el verde de marca. */
+    --green-800:#73a234;
+    --green-700:#73a234;
+    --green-600:#8cc63f;
+    --green-500:#95cb4e;
+    --green-100:#e8f4d8;
+    --green-50:#f4faed;
+    --on-green:#1b2b12;
+    --ink-900:#182420;
+    --ink-700:#3d4d45;
+    --ink-500:#647a70;
+    --ink-300:#9db0a5;
+    --line:#e0e8e3;
+    --surface:#ffffff;
+    --page:#f5f8f6;
+    --red-600:#c8383d;
+    --red-100:#fbe9e9;
+    --amber-600:#a8700f;
+    --amber-100:#fbf0da;
+    --blue-600:#2464b0;
+    --blue-100:#e5eefb;
+    --bezel-1:#26302b;
+    --bezel-2:#12100f;
+    --bezel-edge:rgba(255,255,255,.14);
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:9px;
+    --font-ui: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  :root[data-theme="dark"]{
+    --green-100:#20301a; --green-50:#1a2814;
+    --ink-900:#eaf3ee; --ink-700:#c3d3cb; --ink-500:#93a89d; --ink-300:#5c6f66;
+    --line:#26382f; --surface:#152219; --page:#0c1512;
+    --red-600:#ff9494; --red-100:#3a1c1c;
+    --amber-600:#f0bd5c; --amber-100:#3a2f14;
+    --blue-600:#8fc0ff; --blue-100:#152a3f;
+    --bezel-1:#3a4640; --bezel-2:#0a0d0b; --bezel-edge:rgba(255,255,255,.1);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --green-100:#20301a; --green-50:#1a2814;
+      --ink-900:#eaf3ee; --ink-700:#c3d3cb; --ink-500:#93a89d; --ink-300:#5c6f66;
+      --line:#26382f; --surface:#152219; --page:#0c1512;
+      --red-600:#ff9494; --red-100:#3a1c1c;
+      --amber-600:#f0bd5c; --amber-100:#3a2f14;
+      --blue-600:#8fc0ff; --blue-100:#152a3f;
+      --bezel-1:#3a4640; --bezel-2:#0a0d0b; --bezel-edge:rgba(255,255,255,.1);
+    }
+  }
+
+  /* ===== 2. RESET Y BASE ===== */
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--page);
+    color:var(--ink-900);
+    font-family:var(--font-ui);
+    -webkit-font-smoothing:antialiased;
+  }
+  button, input, select, textarea{font-family:inherit;}
+  .wrap{
+    max-width:1360px;
+    margin:0 auto;
+    padding:32px 24px 64px;
+  }
+  .ic{display:inline-flex; width:1em; height:1em; vertical-align:-0.15em;}
+  .ic svg{width:100%; height:100%;}
+
+  /* ===== 3. ENCABEZADO DE PÁGINA ===== */
+  .page-head{
+    display:flex; flex-direction:column; gap:6px;
+    margin-bottom:24px;
+  }
+  .eyebrow{
+    display:flex; align-items:center; gap:8px;
+    font-size:12.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--green-700);
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--green-600); flex:none;}
+  h1{
+    font-size:26px; margin:2px 0 2px; font-weight:800; letter-spacing:-.01em;
+    text-wrap:balance;
+  }
+  .sub{color:var(--ink-500); font-size:14.5px; max-width:760px; line-height:1.5;}
+
+  /* ===== 4. LAYOUT GENERAL (grid 2 columnas) ===== */
+  .layout{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:26px;
+    align-items:start;
+  }
+  @media (max-width:980px){
+    .layout{grid-template-columns:1fr;}
+    .stage{position:static !important;}
+  }
+
+  /* ===== 5. PANEL IZQUIERDO — mapa de estructura por épica ===== */
+  .panel{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:18px 18px 6px;
+    max-height:calc(100vh - 40px);
+    overflow-y:auto;
+    position:sticky; top:20px;
+  }
+  .panel h2{
+    font-size:15px; margin:0 0 4px; font-weight:800;
+  }
+  .panel p.hint{
+    font-size:12.5px; color:var(--ink-500); margin:0 0 14px; line-height:1.5;
+  }
+  .legend{
+    display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;
+  }
+  .legend span{
+    font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:20px;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .leg-app{background:var(--green-100); color:var(--green-800);}
+  .leg-web{background:var(--blue-100); color:var(--blue-600);}
+  .leg-trv{background:var(--line); color:var(--ink-500);}
+  .leg-pend{background:var(--amber-100); color:var(--amber-600);}
+
+  details.epic{margin-bottom:6px; border-top:1px solid var(--line);}
+  details.epic:first-of-type{border-top:none;}
+  details.epic summary{
+    list-style:none; cursor:pointer; padding:11px 2px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--ink-700);
+  }
+  details.epic summary::-webkit-details-marker{display:none;}
+  details.epic summary .chev{transition:transform .15s; color:var(--ink-300); width:16px; height:16px;}
+  details.epic[open] summary .chev{transform:rotate(180deg);}
+  details.epic summary .n{color:var(--ink-300); font-weight:700; text-transform:none; letter-spacing:0; font-size:10.5px;}
+  .epic-body{padding-bottom:8px;}
+
+  .hu-row{
+    display:flex; align-items:flex-start; gap:8px;
+    padding:6px 6px; border-radius:10px; margin-bottom:1px;
+    font-size:12.6px; line-height:1.35;
+  }
+  .hu-row:hover{background:var(--green-50);}
+  .hu-tagchip{
+    flex:none; font-size:10px; font-weight:800; padding:2px 6px; border-radius:6px;
+    font-variant-numeric:tabular-nums; margin-top:1px;
+  }
+  .tc-app{background:var(--green-100); color:var(--green-800);}
+  .tc-web{background:var(--blue-100); color:var(--blue-600);}
+  .tc-trv{background:var(--line); color:var(--ink-500);}
+  .tc-pend{background:var(--amber-100); color:var(--amber-600);}
+  .hu-desc b{display:block; color:var(--ink-900); font-weight:700;}
+  .hu-desc small{color:var(--ink-500); font-weight:500;}
+
+  .panel-note{
+    margin:10px 0 16px; padding:11px 12px; background:var(--amber-100); border-radius:12px;
+    font-size:11.5px; color:var(--ink-700); line-height:1.55;
+  }
+  .panel-note b{color:var(--amber-600);}
+
+  /* ===== 6. BARRA DE CONTROLES (trazabilidad HU / modo oscuro) ===== */
+  .stage{
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+    position:sticky; top:20px;
+  }
+  .controls{
+    width:100%; max-width:400px;
+    display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:9px 13px;
+  }
+  .left-group{display:flex; align-items:center; gap:16px; flex-wrap:wrap; row-gap:8px;}
+  .toggle-label{font-size:12px; font-weight:700; color:var(--ink-700); display:flex; gap:7px; align-items:center;}
+  .toggle-label .ic{width:14px; height:14px; color:var(--ink-500); flex:none;}
+  .switch{
+    position:relative; width:36px; height:21px; border-radius:20px; background:var(--line);
+    cursor:pointer; transition:background .15s; flex:none;
+  }
+  .switch.on{background:var(--green-600);}
+  .switch .knob{
+    position:absolute; top:2px; left:2px; width:17px; height:17px; border-radius:50%;
+    background:#fff; transition:left .15s; box-shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+  .switch.on .knob{left:17px;}
+  .screen-picker{font-size:11.5px; color:var(--ink-500); font-weight:600;}
+
+  /* ===== 7. MAQUETA DEL TELÉFONO ===== */
+  /* .plate = "mesa" detrás del teléfono; mantiene el bisel legible sobre fondo claro u oscuro */
+  .plate{
+    padding:34px 34px 20px;
+    border-radius:32px;
+    background:
+      radial-gradient(120% 90% at 50% 8%, rgba(149,203,78,.22), transparent 60%),
+      var(--surface);
+    border:1px solid var(--line);
+    box-shadow:0 1px 2px rgba(0,0,0,.03);
+  }
+  .phone{
+    width:352px; height:734px;
+    background:linear-gradient(155deg, var(--bezel-1), var(--bezel-2));
+    border-radius:44px;
+    padding:12px;
+    box-shadow:
+      0 0 0 1.5px var(--bezel-edge) inset,
+      0 2px 5px rgba(0,0,0,.4) inset,
+      0 36px 60px -22px rgba(0,0,0,.55);
+    position:relative;
+  }
+  .phone-screen{
+    width:100%; height:100%;
+    background:var(--surface);
+    border-radius:33px;
+    overflow:hidden;
+    position:relative;
+    display:flex; flex-direction:column;
+    box-shadow:0 0 0 1px rgba(0,0,0,.25);
+  }
+  .notch{
+    position:absolute; top:11px; left:50%; transform:translateX(-50%);
+    width:96px; height:18px; background:var(--bezel-2); border-radius:10px; z-index:30;
+  }
+  .statusbar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:9px 22px 3px; font-size:12.5px; font-weight:700; color:var(--ink-900);
+    font-variant-numeric:tabular-nums;
+    background:var(--surface); flex:none;
+  }
+  .statusbar .ic{color:var(--ink-700); width:15px; height:15px;}
+  .statusbar .icons{display:flex; gap:6px; align-items:center;}
+
+  .app-body{
+    flex:1; overflow-y:auto; position:relative;
+    background:var(--page);
+    scroll-behavior:smooth;
+  }
+  .app-body::-webkit-scrollbar{width:0;}
+
+  /* ===== 8. BARRA SUPERIOR DE LA APP + SALUDO DE INICIO ===== */
+  /* el verde se usa solo como acento — la barra en sí es neutra (ver feedback de diseño) */
+  .topbar{
+    background:var(--surface); border-bottom:1px solid var(--line);
+    padding:11px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px;
+    position:sticky; top:0; z-index:6;
+  }
+  .topbar h1{
+    font-size:14.5px; font-weight:800; margin:0; color:var(--ink-900);
+    display:flex; align-items:center; gap:7px;
+  }
+  .tbtn{
+    width:30px; height:30px; border-radius:9px; background:var(--page); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; color:var(--ink-700);
+    cursor:pointer; position:relative; flex:none;
+  }
+  .tbtn .ic{width:16px; height:16px;}
+  .tbtn .dot{
+    position:absolute; top:-2px; right:-2px; width:8px; height:8px; background:var(--red-600);
+    border-radius:50%; border:2px solid var(--surface);
+  }
+  .module-pill{
+    display:inline-flex; align-items:center; gap:6px; background:var(--green-100); color:var(--green-800);
+    padding:4px 10px 4px 6px; border-radius:20px; font-size:11px; font-weight:800;
+  }
+  .module-pill .ic{width:13px;height:13px;}
+
+  /* saludo de bienvenida — vive sobre el fondo de la página, sin bloque verde grande */
+  .greet-block{padding:14px 16px 2px; display:flex; align-items:center; gap:11px;}
+  .avatar{
+    width:38px;height:38px;border-radius:50%;background:var(--green-100); color:var(--green-800);
+    display:flex;align-items:center;justify-content:center; font-weight:800; font-size:13px; flex:none;
+  }
+  .greet-name{font-size:15.5px; font-weight:800;}
+  .greet-sub{font-size:11.5px; color:var(--ink-500); font-weight:600;}
+
+  /* ===== 9. PRIMITIVAS DE CONTENIDO (sección · tarjeta · chip · kv) ===== */
+  .section{padding:14px 16px 4px;}
+  .section-title{
+    font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--ink-500); margin:0 0 9px; display:flex; align-items:center; gap:6px;
+  }
+  .hu-badge{
+    font-size:9px; font-weight:800; padding:1px 6px; border-radius:6px;
+    background:var(--green-100); color:var(--green-800);
+    font-variant-numeric:tabular-nums;
+    display:none;
+  }
+  body.show-hu .hu-badge{display:inline-block;}
+
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:14px; margin-bottom:12px;
+  }
+  .card-accent{border-left:3px solid var(--green-600); background:var(--green-50); border-top:1px solid var(--line); border-right:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .card-row{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .card-row > .chip, .card-row > span.chip{margin-top:1px;}
+  .card h3{margin:0; font-size:14.5px; font-weight:800;}
+  .card p{margin:2px 0 0; font-size:12px; color:var(--ink-500);}
+  .chip{
+    font-size:10.5px; font-weight:800; padding:3px 9px; border-radius:20px; white-space:nowrap; flex:none;
+  }
+  .chip-green{background:var(--green-100); color:var(--green-800);}
+  .chip-red{background:var(--red-100); color:var(--red-600);}
+  .chip-amber{background:var(--amber-100); color:var(--amber-600);}
+  .chip-blue{background:var(--blue-100); color:var(--blue-600);}
+  .chip-gray{background:var(--line); color:var(--ink-500);}
+
+  .kv{display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:11px;}
+  .kv div{font-size:11.5px;}
+  .kv label{display:block; color:var(--ink-300); font-weight:700; font-size:9.5px; text-transform:uppercase; letter-spacing:.04em;}
+  .kv span{color:var(--ink-900); font-weight:700; font-variant-numeric:tabular-nums;}
+
+  /* ===== 10. BOTONES ===== */
+  .btn{
+    border:none; border-radius:11px; padding:10px 14px; font-size:12.5px; font-weight:800;
+    cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    width:100%; transition:transform .08s, opacity .15s;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn .ic{width:14px;height:14px;}
+  .btn-primary{background:var(--green-600); color:var(--on-green);}
+  .btn-ghost{background:var(--green-100); color:var(--green-800);}
+  .btn-outline{background:transparent; border:1.4px solid var(--line); color:var(--ink-700);}
+  .btn-sm{width:auto; padding:7px 12px; font-size:11.5px;}
+  .btn[disabled]{opacity:.45; cursor:not-allowed;}
+
+  /* ===== 11. ACORDEÓN (tarjetas expandibles: SISBÉN, orientación en Trámites) ===== */
+  .accordion-hd{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; cursor:pointer;}
+  .accordion-hd .chev{width:16px; height:16px; margin-top:2px; color:var(--ink-300); transition:transform .18s; flex:none;}
+  .card.open .accordion-hd .chev{transform:rotate(180deg);}
+  .accordion-bd{display:none; margin-top:11px; padding-top:11px; border-top:1px solid var(--line);}
+  .card.open .accordion-bd{display:block;}
+
+  /* ===== 12. GRILLA DE ACCESOS RÁPIDOS (pantalla Inicio) ===== */
+  .grid2x2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .qa{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:12px 10px; text-align:center; cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .qa:active{background:var(--green-50); border-color:var(--green-500);}
+  .qa .ic{width:20px;height:20px; margin-bottom:7px; color:var(--green-700);}
+  .qa .lb{font-size:11.5px; font-weight:700;}
+
+  /* ===== 13. LISTAS (histórico, notificaciones, anexos) ===== */
+  .list-item{
+    display:flex; gap:10px; align-items:flex-start; padding:11px 0;
+    border-bottom:1px solid var(--line); cursor:default;
+  }
+  .list-item:last-child{border-bottom:none;}
+  .list-item.clickable{cursor:pointer;}
+  .list-ic{
+    width:32px; height:32px; border-radius:10px; flex:none;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .list-ic .ic{width:16px;height:16px;}
+  .list-title{font-size:12.6px; font-weight:800;}
+  .list-title.read{font-weight:600; color:var(--ink-500);}
+  .list-sub{font-size:11px; color:var(--ink-500); margin-top:1px;}
+  .unread-dot{width:7px;height:7px;border-radius:50%;background:var(--green-600); flex:none; margin-top:5px;}
+
+  /* ===== 14. MENSAJE DE ESTADO VACÍO ===== */
+  .empty-msg{
+    background:var(--amber-100); color:var(--amber-600); border-radius:12px; padding:11px 12px;
+    font-size:11.8px; font-weight:600; line-height:1.5; display:flex; gap:8px; align-items:flex-start;
+  }
+  .empty-msg .ic{width:15px;height:15px; flex:none; margin-top:1px;}
+
+  /* ===== 15. CONTROL SEGMENTADO (pestañas tipo iOS: 2 o 4 opciones) ===== */
+  .seg{display:flex; background:var(--line); border-radius:12px; padding:3px; margin:12px 16px;}
+  .seg button{
+    flex:1; border:none; background:transparent; padding:8px 4px; border-radius:9px;
+    font-size:12px; font-weight:800; color:var(--ink-500); cursor:pointer;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .seg-4 button{font-size:10.8px; padding:8px 2px; letter-spacing:-.01em;}
+  .seg button.active{background:var(--surface); color:var(--green-700); box-shadow:0 1px 2px rgba(0,0,0,.08);}
+
+  /* ===== 16. FILTRO DESPLEGABLE (pantalla Solicitudes) ===== */
+  .filterbar-wrap{position:relative; padding:12px 16px;}
+  .sel-dropdown{position:relative;}
+  .sel-trigger{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px;
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:10px 12px; font-size:12.5px; font-weight:800; color:var(--ink-900); cursor:pointer;
+  }
+  .sel-trigger .sel-current{display:flex; align-items:center; gap:8px;}
+  .sel-trigger .sel-dot{width:7px; height:7px; border-radius:50%; background:var(--green-600); flex:none;}
+  .sel-trigger .chev{width:14px; height:14px; color:var(--ink-500); flex:none; transition:transform .15s ease;}
+  .sel-dropdown.open .sel-trigger{border-color:var(--green-500);}
+  .sel-dropdown.open .sel-trigger .chev{transform:rotate(180deg);}
+  .sel-menu{
+    position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:30;
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    box-shadow:0 12px 28px -8px rgba(0,0,0,.22); padding:6px;
+    opacity:0; transform:translateY(-4px); pointer-events:none; transition:opacity .12s ease, transform .12s ease;
+  }
+  .sel-dropdown.open .sel-menu{opacity:1; transform:translateY(0); pointer-events:auto;}
+  .sel-opt{
+    padding:9px 10px; border-radius:9px; font-size:12.5px; font-weight:600; color:var(--ink-700);
+    cursor:pointer; display:flex; align-items:center; justify-content:space-between;
+  }
+  .sel-opt:hover{background:var(--page);}
+  .sel-opt.active{background:var(--green-600); color:var(--on-green); font-weight:800;}
+  .sel-opt .ic{width:14px; height:14px;}
+
+  /* ===== 17. FILTRO DE FECHAS (pantalla Histórico) ===== */
+  .datefilter{display:flex; flex-direction:column; gap:10px; padding:12px 16px 0;}
+  .datefilter .field{margin-bottom:0;}
+
+  /* ===== 18. STEPPER (línea de tiempo del detalle de una solicitud) ===== */
+  .stepper{display:flex; align-items:center; margin:10px 0 2px;}
+  .step{display:flex; flex-direction:column; align-items:center; flex:1; position:relative;}
+  .step .dot{width:11px;height:11px;border-radius:50%; background:var(--line); z-index:2;}
+  .step.done .dot{background:var(--green-600);}
+  .step.now .dot{background:var(--green-600); box-shadow:0 0 0 4px var(--green-100);}
+  .step .ln{position:absolute; top:5px; left:-50%; width:100%; height:2px; background:var(--line); z-index:1;}
+  .step.done .ln{background:var(--green-600);}
+  .step:first-child .ln{display:none;}
+  .step small{font-size:8.5px; margin-top:5px; color:var(--ink-500); font-weight:700; text-align:center;}
+
+  /* ===== 19. CAMPOS DE FORMULARIO (modales: contacto, solicitud, formulario dinámico) ===== */
+  .field{margin-bottom:12px;}
+  .field label{display:block; font-size:11px; font-weight:800; color:var(--ink-700); margin-bottom:5px;}
+  .field label .req{color:var(--red-600);}
+  .field label .hlp{color:var(--ink-300); font-weight:600; text-transform:none; letter-spacing:0;}
+  .field input,.field select,.field textarea{
+    width:100%; border:1.4px solid var(--line); border-radius:10px; padding:9px 10px;
+    font-size:12.5px; font-family:inherit; background:var(--surface); color:var(--ink-900);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--green-500); outline-offset:1px; border-color:var(--green-500);}
+  .field.err input, .field.err textarea{border-color:var(--red-600); outline:2px solid transparent;}
+  .field .errtxt{display:none; font-size:10.5px; color:var(--red-600); font-weight:700; margin-top:4px;}
+  .field.err .errtxt{display:block;}
+  .field textarea{resize:none; height:64px;}
+  .upload{
+    border:1.6px dashed var(--line); border-radius:10px; padding:13px; text-align:center;
+    font-size:11.5px; color:var(--ink-500); font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px;
+    transition:border-color .15s, color .15s;
+  }
+  .upload:hover{border-color:var(--green-500); color:var(--green-700);}
+  .upload.attached{border-style:solid; border-color:var(--green-500); color:var(--green-700); background:var(--green-50);}
+  .upload .ic{width:15px;height:15px;}
+
+  /* ===== 20. NAV INFERIOR, FAB, DRAWER, MODAL Y TOAST ===== */
+  /* -- nav inferior -- */
+  .bottomnav{
+    flex:none; display:flex; background:var(--surface); border-top:1px solid var(--line);
+    padding:7px 4px 11px; position:relative; z-index:6;
+  }
+  .nav-btn{
+    flex:1; background:none; border:none; display:flex; flex-direction:column; align-items:center;
+    gap:3px; cursor:pointer; color:var(--ink-300); font-size:9.5px; font-weight:800; padding:4px 0;
+  }
+  .nav-btn .ic{width:19px;height:19px;}
+  .nav-btn.active{color:var(--green-700);}
+
+  /* -- botón flotante (nueva solicitud) -- */
+  .fab{
+    position:absolute; right:16px; bottom:22px; width:50px; height:50px; border-radius:16px;
+    background:var(--green-600); color:var(--on-green); border:none; box-shadow:0 8px 18px -6px rgba(140,198,63,.55);
+    cursor:pointer; z-index:5; display:flex; align-items:center; justify-content:center;
+  }
+  .fab .ic{width:22px;height:22px;}
+
+  /* -- drawer lateral (menú de perfil) -- */
+  .drawer{
+    position:absolute; inset:0; z-index:40; visibility:hidden;
+  }
+  .drawer.open{visibility:visible;}
+  .drawer-bg{position:absolute; inset:0; background:rgba(10,20,15,.42); opacity:0; transition:opacity .18s;}
+  .drawer.open .drawer-bg{opacity:1;}
+  .drawer-panel{
+    position:absolute; top:0; left:0; bottom:0; width:76%;
+    background:var(--surface); padding:18px 15px; box-shadow:6px 0 30px rgba(0,0,0,.15);
+    display:flex; flex-direction:column; transform:translateX(-100%); transition:transform .2s ease;
+  }
+  .drawer.open .drawer-panel{transform:translateX(0);}
+  .drawer-user{display:flex; gap:10px; align-items:center; margin-bottom:16px;}
+  .drawer-name{font-size:13.5px; font-weight:800;}
+  .drawer-meta{font-size:10.5px; color:var(--ink-500);}
+  .drawer-item{
+    display:flex; align-items:center; gap:11px; padding:11px 8px; border-radius:10px;
+    font-size:12.8px; font-weight:700; cursor:pointer; color:var(--ink-700);
+  }
+  .drawer-item .ic{width:17px;height:17px; color:var(--ink-500); flex:none;}
+  .drawer-item:hover{background:var(--green-50);}
+  .drawer-item:hover .ic{color:var(--green-700);}
+  .drawer-foot{margin-top:auto; font-size:10px; color:var(--ink-300); line-height:1.5; padding:8px 8px;}
+
+  /* -- visibilidad de pantallas -- */
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  /* -- modal (pantalla completa dentro del teléfono) -- */
+  .modal{
+    position:absolute; inset:0; background:var(--page); z-index:35; display:none;
+    flex-direction:column;
+  }
+  .modal.open{display:flex;}
+  .modal-head{
+    display:flex; align-items:center; gap:10px; padding:13px 15px; background:var(--surface);
+    border-bottom:1px solid var(--line); flex:none;
+  }
+  .modal-head h4{margin:0; font-size:14px; font-weight:800; display:flex; align-items:center; gap:7px;}
+  .modal-body{flex:1; overflow-y:auto; padding:16px;}
+  .modal-foot{padding:12px 16px 16px; flex:none; background:var(--surface); border-top:1px solid var(--line);}
+  .xbtn{width:29px;height:29px;border-radius:9px;background:var(--page);border:1px solid var(--line);cursor:pointer;color:var(--ink-700); display:flex; align-items:center; justify-content:center;}
+  .xbtn .ic{width:14px;height:14px;}
+
+  /* -- toast de confirmación -- */
+  .toast{
+    position:absolute; left:50%; bottom:96px; transform:translate(-50%,12px);
+    background:var(--ink-900); color:var(--page); padding:10px 16px; border-radius:12px;
+    font-size:12px; font-weight:700; display:flex; align-items:center; gap:8px;
+    box-shadow:0 10px 24px rgba(0,0,0,.25); opacity:0; pointer-events:none; transition:opacity .18s, transform .18s;
+    z-index:60; white-space:nowrap;
+  }
+  .toast.show{opacity:1; transform:translate(-50%,0);}
+  .toast .ic{width:14px;height:14px; color:var(--green-500); flex:none;}
+
+  .foot-note{
+    max-width:400px; text-align:center; font-size:11.5px; color:var(--ink-300); line-height:1.5; margin-top:0;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition-duration:.001ms !important; animation-duration:.001ms !important;}
+  }
+</style>
+<script>document.documentElement.setAttribute('data-theme', localStorage.getItem('aseg-theme') || 'light');</script>
+
+<div class="wrap">
+  <!-- (a) Encabezado de página -->
+  <div class="page-head">
+    <h1>APP Aseguramiento — estructura de información y prototipo móvil</h1>
+    <p class="sub">Esquema construido únicamente a partir de las 16 Historias de Usuario y diccionarios de datos entregados a la fecha (jul-2026). Prototipo navegable: toca cualquier elemento del teléfono. Activa "Ver trazabilidad HU" para ver de qué historia sale cada sección.</p>
+  </div>
+
+  <div class="layout">
+    <!-- (b) Panel izquierdo: mapa de estructura por épica -->
+    <aside class="panel" style="display:none">
+      <h2>Mapa de estructura por épica</h2>
+      <p class="hint">De dónde vive cada funcionalidad — ciudadano en la APP móvil, o funcionario en el portal web SIISMED (el que ya viste en tu captura).</p>
+      <div class="legend">
+        <span class="leg-app"><i class="ic" data-ic="phone"></i>App ciudadano</span>
+        <span class="leg-web"><i class="ic" data-ic="monitor"></i>Portal web (staff)</span>
+        <span class="leg-trv"><i class="ic" data-ic="settings"></i>Módulo transversal</span>
+        <span class="leg-pend"><i class="ic" data-ic="hourglass"></i>Sin HU aún</span>
+      </div>
+
+      <details class="epic" open>
+        <summary>Autogestión del ciudadano <i class="ic chev" data-ic="chevdown"></i></summary>
+        <div class="epic-body">
+          <div class="hu-row"><span class="hu-tagchip tc-app">001</span><div class="hu-desc"><b>Consulta Aseguramiento Actual</b><small>Régimen, EPS, SISBÉN, censal, contacto</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-app">002</span><div class="hu-desc"><b>Trámites y orientación</b><small>Consumo de bloques parametrizados en HU-006</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-app">012</span><div class="hu-desc"><b>Consulta histórico</b><small>Afiliaciones, SISBÉN, censal en el tiempo</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-pend">013</span><div class="hu-desc"><b>Parametrización consulta histórico</b><small>Aparece en el USM, sin documento HU todavía</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-app">015/016</span><div class="hu-desc"><b>Solicitudes app aseguramiento</b><small>Radicación, subsanación, seguimiento</small></div></div>
+        </div>
+      </details>
+
+      <details class="epic">
+        <summary>Notificaciones <i class="ic chev" data-ic="chevdown"></i></summary>
+        <div class="epic-body">
+          <div class="hu-row"><span class="hu-tagchip tc-web">004</span><div class="hu-desc"><b>Parametrización de alertas</b><small>Configura el administrador (web)</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-app">005</span><div class="hu-desc"><b>Generación de alertas</b><small>El ciudadano las recibe en la campanita</small></div></div>
+        </div>
+      </details>
+
+      <details class="epic">
+        <summary>Administración del sistema (web) <i class="ic chev" data-ic="chevdown"></i></summary>
+        <div class="epic-body">
+          <div class="hu-row"><span class="hu-tagchip tc-web">003</span><div class="hu-desc"><b>Auditoría del sistema</b><small>Trazabilidad de todas las transacciones</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-web">006</span><div class="hu-desc"><b>Parametrización registros/orientación</b><small>Alimenta lo que ve el ciudadano en HU-002</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-web">015w</span><div class="hu-desc"><b>Gestión y respuesta a solicitudes</b><small>Bandeja del funcionario para HU-016</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-trv">POR</span><div class="hu-desc"><b>Creación de usuarios y logueo</b><small>Módulo transversal SIISMED (SSO)</small></div></div>
+        </div>
+      </details>
+
+      <details class="epic">
+        <summary>Formularios dinámicos <i class="ic chev" data-ic="chevdown"></i></summary>
+        <div class="epic-body">
+          <div class="hu-row"><span class="hu-tagchip tc-app">008</span><div class="hu-desc"><b>Visualización de formularios</b><small>Compartida: se renderiza en APP y en Web</small></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-trv">TRV</span><div class="hu-desc"><b>Creación de formularios</b><small>Módulo transversal — el admin los diseña ahí</small></div></div>
+        </div>
+      </details>
+
+      <details class="epic">
+        <summary>Reportes y visualización (solo staff) <i class="ic chev" data-ic="chevdown"></i></summary>
+        <div class="epic-body">
+          <div class="hu-row"><span class="hu-tagchip tc-web">007</span><div class="hu-desc"><b>Reportes estáticos</b></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-web">009</span><div class="hu-desc"><b>Reportes dinámicos</b></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-web">010</span><div class="hu-desc"><b>Lista de indicadores</b></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-web">011</span><div class="hu-desc"><b>Tableros de control</b></div></div>
+          <div class="hu-row"><span class="hu-tagchip tc-web">014</span><div class="hu-desc"><b>Usabilidad de la APP</b><small>Dashboard de uso, lo ve el funcionario</small></div></div>
+        </div>
+      </details>
+
+      <div class="panel-note"><b>Nota de fidelidad:</b> el nombre de carpeta "HU-016" y el contenido interno del documento ("APPASE-HU-015") no coinciden — se referencia igual en el USM. Y la "HU-013" existe en el User Story Mapping pero aún no tiene ficha. Vale la pena confirmarlo con el área usuaria.</div>
+    </aside>
+
+    <!-- (c) Panel derecho: prototipo de teléfono navegable -->
+    <div class="stage">
+      <div class="controls">
+        <div class="left-group">
+          <div class="toggle-label"><i class="ic" data-ic="tag"></i>Ver trazabilidad HU
+            <div class="switch" id="huSwitch" onclick="toggleHU()"><div class="knob"></div></div>
+          </div>
+          <div class="toggle-label"><i class="ic" data-ic="moon"></i>Modo oscuro
+            <div class="switch" id="themeSwitch" onclick="toggleTheme()"><div class="knob"></div></div>
+          </div>
+        </div>
+        <div class="screen-picker" id="screenLabel">Inicio</div>
+      </div>
+
+      <div class="plate">
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="phone-screen">
+          <div class="statusbar">
+            <span>9:41</span>
+            <div class="icons"><i class="ic" data-ic="signal"></i><i class="ic" data-ic="wifi"></i><i class="ic" data-ic="battery"></i></div>
+          </div>
+
+          <div class="app-body" id="appBody">
+
+            <!-- ============ INICIO ============ -->
+            <section class="screen active" id="s-inicio">
+              <div class="topbar">
+                <button class="tbtn" onclick="openDrawer()"><i class="ic" data-ic="menu"></i></button>
+                <span class="module-pill"><i class="ic" data-ic="shield"></i>Aseguramiento en Salud</span>
+                <button class="tbtn" onclick="go('notif')"><i class="ic" data-ic="bell"></i><span class="dot" id="bellDot"></span></button>
+              </div>
+              <div class="greet-block">
+                <div class="avatar">AF</div>
+                <div>
+                  <div class="greet-name">Hola, Andrés Felipe</div>
+                  <div class="greet-sub">C.C. **** 7186 · Sesión SIISMED activa</div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">Mi aseguramiento <span class="hu-badge">HU-001</span></div>
+                <div class="card card-accent">
+                  <div class="card-row">
+                    <div><h3>Régimen Contributivo</h3><p>Nueva EPS · Medellín</p></div>
+                    <span class="chip chip-green">Activo</span>
+                  </div>
+                  <button class="btn btn-ghost" style="margin-top:12px" onclick="go('aseg')">Ver detalle completo <i class="ic" data-ic="arrowright"></i></button>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">Accesos rápidos</div>
+                <div class="grid2x2">
+                  <div class="qa" onclick="go('tramites')"><i class="ic" data-ic="clipboard"></i><div class="lb">Trámites y orientación <span class="hu-badge">HU-002</span></div></div>
+                  <div class="qa" onclick="go('solicitudes')"><i class="ic" data-ic="inbox"></i><div class="lb">Mis solicitudes <span class="hu-badge">HU-016</span></div></div>
+                  <div class="qa" onclick="go('historico')"><i class="ic" data-ic="clock"></i><div class="lb">Histórico <span class="hu-badge">HU-012</span></div></div>
+                  <div class="qa" onclick="go('notif')"><i class="ic" data-ic="bell"></i><div class="lb">Notificaciones <span class="hu-badge">HU-005</span></div></div>
+                </div>
+              </div>
+
+              <div class="section" style="padding-bottom:32px">
+                <div class="section-title">Actividad reciente</div>
+                <div class="card" style="padding:4px 14px;">
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--blue-100); color:var(--blue-600);"><i class="ic" data-ic="check"></i></div>
+                    <div><div class="list-title">Solicitud #2026-00456 en gestión</div><div class="list-sub">Traslado entre EPS · hace 2 días</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--green-100); color:var(--green-800);"><i class="ic" data-ic="edit"></i></div>
+                    <div><div class="list-title">Actualizaste tus datos de contacto</div><div class="list-sub">Fuente: APP de Aseguramiento · hace 6 días</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--amber-100); color:var(--amber-600);"><i class="ic" data-ic="alert"></i></div>
+                    <div><div class="list-title">Solicitud #2026-00398 requiere subsanación</div><div class="list-sub">Afiliación al SGSSS · hace 8 días</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--green-100); color:var(--green-800);"><i class="ic" data-ic="check"></i></div>
+                    <div><div class="list-title">Solicitud #2026-00212 cerrada</div><div class="list-sub">Otras solicitudes · hace 19 días</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Consultaste tu histórico de afiliación</div><div class="list-sub">Módulo Histórico · hace 1 mes</div></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ============ MI ASEGURAMIENTO ============ -->
+            <section class="screen" id="s-aseg">
+              <div class="topbar">
+                <button class="tbtn" onclick="go('inicio')"><i class="ic" data-ic="chevleft"></i></button>
+                <h1>Mi aseguramiento <span class="hu-badge">HU-001</span></h1>
+                <button class="tbtn" onclick="go('notif')"><i class="ic" data-ic="bell"></i></button>
+              </div>
+
+              <div class="seg">
+                <button class="active" id="authCred" onclick="setAuthMode('cred')">Con credenciales</button>
+                <button id="authAuto" onclick="setAuthMode('auto')">Sin credenciales</button>
+              </div>
+
+              <div id="authForm" style="display:none; padding:0 16px 4px;">
+                <div class="card">
+                  <p style="margin:0 0 10px; font-size:11.5px; color:var(--ink-500); line-height:1.5;">Consulta sin usuario: ingresa tus datos y verás tu información con nombre y documento parcialmente ocultos, para que confirmes que el resultado es tuyo.</p>
+                  <div class="field"><label>Tipo de documento</label><select id="authTipoDoc"><option>Cédula de ciudadanía</option><option>Tarjeta de identidad</option><option>Cédula de extranjería</option></select></div>
+                  <div class="field"><label>Número de documento</label><input id="authNumDoc" placeholder="1035XXXXXX"></div>
+                  <div class="field" style="margin-bottom:0;"><label>Fecha de nacimiento</label><input id="authFecha" type="date"></div>
+                  <button class="btn btn-primary" style="margin-top:12px;" onclick="runAutogestion()">Consultar</button>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">Afiliación al SGSSS <span class="hu-badge">HU-001</span></div>
+                <div class="card">
+                  <div class="card-row">
+                    <h3 id="regimenTitle">Régimen Contributivo</h3>
+                    <span class="chip chip-green">Activo</span>
+                  </div>
+                  <p id="epsLine">Nueva EPS · afiliado desde 04/03/2021</p>
+                  <div class="kv">
+                    <div><label>Municipio</label><span>Medellín</span></div>
+                    <div><label>Grupo poblacional</label><span>General</span></div>
+                    <div><label>Tipo afiliado</label><span>Cotizante</span></div>
+                    <div><label>Modalidad</label><span>Ordinaria</span></div>
+                  </div>
+                  <div class="card card-accent" style="margin:12px 0 0; padding:12px;">
+                    <div class="card-row">
+                      <div><div style="font-weight:800;font-size:12.5px;">IPS primaria: Clínica del Norte</div><div style="font-size:11px;color:var(--ink-500);">Cra 65 #98-30 · (604) 444 1122</div></div>
+                      <button class="btn btn-outline btn-sm" onclick="toast('Abriendo ubicación en el mapa…','mappin')"><i class="ic" data-ic="mappin"></i>Mapa</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">SISBÉN IV <span class="hu-badge">HU-001</span></div>
+                <div class="card" onclick="toggleAccordion(this)">
+                  <div class="card-row accordion-hd">
+                    <h3>Grupo B · Subgrupo B4</h3>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span class="chip chip-blue">Puntaje 42.8</span>
+                      <i class="ic chev" data-ic="chevdown"></i>
+                    </div>
+                  </div>
+                  <div class="accordion-bd">
+                    <div class="kv">
+                      <div><label>Ficha N°</label><span>05001034215</span></div>
+                      <div><label>Fecha encuesta</label><span>18/09/2024</span></div>
+                    </div>
+                    <p style="margin:10px 0 0; font-size:11.5px;">Integrantes de la ficha: Andrés Felipe (jefe de hogar), Marcela (cónyuge).</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title">Listados censales <span class="hu-badge">HU-001</span></div>
+                <div class="empty-msg"><i class="ic" data-ic="info"></i>El ciudadano no pertenece a ningún grupo de listado censal.</div>
+              </div>
+
+              <div class="section" style="padding-bottom:32px;">
+                <button class="btn btn-ghost" onclick="go('historico')" style="margin-bottom:10px;">Ver histórico completo <i class="ic" data-ic="arrowright"></i></button>
+                <button class="btn btn-primary" onclick="openModal('m-contacto')"><i class="ic" data-ic="edit"></i>Actualizar mis datos de contacto</button>
+              </div>
+            </section>
+
+            <!-- ============ HISTÓRICO ============ -->
+            <section class="screen" id="s-historico">
+              <div class="topbar">
+                <button class="tbtn" onclick="go('aseg')"><i class="ic" data-ic="chevleft"></i></button>
+                <h1>Histórico <span class="hu-badge">HU-012</span></h1>
+                <span style="width:30px;"></span>
+              </div>
+              <div class="datefilter">
+                <div class="field"><label>Desde</label><input type="date" value="2017-01-01"></div>
+                <div class="field"><label>Hasta</label><input type="date" value="2026-07-23"></div>
+                <button class="btn btn-primary" onclick="applyHistFilter()"><i class="ic" data-ic="search"></i>Buscar</button>
+              </div>
+              <div class="seg seg-4" style="margin:16px 16px 6px;">
+                <button class="active" data-tab="afil" onclick="setHistTab('afil')">Afiliación</button>
+                <button data-tab="sisben" onclick="setHistTab('sisben')">SISBÉN</button>
+                <button data-tab="censal" onclick="setHistTab('censal')">Censal</button>
+                <button data-tab="sin" onclick="setHistTab('sin')">Sin afil.</button>
+              </div>
+              <div class="section" id="histWrap" style="padding-bottom:32px;">
+                <div class="card" style="padding:4px 14px;" data-hist="afil">
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--green-100); color:var(--green-800);"><i class="ic" data-ic="check"></i></div>
+                    <div><div class="list-title">Nueva EPS · Contributivo</div><div class="list-sub">Activo · 04/03/2021 — actual</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Savia Salud · Subsidiado</div><div class="list-sub">Finalizado · 12/01/2018 — 03/03/2021</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Comfama EPS-S · Subsidiado</div><div class="list-sub">Finalizado · 15/08/2014 — 19/06/2017</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Coosalud EPS-S · Subsidiado</div><div class="list-sub">Finalizado · 02/02/2010 — 14/08/2014</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Cajanal EPS-S · Subsidiado</div><div class="list-sub">Finalizado · 20/06/2005 — 14/08/2008</div></div>
+                  </div>
+                </div>
+                <div class="card" style="padding:4px 14px; display:none;" data-hist="sisben">
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--blue-100); color:var(--blue-600);"><i class="ic" data-ic="check"></i></div>
+                    <div><div class="list-title">Grupo B · Subgrupo B4 · 42.8 pts</div><div class="list-sub">Encuesta 18/09/2024 — vigente</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Grupo C · Subgrupo C2 · 51.4 pts</div><div class="list-sub">Encuesta 03/05/2019 — 17/09/2024</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Grupo C · Subgrupo C3 · 54.6 pts</div><div class="list-sub">Encuesta 22/11/2015 — 02/05/2019</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Nivel 2 · Metodología anterior</div><div class="list-sub">Encuesta 10/07/2009 — 21/11/2015</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Ficha inicial sin clasificar</div><div class="list-sub">Encuesta 15/03/2005 — 09/07/2009</div></div>
+                  </div>
+                </div>
+                <div class="card" style="padding:4px 14px; display:none;" data-hist="censal">
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--green-100); color:var(--green-800);"><i class="ic" data-ic="check"></i></div>
+                    <div><div class="list-title">Comunidad indígena Emberá Chamí</div><div class="list-sub">Activo · 05/06/2023 — actual</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Población migrante</div><div class="list-sub">Retirado · 10/02/2020 — 22/11/2022 · causal: novedad reportada</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Población migrante</div><div class="list-sub">Retirado · 14/03/2016 — 09/02/2020 · causal: cambio de condición</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Población migrante</div><div class="list-sub">Retirado · 05/01/2014 — 13/03/2016 · causal: regularización migratoria</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="clock"></i></div>
+                    <div><div class="list-title">Comunidad Rrom (gitana)</div><div class="list-sub">Retirado · 22/08/2011 — 04/01/2014 · causal: cambio de domicilio</div></div>
+                  </div>
+                </div>
+                <div class="card" style="padding:4px 14px; display:none;" data-hist="sin">
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--amber-100); color:var(--amber-600);"><i class="ic" data-ic="alert"></i></div>
+                    <div><div class="list-title">Periodo sin afiliación</div><div class="list-sub">20/06/2017 — 11/01/2018</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--amber-100); color:var(--amber-600);"><i class="ic" data-ic="alert"></i></div>
+                    <div><div class="list-title">Periodo sin afiliación</div><div class="list-sub">15/08/2008 — 01/02/2010</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--amber-100); color:var(--amber-600);"><i class="ic" data-ic="alert"></i></div>
+                    <div><div class="list-title">Periodo sin afiliación</div><div class="list-sub">15/11/2004 — 19/06/2005</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--amber-100); color:var(--amber-600);"><i class="ic" data-ic="alert"></i></div>
+                    <div><div class="list-title">Periodo sin afiliación</div><div class="list-sub">12/06/2003 — 14/11/2004</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--amber-100); color:var(--amber-600);"><i class="ic" data-ic="alert"></i></div>
+                    <div><div class="list-title">Sin registro de afiliación desde nacimiento</div><div class="list-sub">15/09/2001 — 11/06/2003</div></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ============ TRAMITES Y ORIENTACION ============ -->
+            <section class="screen" id="s-tramites">
+              <div class="topbar">
+                <button class="tbtn" onclick="go('inicio')"><i class="ic" data-ic="chevleft"></i></button>
+                <h1>Trámites y orientación <span class="hu-badge">HU-002</span></h1>
+                <span style="width:30px;"></span>
+              </div>
+              <div class="seg">
+                <button class="active" data-tab="orient" onclick="setTramTab('orient')">Orientación</button>
+                <button data-tab="tram" onclick="setTramTab('tram')">Trámites</button>
+              </div>
+
+              <div class="section" id="tramWrap" style="padding-bottom:32px;">
+                <div data-tram="orient">
+                  <div class="section-title" style="margin-top:0;">Bloque orientación <span class="hu-badge">Param. HU-006</span></div>
+                  <div class="card" onclick="toggleAccordion(this)">
+                    <div class="accordion-hd"><h3>¿Cómo afiliarme al régimen contributivo?</h3><i class="ic chev" data-ic="chevdown"></i></div>
+                    <p>Guía, requisitos y enlace a EPS autorizadas.</p>
+                    <div class="accordion-bd">
+                      <p style="margin:0 0 10px;">Pasos: 1) verifica tu capacidad de pago, 2) elige una EPS autorizada, 3) diligencia el formulario de afiliación, 4) confirma tu inscripción dentro de los 5 días hábiles.</p>
+                      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <span class="chip chip-blue" style="cursor:pointer;" onclick="event.stopPropagation(); toast('Abriendo documento PDF…','file')"><i class="ic" data-ic="file" style="margin-right:4px;"></i>Guía PDF</span>
+                        <span class="chip chip-gray" style="cursor:pointer;" onclick="event.stopPropagation(); toast('Abriendo enlace externo en vista segura…','extlink')"><i class="ic" data-ic="extlink" style="margin-right:4px;"></i>EPS autorizadas</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card" onclick="toggleAccordion(this)">
+                    <div class="accordion-hd"><h3>Sistema de Afiliación Transaccional (SAT)</h3><i class="ic chev" data-ic="chevdown"></i></div>
+                    <p>Paso a paso para autogestión en línea.</p>
+                    <div class="accordion-bd">
+                      <p style="margin:0 0 10px;">El SAT te permite afiliarte, trasladarte de EPS o mover tu régimen desde la plataforma nacional ADRES, sin necesidad de ir a un punto físico.</p>
+                      <span class="chip chip-gray" style="cursor:pointer;" onclick="event.stopPropagation(); toast('Abriendo enlace externo en vista segura…','extlink')"><i class="ic" data-ic="extlink" style="margin-right:4px;"></i>Ir al SAT (ADRES)</span>
+                    </div>
+                  </div>
+                  <div class="card" onclick="toggleAccordion(this)">
+                    <div class="accordion-hd"><h3>¿Qué documentos necesito para el traslado de EPS?</h3><i class="ic chev" data-ic="chevdown"></i></div>
+                    <p>Requisitos según tipo de afiliado.</p>
+                    <div class="accordion-bd">
+                      <p style="margin:0 0 10px;">Cotizante: cédula, formulario de traslado y certificado de permanencia mínima. Beneficiario: además, documento que acredite el parentesco con el cotizante.</p>
+                      <span class="chip chip-blue" style="cursor:pointer;" onclick="event.stopPropagation(); toast('Abriendo documento PDF…','file')"><i class="ic" data-ic="file" style="margin-right:4px;"></i>Guía PDF</span>
+                    </div>
+                  </div>
+                  <div class="card" onclick="toggleAccordion(this)">
+                    <div class="accordion-hd"><h3>¿Cómo consulto mi estado de afiliación en línea?</h3><i class="ic chev" data-ic="chevdown"></i></div>
+                    <p>Desde la APP o el portal ADRES.</p>
+                    <div class="accordion-bd">
+                      <p style="margin:0 0 10px;">En la sección "Mi aseguramiento" ves tu estado en tiempo real. También puedes consultar por documento en el portal público de ADRES, sin necesidad de iniciar sesión.</p>
+                      <span class="chip chip-gray" style="cursor:pointer;" onclick="event.stopPropagation(); toast('Abriendo enlace externo en vista segura…','extlink')"><i class="ic" data-ic="extlink" style="margin-right:4px;"></i>Consultar en ADRES</span>
+                    </div>
+                  </div>
+                  <div class="card" onclick="toggleAccordion(this)">
+                    <div class="accordion-hd"><h3>¿Qué hago si mi grupo familiar no aparece registrado?</h3><i class="ic chev" data-ic="chevdown"></i></div>
+                    <p>Novedades de núcleo familiar.</p>
+                    <div class="accordion-bd">
+                      <p style="margin:0 0 10px;">Radica una novedad de inclusión de beneficiario adjuntando el registro civil o documento de parentesco. La EPS tiene 15 días hábiles para resolverla.</p>
+                      <span class="chip chip-blue" style="cursor:pointer;" onclick="event.stopPropagation(); toast('Abriendo documento PDF…','file')"><i class="ic" data-ic="file" style="margin-right:4px;"></i>Guía PDF</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div data-tram="tram" style="display:none;">
+                  <div class="section-title" style="margin-top:0;">Bloque trámites <span class="hu-badge">HU-002</span></div>
+                  <div class="card">
+                    <div class="card-row">
+                      <div><h3>Traslado entre EPS</h3><p>Formulario dinámico <span class="hu-badge" style="display:inline-block !important;">HU-008</span></p></div>
+                      <button class="btn btn-primary btn-sm" onclick="openModal('m-form')">Iniciar</button>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-row">
+                      <div><h3>Movilidad de régimen</h3><p>Redirección a SIISMED web</p></div>
+                      <button class="btn btn-outline btn-sm" onclick="toast('Redirigiendo, tu sesión sigue activa…','extlink')">Ir</button>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-row">
+                      <div><h3>Radicar otra solicitud</h3><p>Formulario + radicado</p></div>
+                      <button class="btn btn-primary btn-sm" onclick="go('solicitudes')">Ver</button>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-row">
+                      <div><h3>Actualización de datos de contacto</h3><p>Correo, teléfono y dirección</p></div>
+                      <button class="btn btn-primary btn-sm" onclick="openModal('m-contacto')">Iniciar</button>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-row">
+                      <div><h3>Inclusión de beneficiario</h3><p>Novedad de núcleo familiar</p></div>
+                      <button class="btn btn-primary btn-sm" onclick="openModal('m-form')">Iniciar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ============ SOLICITUDES ============ -->
+            <section class="screen" id="s-solicitudes">
+              <div class="topbar">
+                <button class="tbtn" onclick="go('inicio')"><i class="ic" data-ic="chevleft"></i></button>
+                <h1>Mis solicitudes <span class="hu-badge">HU-016</span></h1>
+                <span style="width:30px;"></span>
+              </div>
+              <div class="filterbar-wrap">
+                <div class="sel-dropdown" id="solFilterDD">
+                  <button class="sel-trigger" type="button" onclick="toggleSolFilterDD()">
+                    <span class="sel-current"><span class="sel-dot"></span><span id="solFilterLabel">Todas</span></span>
+                    <i class="ic chev" data-ic="chevdown"></i>
+                  </button>
+                  <div class="sel-menu" id="solFilters">
+                    <div class="sel-opt active" data-f="todas" onclick="setSolFilter('todas')">Todas</div>
+                    <div class="sel-opt" data-f="abierta" onclick="setSolFilter('abierta')">Abiertas</div>
+                    <div class="sel-opt" data-f="gestion" onclick="setSolFilter('gestion')">En gestión</div>
+                    <div class="sel-opt" data-f="subsanacion" onclick="setSolFilter('subsanacion')">Subsanación</div>
+                    <div class="sel-opt" data-f="cerrada" onclick="setSolFilter('cerrada')">Cerradas</div>
+                  </div>
+                </div>
+              </div>
+              <div class="section" id="solList" style="padding-bottom:90px;">
+                <div class="card" data-status="gestion" onclick="openModal('m-detalle')" style="cursor:pointer;">
+                  <div class="card-row">
+                    <div><h3>#2026-00456</h3><p>Traslado entre EPS · 14/07/2026</p></div>
+                    <span class="chip chip-blue">En gestión</span>
+                  </div>
+                </div>
+                <div class="card" data-status="subsanacion" onclick="openModal('m-detalle')" style="cursor:pointer;">
+                  <div class="card-row">
+                    <div><h3>#2026-00398</h3><p>Afiliación al SGSSS · 02/06/2026</p></div>
+                    <span class="chip chip-amber">Subsanación</span>
+                  </div>
+                </div>
+                <div class="card" data-status="cerrada" onclick="openModal('m-detalle')" style="cursor:pointer;">
+                  <div class="card-row">
+                    <div><h3>#2026-00212</h3><p>Otras solicitudes · 10/03/2026</p></div>
+                    <span class="chip chip-green">Cerrada</span>
+                  </div>
+                </div>
+                <div class="card" data-status="abierta" onclick="openModal('m-detalle')" style="cursor:pointer;">
+                  <div class="card-row">
+                    <div><h3>#2026-00470</h3><p>Movilidad contributivo → subsidiado · 20/07/2026</p></div>
+                    <span class="chip chip-gray">Abierta</span>
+                  </div>
+                </div>
+                <div class="card" data-status="abierta" onclick="openModal('m-detalle')" style="cursor:pointer;">
+                  <div class="card-row">
+                    <div><h3>#2026-00512</h3><p>Actualización de datos de contacto · 25/07/2026</p></div>
+                    <span class="chip chip-gray">Abierta</span>
+                  </div>
+                </div>
+                <div class="card" data-status="cerrada" onclick="openModal('m-detalle')" style="cursor:pointer;">
+                  <div class="card-row">
+                    <div><h3>#2026-00340</h3><p>Traslado entre EPS · 18/02/2026</p></div>
+                    <span class="chip chip-green">Cerrada</span>
+                  </div>
+                </div>
+                <p id="solEmpty" style="display:none; text-align:center; font-size:12px; color:var(--ink-500); margin-top:20px;">No tienes solicitudes en este estado.</p>
+              </div>
+              <button class="fab" onclick="openModal('m-nueva')"><i class="ic" data-ic="plus"></i></button>
+            </section>
+
+            <!-- ============ NOTIFICACIONES ============ -->
+            <section class="screen" id="s-notif">
+              <div class="topbar">
+                <button class="tbtn" onclick="go('inicio')"><i class="ic" data-ic="chevleft"></i></button>
+                <h1>Notificaciones <span class="hu-badge">HU-004/005</span></h1>
+                <button class="tbtn" onclick="markAllRead()" title="Marcar todas como leídas"><i class="ic" data-ic="checkall"></i></button>
+              </div>
+              <div class="section" style="padding-bottom:32px;">
+                <div class="section-title">No leídas</div>
+                <div class="card" style="padding:4px 14px;" id="unreadCard">
+                  <div class="list-item clickable" onclick="markRead(this)">
+                    <div class="list-ic" style="background:var(--red-100); color:var(--red-600);"><i class="ic" data-ic="alert"></i></div>
+                    <div style="flex:1;"><div class="list-title">No cuentas con afiliación activa</div><div class="list-sub">Descarga la guía de afiliación · hoy</div></div>
+                    <div class="unread-dot"></div>
+                  </div>
+                  <div class="list-item clickable" onclick="markRead(this)">
+                    <div class="list-ic" style="background:var(--green-100); color:var(--green-800);"><i class="ic" data-ic="check"></i></div>
+                    <div style="flex:1;"><div class="list-title">Solicitud #2026-00456 aprobada</div><div class="list-sub">Ya puedes hacerle seguimiento · ayer</div></div>
+                    <div class="unread-dot"></div>
+                  </div>
+                  <div class="list-item clickable" onclick="markRead(this)">
+                    <div class="list-ic" style="background:var(--amber-100); color:var(--amber-600);"><i class="ic" data-ic="alert"></i></div>
+                    <div style="flex:1;"><div class="list-title">Solicitud #2026-00398 requiere subsanación</div><div class="list-sub">Adjunta el documento faltante · hace 2 días</div></div>
+                    <div class="unread-dot"></div>
+                  </div>
+                  <div class="list-item clickable" onclick="markRead(this)">
+                    <div class="list-ic" style="background:var(--blue-100); color:var(--blue-600);"><i class="ic" data-ic="info"></i></div>
+                    <div style="flex:1;"><div class="list-title">Recordatorio: actualiza tus datos de contacto</div><div class="list-sub">Última actualización hace 8 meses · hace 3 días</div></div>
+                    <div class="unread-dot"></div>
+                  </div>
+                  <div class="list-item clickable" onclick="markRead(this)">
+                    <div class="list-ic" style="background:var(--green-100); color:var(--green-800);"><i class="ic" data-ic="bell"></i></div>
+                    <div style="flex:1;"><div class="list-title">Nueva funcionalidad: seguimiento en tiempo real</div><div class="list-sub">Ya disponible en Mis solicitudes · hace 4 días</div></div>
+                    <div class="unread-dot"></div>
+                  </div>
+                </div>
+                <div class="section-title" style="margin-top:14px;">Anteriores</div>
+                <div class="card" style="padding:4px 14px;" id="readCard">
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--blue-100); color:var(--blue-600);"><i class="ic" data-ic="file"></i></div>
+                    <div><div class="list-title read">Nueva orientación disponible</div><div class="list-sub">Traslado entre EPS · hace 5 días</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--green-100); color:var(--green-800);"><i class="ic" data-ic="check"></i></div>
+                    <div><div class="list-title read">Solicitud #2026-00212 cerrada exitosamente</div><div class="list-sub">Otras solicitudes · hace 19 días</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--green-100); color:var(--green-800);"><i class="ic" data-ic="check"></i></div>
+                    <div><div class="list-title read">Cambio de régimen aprobado</div><div class="list-sub">Contributivo → Subsidiado · hace 1 mes</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="info"></i></div>
+                    <div><div class="list-title read">Actualización de la app disponible</div><div class="list-sub">Nuevas mejoras de rendimiento · hace 1 mes</div></div>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-ic" style="background:var(--line); color:var(--ink-500);"><i class="ic" data-ic="shield"></i></div>
+                    <div><div class="list-title read">Bienvenido a la nueva APP de Aseguramiento</div><div class="list-sub">SIISMED · hace 2 meses</div></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- bottom nav -->
+          <div class="bottomnav">
+            <button class="nav-btn active" data-nav="inicio" onclick="go('inicio')"><i class="ic" data-ic="home"></i>Inicio</button>
+            <button class="nav-btn" data-nav="aseg" onclick="go('aseg')"><i class="ic" data-ic="shield"></i>Aseguramiento</button>
+            <button class="nav-btn" data-nav="tramites" onclick="go('tramites')"><i class="ic" data-ic="clipboard"></i>Trámites</button>
+            <button class="nav-btn" data-nav="solicitudes" onclick="go('solicitudes')"><i class="ic" data-ic="inbox"></i>Solicitudes</button>
+            <button class="nav-btn" data-nav="notif" onclick="go('notif')"><i class="ic" data-ic="bell"></i>Alertas</button>
+          </div>
+
+          <!-- DRAWER -->
+          <div class="drawer" id="drawer">
+            <div class="drawer-bg" onclick="closeDrawer()"></div>
+            <div class="drawer-panel">
+              <div class="drawer-user">
+                <div class="avatar">AF</div>
+                <div><div class="drawer-name">Andrés Felipe Q.</div><div class="drawer-meta">C.C. **** 7186</div></div>
+              </div>
+              <div class="drawer-item" onclick="go('historico');closeDrawer()"><i class="ic" data-ic="clock"></i>Histórico de aseguramiento</div>
+              <div class="drawer-item" onclick="openModal('m-contacto');closeDrawer()"><i class="ic" data-ic="edit"></i>Actualizar datos de contacto</div>
+              <div class="drawer-item" onclick="closeDrawer(); toast('Abriendo ayuda y soporte…','help')"><i class="ic" data-ic="help"></i>Ayuda y soporte</div>
+              <div class="drawer-item" onclick="closeDrawer(); toast('Sesión cerrada','logout')"><i class="ic" data-ic="logout"></i>Cerrar sesión</div>
+              <div class="drawer-foot">Autenticado vía SIISMED · cookies jwt_token_SIISMED / user_SIISMED. Distrito de Medellín — Secretaría de Salud.</div>
+            </div>
+          </div>
+
+          <!-- MODAL: actualizar contacto (HU-001 c2, DD_Actualizacion_datos_contacto) -->
+          <div class="modal" id="m-contacto">
+            <div class="modal-head"><button class="xbtn" onclick="closeModal('m-contacto')"><i class="ic" data-ic="x"></i></button><h4>Actualizar datos de contacto <span class="hu-badge">HU-001</span></h4></div>
+            <div class="modal-body">
+              <p style="font-size:11.5px;color:var(--ink-500);line-height:1.5;margin-top:0;">No se edita tu información existente: se agrega un nuevo registro, con fuente "APP de Aseguramiento" e IP de origen.</p>
+              <div class="field" data-req="1"><label>Dirección <span class="req">*</span></label><input placeholder="Cra 65 #98-30"><div class="errtxt">Este campo es obligatorio.</div></div>
+              <div class="field"><label>Teléfono fijo <span class="hlp">(opcional)</span></label><input placeholder="(604) 000 0000"></div>
+              <div class="field" data-req="1"><label>Teléfono móvil <span class="req">*</span></label><input placeholder="300 000 0000"><div class="errtxt">Este campo es obligatorio.</div></div>
+              <div class="field" data-req="1"><label>Correo electrónico <span class="req">*</span></label><input placeholder="nombre@correo.com"><div class="errtxt">Ingresa un correo válido.</div></div>
+              <div class="field"><label>Documento de identidad <span class="hlp">(opcional, ambos lados)</span></label><div class="upload" onclick="fakeAttach(this)"><i class="ic" data-ic="upload"></i>Adjuntar imágenes</div></div>
+            </div>
+            <div class="modal-foot"><button class="btn btn-primary" onclick="submitContacto()">Guardar actualización</button></div>
+          </div>
+
+          <!-- MODAL: nueva solicitud (HU-016 / DD_Solicitudes_Aseguramiento) -->
+          <div class="modal" id="m-nueva">
+            <div class="modal-head"><button class="xbtn" onclick="closeModal('m-nueva')"><i class="ic" data-ic="x"></i></button><h4>Nueva solicitud <span class="hu-badge">HU-016</span></h4></div>
+            <div class="modal-body">
+              <div class="field"><label>Tipo de solicitud <span class="req">*</span></label>
+                <select id="tipoSolicitud" onchange="toggleOtraSolicitud()">
+                  <option>Afiliación al sistema general de salud</option>
+                  <option>Movilidad contributivo → subsidiado</option>
+                  <option>Traslado entre EPS</option>
+                  <option>Otras solicitudes</option>
+                </select>
+              </div>
+              <div class="field" id="otraSolicitudField" style="display:none;"><label>Especifique el tipo de solicitud <span class="req">*</span></label><input placeholder="Describe brevemente el motivo"></div>
+              <div class="field"><label>Tipo y número de documento</label><input value="CC · 1035**** (autodiligenciado desde Persona Salud)" disabled style="color:var(--ink-500);"></div>
+              <div class="field" data-req="1"><label>Descripción de la solicitud <span class="req">*</span></label><textarea placeholder="Describe tu solicitud..."></textarea><div class="errtxt">Cuéntanos brevemente qué necesitas.</div></div>
+              <div class="field"><label>Anexos <span class="hlp">(opcional, máx. 2 MB)</span></label><div class="upload" onclick="fakeAttach(this)"><i class="ic" data-ic="upload"></i>Adjuntar soportes</div></div>
+            </div>
+            <div class="modal-foot"><button class="btn btn-primary" onclick="submitSolicitud()">Radicar solicitud</button></div>
+          </div>
+
+          <!-- MODAL: detalle solicitud -->
+          <div class="modal" id="m-detalle">
+            <div class="modal-head"><button class="xbtn" onclick="closeModal('m-detalle')"><i class="ic" data-ic="x"></i></button><h4>Solicitud #2026-00456 <span class="hu-badge">HU-016</span></h4></div>
+            <div class="modal-body">
+              <div class="stepper">
+                <div class="step done"><div class="dot"></div><small>Abierta</small></div>
+                <div class="step done"><div class="ln"></div><div class="dot"></div><small>En proceso</small></div>
+                <div class="step now"><div class="ln"></div><div class="dot"></div><small>En gestión</small></div>
+                <div class="step"><div class="ln"></div><div class="dot"></div><small>Cerrada</small></div>
+              </div>
+              <div class="card" style="margin-top:14px;">
+                <div class="kv" style="grid-template-columns:1fr;">
+                  <div><label>Tipo</label><span>Traslado entre EPS</span></div>
+                  <div><label>Radicado</label><span>#2026-00456 · 14/07/2026</span></div>
+                  <div><label>Descripción</label><span style="font-weight:500;">Solicito traslado de Savia Salud a Nueva EPS por cambio de residencia.</span></div>
+                </div>
+              </div>
+              <button class="btn btn-outline" id="anexosBtn" style="margin-top:10px;" onclick="toggleAnexos()"><i class="ic" data-ic="file"></i>Ver anexos</button>
+              <div id="anexosList" style="display:none; margin-top:10px;">
+                <div class="list-item"><div class="list-ic" style="background:var(--blue-100); color:var(--blue-600);"><i class="ic" data-ic="file"></i></div><div><div class="list-title">soporte_residencia.pdf</div><div class="list-sub">184 KB</div></div></div>
+              </div>
+            </div>
+            <div class="modal-foot"><button class="btn btn-primary" onclick="toast('Cargando seguimiento del radicado…','clock')">Ver respuesta / seguimiento</button></div>
+          </div>
+
+          <!-- MODAL: formulario dinamico demo (HU-008) -->
+          <div class="modal" id="m-form">
+            <div class="modal-head"><button class="xbtn" onclick="closeModal('m-form')"><i class="ic" data-ic="x"></i></button><h4>Traslado entre EPS <span class="hu-badge">HU-008</span></h4></div>
+            <div class="modal-body">
+              <div class="field"><label>EPS actual</label><input disabled value="Savia Salud" style="color:var(--ink-500);"></div>
+              <div class="field"><label>EPS destino <span class="req">*</span></label><select><option>Nueva EPS</option><option>Sura</option><option>Sanitas</option></select></div>
+              <div class="field" data-req="1"><label>Motivo del traslado <span class="req">*</span></label><textarea placeholder="Ej. cambio de residencia"></textarea><div class="errtxt">Cuéntanos el motivo del traslado.</div></div>
+              <div class="field"><label>Soporte de residencia <span class="hlp">(máx. 25 MB)</span></label><div class="upload" onclick="fakeAttach(this)"><i class="ic" data-ic="upload"></i>.PDF / .JPG</div></div>
+            </div>
+            <div class="modal-foot"><button class="btn btn-primary" onclick="submitForm()">Enviar formulario</button></div>
+          </div>
+
+          <div class="toast" id="toast"><i class="ic" data-ic="check"></i><span id="toastMsg"></span></div>
+
+        </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ==========================================================================
+     ÍNDICE DE ESTE BLOQUE JS
+     --------------------------------------------------------------------------
+      1. Sistema de íconos (diccionario SVG + pintado en el DOM)
+      2. Tema claro/oscuro
+      3. Navegación (pantallas, drawer, modales, trazabilidad HU, acordeones)
+      4. Toast de confirmación
+      5. Pantalla Mi aseguramiento — autogestión y enmascarado semi-encriptado
+      6. Pantalla Histórico — pestañas y filtro de fechas
+      7. Pantalla Trámites — pestañas Orientación/Trámites
+      8. Pantalla Solicitudes — filtro por estado y campo dependiente del formulario
+      9. Pantalla Notificaciones — marcar como leídas
+     10. Adjuntar archivos (simulado) y validación/envío de formularios
+     ========================================================================== */
+
+  /* ===== 1. SISTEMA DE ÍCONOS ===== */
+  var ICONS = {
+    phone:'<rect x="6" y="2" width="12" height="20" rx="2"/><line x1="10" y1="19" x2="14" y2="19"/>',
+    monitor:'<rect x="2" y="4" width="20" height="13" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+    settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.4-2.3.9a7.7 7.7 0 0 0-1.8-1l-.3-2.5H9l-.3 2.5a7.7 7.7 0 0 0-1.8 1l-2.3-.9-2 3.4L4.6 11a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.4 2.3-.9a7.7 7.7 0 0 0 1.8 1l.3 2.5h4.8l.3-2.5a7.7 7.7 0 0 0 1.8-1l2.3.9 2-3.4-2-1.5z"/>',
+    hourglass:'<path d="M6 2h12"/><path d="M6 22h12"/><path d="M6 2c0 6 12 6 12 12s-12 6-12 12"/><path d="M18 2c0 6-12 6-12 12s12 6 12 12"/>',
+    tag:'<path d="M20.6 12.6 12 21.2 2.8 12 11.4 3.4H20.6z"/><circle cx="16" cy="8" r="1.4" fill="currentColor" stroke="none"/>',
+    moon:'<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/>',
+    sun:'<circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21.5"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="2.5" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21.5" y2="12"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/>',
+    signal:'<line x1="4" y1="19" x2="4" y2="14"/><line x1="9" y1="19" x2="9" y2="10"/><line x1="14" y1="19" x2="14" y2="6"/><line x1="19" y1="19" x2="19" y2="3"/>',
+    wifi:'<path d="M2 8.5a16 16 0 0 1 20 0"/><path d="M5.5 12.5a11 11 0 0 1 13 0"/><path d="M9 16.3a5.5 5.5 0 0 1 6 0"/><circle cx="12" cy="19.5" r="1" fill="currentColor" stroke="none"/>',
+    battery:'<rect x="2" y="8" width="18" height="8" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="10" width="12" height="4" fill="currentColor" stroke="none"/>',
+    menu:'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>',
+    bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 2.4 7.8 2.4 7.8H3.6S6 15 6 9z"/><path d="M10.2 20.5a2 2 0 0 0 3.6 0"/>',
+    shield:'<path d="M12 2.5 19 5.5v5.6c0 5.2-3.2 8.6-7 9.9-3.8-1.3-7-4.7-7-9.9V5.5L12 2.5z"/>',
+    home:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-6h4v6"/>',
+    clipboard:'<rect x="5.5" y="4" width="13" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><line x1="8.5" y1="11" x2="15.5" y2="11"/><line x1="8.5" y1="15" x2="15.5" y2="15"/>',
+    inbox:'<path d="M3 13h4.5l1.7 2.6h5.6L16.5 13H21"/><path d="M3 13 5 4.5h14L21 13v6a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 19z"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3.2 2"/>',
+    check:'<path d="M4.5 12.5 9 17l10.5-11"/>',
+    checkall:'<path d="M2 12.5 6 16.5 13 8.5"/><path d="M10.5 12.5 14 16.5 22 8"/>',
+    edit:'<path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><line x1="13.5" y1="7.5" x2="16.5" y2="10.5"/>',
+    chevleft:'<polyline points="15 5 8 12 15 19"/>',
+    chevdown:'<polyline points="6 9 12 15.5 18 9"/>',
+    arrowright:'<line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/>',
+    mappin:'<path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="9.3" r="2.4"/>',
+    info:'<circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.7" r="0.9" fill="currentColor" stroke="none"/>',
+    alert:'<path d="M12 3 2.5 20h19z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="16.8" r="0.9" fill="currentColor" stroke="none"/>',
+    file:'<path d="M7 2.5h8l4 4V21H7z"/><line x1="9.5" y1="13" x2="14.5" y2="13"/><line x1="9.5" y1="16.5" x2="14.5" y2="16.5"/>',
+    extlink:'<path d="M10 6H5.5a2 2 0 0 0-2 2V18a2 2 0 0 0 2 2H16a2 2 0 0 0 2-2v-4.5"/><path d="M13.5 3.5H20.5v7"/><line x1="20.5" y1="3.5" x2="11" y2="13"/>',
+    upload:'<path d="M6 17.5A4.5 4.5 0 0 1 7.2 8.7 6 6 0 0 1 18.8 10 4 4 0 0 1 18 17.9"/><polyline points="9 12.5 12 9.5 15 12.5"/><line x1="12" y1="9.5" x2="12" y2="18"/>',
+    plus:'<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+    search:'<circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="20.5" y2="20.5"/>',
+    x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+    help:'<circle cx="12" cy="12" r="9"/><path d="M9.3 9.3a2.7 2.7 0 1 1 4.2 2.2c-.9.6-1.5 1.2-1.5 2.3"/><circle cx="12" cy="17" r="0.9" fill="currentColor" stroke="none"/>',
+    logout:'<path d="M9 20.5H5.5a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2H9"/><polyline points="15.5 16 20 11.5 15.5 7"/><line x1="20" y1="11.5" x2="9" y2="11.5"/>'
+  };
+  function paintIcons(root){
+    (root||document).querySelectorAll('[data-ic]').forEach(function(el){
+      var name = el.getAttribute('data-ic');
+      if(ICONS[name] && !el.dataset.painted){
+        el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ICONS[name]+'</svg>';
+        el.dataset.painted = '1';
+      }
+    });
+  }
+  paintIcons();
+
+  /* ===== 2. TEMA CLARO/OSCURO ===== */
+  function syncThemeSwitch(){
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.getElementById('themeSwitch').classList.toggle('on', isDark);
+  }
+  function toggleTheme(){
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var next = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('aseg-theme', next);
+    syncThemeSwitch();
+  }
+  syncThemeSwitch();
+
+  /* ===== 3. NAVEGACIÓN (pantallas, drawer, modales, trazabilidad HU, acordeones) ===== */
+  function go(name){
+    document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+    document.getElementById('s-'+name).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+    var navBtn = document.querySelector('.nav-btn[data-nav="'+name+'"]');
+    if(navBtn) navBtn.classList.add('active');
+    var labels = {inicio:'Inicio', aseg:'Mi aseguramiento', historico:'Histórico', tramites:'Trámites y orientación', solicitudes:'Mis solicitudes', notif:'Notificaciones'};
+    document.getElementById('screenLabel').textContent = labels[name]||name;
+    document.getElementById('appBody').scrollTop = 0;
+  }
+  function openDrawer(){ document.getElementById('drawer').classList.add('open'); }
+  function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); }
+  function openModal(id){ document.getElementById(id).classList.add('open'); document.getElementById(id).scrollTop=0; }
+  function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+  function toggleHU(){
+    document.getElementById('huSwitch').classList.toggle('on');
+    document.body.classList.toggle('show-hu');
+  }
+  function toggleAccordion(card){ card.classList.toggle('open'); }
+
+  /* ===== 4. TOAST DE CONFIRMACIÓN ===== */
+  var toastTimer;
+  function toast(msg, iconName){
+    var t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    var ic = t.querySelector('.ic');
+    ic.setAttribute('data-ic', iconName||'check');
+    ic.dataset.painted = '';
+    paintIcons(t);
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2400);
+  }
+
+  /* ===== 5. PANTALLA MI ASEGURAMIENTO — autogestión y enmascarado semi-encriptado (HU-001) ===== */
+  function setAuthMode(mode){
+    document.getElementById('authCred').classList.toggle('active', mode==='cred');
+    document.getElementById('authAuto').classList.toggle('active', mode==='auto');
+    document.getElementById('authForm').style.display = mode==='auto' ? 'block' : 'none';
+    if(mode==='cred'){
+      document.getElementById('regimenTitle').textContent = 'Régimen Contributivo';
+      document.getElementById('epsLine').textContent = 'Nueva EPS · afiliado desde 04/03/2021';
+    }
+  }
+  function runAutogestion(){
+    var doc = document.getElementById('authNumDoc').value || '1035XXXXXX';
+    var masked = doc.length>4 ? doc.slice(0,4)+'****' : doc;
+    document.getElementById('regimenTitle').textContent = 'And****, Qui*** · CC ' + masked;
+    document.getElementById('epsLine').textContent = 'Nueva EPS · Régimen Contributivo (resultado semi-encriptado)';
+    toast('Consulta realizada por autogestión','search');
+  }
+
+  /* ===== 6. PANTALLA HISTÓRICO — pestañas y filtro de fechas (HU-012) ===== */
+  function setHistTab(tab){
+    document.querySelectorAll('#s-historico .seg button').forEach(function(b){b.classList.toggle('active', b.dataset.tab===tab);});
+    document.querySelectorAll('#histWrap [data-hist]').forEach(function(c){c.style.display = c.dataset.hist===tab ? 'block' : 'none';});
+  }
+  function applyHistFilter(){ toast('Histórico filtrado por el rango seleccionado','search'); }
+
+  /* ===== 7. PANTALLA TRÁMITES — pestañas Orientación/Trámites (HU-002) ===== */
+  function setTramTab(tab){
+    document.querySelectorAll('#s-tramites .seg button').forEach(function(b){b.classList.toggle('active', b.dataset.tab===tab);});
+    document.querySelectorAll('#tramWrap [data-tram]').forEach(function(c){c.style.display = c.dataset.tram===tab ? 'block' : 'none';});
+  }
+
+  /* ===== 8. PANTALLA SOLICITUDES — filtro por estado y campo dependiente (HU-016) ===== */
+  function toggleSolFilterDD(){
+    document.getElementById('solFilterDD').classList.toggle('open');
+  }
+  document.addEventListener('click', function(e){
+    var dd = document.getElementById('solFilterDD');
+    if(dd && !dd.contains(e.target)) dd.classList.remove('open');
+  });
+  function setSolFilter(f){
+    var opt = document.querySelector('#solFilters .sel-opt[data-f="'+f+'"]');
+    document.querySelectorAll('#solFilters .sel-opt').forEach(function(c){c.classList.toggle('active', c.dataset.f===f);});
+    document.getElementById('solFilterLabel').textContent = opt ? opt.textContent : '';
+    document.getElementById('solFilterDD').classList.remove('open');
+    var any = false;
+    document.querySelectorAll('#solList .card').forEach(function(c){
+      var show = f==='todas' || c.dataset.status===f;
+      c.style.display = show ? 'block' : 'none';
+      if(show) any = true;
+    });
+    document.getElementById('solEmpty').style.display = any ? 'none' : 'block';
+  }
+
+  /* -- campo dependiente: "Otras solicitudes" habilita un texto libre adicional -- */
+  function toggleOtraSolicitud(){
+    var v = document.getElementById('tipoSolicitud').value;
+    document.getElementById('otraSolicitudField').style.display = (v==='Otras solicitudes') ? 'block' : 'none';
+  }
+
+  /* ===== 9. PANTALLA NOTIFICACIONES — marcar como leídas (HU-004/005) ===== */
+  function markRead(item){
+    if(item.classList.contains('read-done')) return;
+    item.classList.add('read-done');
+    var dot = item.querySelector('.unread-dot');
+    if(dot) dot.remove();
+    item.querySelector('.list-title').classList.add('read');
+    item.onclick = null;
+    item.classList.remove('clickable');
+    document.getElementById('readCard').appendChild(item);
+    var remaining = document.querySelectorAll('#unreadCard .list-item').length;
+    if(remaining===0) document.getElementById('bellDot').style.display='none';
+  }
+  function markAllRead(){
+    document.querySelectorAll('#unreadCard .list-item').forEach(function(i){markRead(i);});
+    toast('Todas las notificaciones fueron marcadas como leídas','checkall');
+  }
+
+  /* ===== 10. ADJUNTAR ARCHIVOS (simulado) Y VALIDACIÓN/ENVÍO DE FORMULARIOS ===== */
+  /* -- adjuntos: solo visual, no sube archivos reales -- */
+  function fakeAttach(box){
+    box.classList.add('attached');
+    box.innerHTML = '<i class="ic" data-ic="check"></i>1 archivo adjuntado';
+    paintIcons(box);
+  }
+
+  /* -- validación genérica de campos obligatorios + envío por modal -- */
+  function validateFields(container){
+    var ok = true;
+    container.querySelectorAll('.field[data-req]').forEach(function(f){
+      var input = f.querySelector('input, textarea, select');
+      if(!input.value || !input.value.trim()){
+        f.classList.add('err'); ok = false;
+      } else { f.classList.remove('err'); }
+    });
+    return ok;
+  }
+  function submitContacto(){
+    var modal = document.getElementById('m-contacto');
+    if(!validateFields(modal)){ toast('Revisa los campos obligatorios','alert'); return; }
+    closeModal('m-contacto');
+    toast('Datos de contacto actualizados','check');
+  }
+  function submitSolicitud(){
+    var modal = document.getElementById('m-nueva');
+    if(!validateFields(modal)){ toast('Completa la descripción de tu solicitud','alert'); return; }
+    closeModal('m-nueva');
+    toast('Solicitud radicada · #2026-00471','check');
+  }
+  function submitForm(){
+    var modal = document.getElementById('m-form');
+    if(!validateFields(modal)){ toast('Indica el motivo del traslado','alert'); return; }
+    closeModal('m-form');
+    toast('Formulario enviado correctamente','check');
+  }
+  function toggleAnexos(){
+    var l = document.getElementById('anexosList');
+    l.style.display = l.style.display==='none' ? 'block' : 'none';
+  }
+</script>

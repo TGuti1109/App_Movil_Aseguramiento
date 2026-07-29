@@ -1,0 +1,16 @@
+﻿=== SHEET: xl/worksheets/sheet1.xml ===
+#REF! | Formato FO-GTIC Catálogo de datos
+#REF!
+DICCIONARIO DE DATOS
+SECCIÓN 1: DATOS DE CAMPOS
+t | Id_Campo | Nombre del campo | Tipo de dato | Longitud dato | Descripción del campo | Acepta nulos | Valores Permitidos | Validación de Datos | Llave Primaria o Foránea | Visualizacion inicial
+DD_Respuesta | 1 | Id_respuesta | Entero/Integer | Identificador único de la respuesta de la solicitud registrada en el sistema. | No | t | Cuando el sistema muestre en parrilla o en visualización de datos la funcionalidad correspondiente, deberá mostrar el nombre y almacenar el ID | PK
+DD_Respuesta | 2 | Id_solicitud | Entero/Integer | Corresponde al identificador asignado a la solicitud inicial | NO | idendificador de la solicitud | FK | 1
+DD_Respuesta | 3 | Id_subsanación | Entero/Integer | t | No | Identificador de la subsanación | Cuando el sistema muestre en parrilla o en visualización de datos la funcionalidad correspondiente, deberá mostrar Observación_solicitante,Observacion_Admin y almacenar el ID | FK
+DD_Respuesta | 4 | usuario_respuesta | Texto/String | 19 | Nombre completo del usuario que registra la solicitud. | No | t | el sistema mostrará el nombre  y almacenará el ID | FK | 2
+DD_Respuesta | 5 | Observación_respuesta | Texto/String | 150 | t | No | t | Permite letras del alfabeto español (A-Z, a-z, no incluir ñ y Ñ), números cuando aplique y espacios entre palabras. No permite caracteres especiales restringidos ni signos de puntuación no autorizados.
+DD_Respuesta | 6 | Fecha_respuesta | Fecha/Date | 150 | t | No | DD/MM/AAAA | automatico | 3
+DD_Respuesta | 7 | Evidencia | t | 10 | t | Si | Los archivo que pueden ser de ofimática (Word, pdf, ppt) o archivos de estructura de datos (txt, json,xml, csv, entre otros) o archivo de imágenes. | t
+DD_Respuesta | 8 | estado_registro | Texto/String | 20 | Estado lógico y administrativo del registro dentro del sistema. | No | Corresponde a la maestra genérica DD_estado_registro del módulo transversal (1=Activo, 2=Inactivo). | Por defecto el sistema siempre estará en 1=Activo. El sistema deberá controlar vigencia y habilitar variables relacionadas con inactivación cuando corresponda. | FK | t
+DD_Respuesta | 9 | fecha_inactivacion | Fecha/Date | 10 | Fecha de inactivación del registro asociado a la solicitud. | Sí | DD/MM/AAAA | Esta variable deberá diligenciarse obligatoriamente cuando el estado del registro sea Inactivo. | t | t
+DD_Respuesta | 10 | observacion_inactivacion | Texto/String | 500 | Justificación funcional y administrativa asociada a la inactivación del registro. | Sí | Texto libre | Permite texto sin caracteres especiales restringidos. Esta variable deberá diligenciarse cuando el estado del registro sea Inactivo. | t | t
